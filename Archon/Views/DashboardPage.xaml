@@ -1,0 +1,45 @@
+﻿<Page
+    x:Class="Archon.Views.DashboardPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Archon.Controls"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <RelativePanel x:Name="ButtonsPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <controls:SaveGameButton x:Name="SaveGameButton" 
+                                     RelativePanel.LeftOf="ToggleServerButton" RelativePanel.AlignVerticalCenterWithPanel="True">
+                <i:Interaction.Behaviors>
+                    <ic:EventTriggerBehavior EventName="Click">
+                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveGameCommand}"/>
+                    </ic:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </controls:SaveGameButton>
+            <controls:ToggleServerButton x:Name="ToggleServerButton"
+                                         RelativePanel.AlignHorizontalCenterWithPanel="True"
+                                         RelativePanel.AlignVerticalCenterWithPanel="True">
+                <i:Interaction.Behaviors>
+                    <ic:EventTriggerBehavior EventName="Click">
+                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.ToggleServerCommand}"/>
+                    </ic:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </controls:ToggleServerButton>
+            <controls:UpdateGameButton Name="UpdateGameButton"
+                                       RelativePanel.RightOf="ToggleServerButton" RelativePanel.AlignVerticalCenterWithPanel="True">
+                <i:Interaction.Behaviors>
+                    <ic:EventTriggerBehavior EventName="Click">
+                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.UpdateGameCommand}"/>
+                    </ic:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </controls:UpdateGameButton>
+        </RelativePanel>
+        <Rectangle x:Name="CoverPane" Fill="White" Opacity="0.8" Visibility="{x:Bind ViewModel.IsWaiting}"/>
+        <winui:ProgressRing x:Name="LoadingRing" IsActive="{x:Bind ViewModel.IsWaiting}" Width="100" Height="100"/>
+    </Grid>
+</Page>
