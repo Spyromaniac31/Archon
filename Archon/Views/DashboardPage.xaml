@@ -5,11 +5,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Archon.Controls"
+    xmlns:helpers="using:Archon.Helpers"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Page.Resources>
 
     <Grid>
         <RelativePanel x:Name="ButtonsPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
@@ -30,7 +34,7 @@
                     </ic:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </controls:ToggleServerButton>
-            <controls:UpdateGameButton Name="UpdateGameButton"
+            <controls:UpdateGameButton x:Name="UpdateGameButton"
                                        RelativePanel.RightOf="ToggleServerButton" RelativePanel.AlignVerticalCenterWithPanel="True">
                 <i:Interaction.Behaviors>
                     <ic:EventTriggerBehavior EventName="Click">
@@ -39,7 +43,19 @@
                 </i:Interaction.Behaviors>
             </controls:UpdateGameButton>
         </RelativePanel>
-        <Rectangle x:Name="CoverPane" Fill="White" Opacity="0.8" Visibility="{x:Bind ViewModel.IsWaiting}"/>
-        <winui:ProgressRing x:Name="LoadingRing" IsActive="{x:Bind ViewModel.IsWaiting}" Width="100" Height="100"/>
+        <winui:TeachingTip x:Name="UpdateErrorTip" Title="Server running" Subtitle="Stop the server before updating ARK." 
+                           Target="{x:Bind UpdateGameButton}" IsOpen="{x:Bind ViewModel.UpdateErrorOpen, Mode=TwoWay}">
+            <winui:TeachingTip.IconSource>
+                <winui:FontIconSource FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA41;"/>
+            </winui:TeachingTip.IconSource>
+        </winui:TeachingTip>
+        <winui:TeachingTip x:Name="SaveErrorTip" Title="Server not running" Subtitle="The ARK server is not currently running."
+                           Target="{x:Bind SaveGameButton}" IsOpen="{x:Bind ViewModel.SaveErrorOpen, Mode=TwoWay}">
+            <winui:TeachingTip.IconSource>
+                <winui:FontIconSource FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA41;"/>
+            </winui:TeachingTip.IconSource>
+        </winui:TeachingTip>
+        <Rectangle x:Name="CoverPane" Fill="White" Opacity="0.8" Visibility="{x:Bind ViewModel.IsWaiting, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
+        <winui:ProgressRing x:Name="LoadingRing" IsActive="{x:Bind ViewModel.IsWaiting, Mode=OneWay}" Width="100" Height="100"/>
     </Grid>
 </Page>
