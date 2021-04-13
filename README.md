@@ -3,10 +3,10 @@ Archon is a modern Windows app built from the ground up designed for remotely ma
 
 ## What can Archon do?
 Archon can:
-* Start and stop the ARK server
-* Save the game while it is running
-* Update the ARK installation
-* Generate configuration files (Game.ini, GameUserSettings.ini) and the server start script using a user-friendly GUI
+* ⏯️ Start and stop the ARK server
+* 💾 Save the game while it is running
+* 🧱 Update the ARK installation
+* ⚙️ Generate configuration files (Game.ini, GameUserSettings.ini) and the server start script using a user-friendly GUI
 
 ## Prerequisites
 * Your server must support SSH for Archon to function
