@@ -10,3 +10,4 @@ Archon can:
 
 ## Prerequisites
 * Your server must support SSH for Archon to function
+* If your server is not on the same network as Archon, port forwarding must be set up as needed
