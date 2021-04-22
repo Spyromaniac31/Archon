@@ -124,6 +124,9 @@
     <Compile Include="Controls\SaveGameButton.xaml.cs">
       <DependentUpon>SaveGameButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ServerStatusTextBlock.xaml.cs">
+      <DependentUpon>ServerStatusTextBlock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ToggleServerButton.xaml.cs">
       <DependentUpon>ToggleServerButton.xaml</DependentUpon>
     </Compile>
@@ -190,6 +193,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Controls\SaveGameButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ServerStatusTextBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

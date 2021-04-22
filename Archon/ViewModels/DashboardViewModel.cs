@@ -146,7 +146,7 @@ namespace Archon.ViewModels
         private async Task StopServerAsync()
         {
             IsWaiting = true;
-            _ = await SshService.ExecuteCommandAsync("killall ShooterGameServer");
+            _ = SshService.ExecuteCommandAsync("killall ShooterGameServer");
             int refreshCount = 0;
             while (refreshCount < 15 && IsServerRunning)
             {
