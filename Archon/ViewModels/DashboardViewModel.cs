@@ -125,7 +125,7 @@ namespace Archon.ViewModels
             string gameDir = (string)ApplicationData.Current.LocalSettings.Values["Directory"];
             string scriptName = (string)ApplicationData.Current.LocalSettings.Values["ScriptName"];
             IsWaiting = true;
-            _ = await SshService.ExecuteCommandAsync($"cd {gameDir}/Binaries/Linux && ./{scriptName}");
+            _ = SshService.ExecuteCommandAsync($"cd {gameDir}/Binaries/Linux && ./{scriptName}");
 
             //Checks for 15 seconds to see if server successfully started
             int refreshCount = 0;

@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.UI.Xaml;
 
 namespace Archon.Services
 {
@@ -48,20 +49,40 @@ namespace Archon.Services
 
         public static string ExecuteCommand(string command)
         {
-            SshClient.Connect();
+            //The client might already be connected if an async command is being run
+            if (!SshClient.IsConnected)
+            {
+                SshClient.Connect();
+            }
             var sshCommand = SshClient.CreateCommand(command);
             string output = sshCommand.Execute();
             SshClient.Disconnect();
             return output;
         }
 
-        public async static Task<string> ExecuteCommandAsync(string command)
+        public static async Task<string> ExecuteCommandAsync(string command)
         {
-            SshClient.Connect();
+            //The client might already be connected if an async command is being run
+            if (!SshClient.IsConnected)
+            {
+                SshClient.Connect();
+            }
             var sshCommand = SshClient.CreateCommand(command);
-            string output = await sshCommand.ExecuteAsync();
-            SshClient.Disconnect();
-            return output;
+            try
+            {
+                Task<string> output = sshCommand.ExecuteAsync();
+                return await output;
+            }
+            catch (InvalidOperationException ex)
+            {
+                //TODO: Implement error
+            }
+            finally
+            {
+                //This could be harmful if the sshclient is disconnected while a parallel command is being executed
+                SshClient.Disconnect();
+            }
+            return null;
         }
 
         public static async Task UploadFileAsync(StorageFile localFile, string remotePath)
