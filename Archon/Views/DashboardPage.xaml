@@ -13,12 +13,13 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
         <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        <helpers:BooleanToStringConverter x:Key="BooleanToStringConverter"/>
     </Page.Resources>
 
     <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-        <controls:ServerStatusTextBlock/>
-        <RelativePanel x:Name="ButtonsPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <TextBlock Text="{x:Bind ViewModel.ServerName}" Style="{StaticResource BoldHeader}" HorizontalAlignment="Center" TextAlignment="Center"/>
+        <TextBlock Text="{x:Bind ViewModel.IPAddress}" Style="{StaticResource SubHeader}" HorizontalAlignment="Center" TextAlignment="Center"/>
+        <controls:ServerStatusTextBlock HorizontalAlignment="Center"/>
+        <RelativePanel x:Name="ButtonsPanel" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,8">
             <controls:SaveGameButton x:Name="SaveGameButton" 
                                      RelativePanel.LeftOf="ToggleServerButton" RelativePanel.AlignVerticalCenterWithPanel="True">
                 <i:Interaction.Behaviors>

@@ -8,12 +8,11 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <StackPanel Orientation="Horizontal">
-        <TextBlock x:Name="Tooltip" Style="{StaticResource ButtonTooltip}" Text="Save game" TextAlignment="Right" VerticalAlignment="Center" Visibility="Collapsed"/>
+    <Grid>
         <Button x:Name="SaveButton" Background="Transparent" Click="{x:Bind Clicked}" PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited" Margin="12">
             <Button.Content>
                 <FontIcon FontSize="40" FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB4A;"/>
             </Button.Content>
         </Button>
-    </StackPanel>
+    </Grid>
 </UserControl>

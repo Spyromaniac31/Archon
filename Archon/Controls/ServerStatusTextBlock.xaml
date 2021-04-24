@@ -10,6 +10,6 @@
     d:DesignWidth="400">
 
     <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
-        <TextBlock x:Name="ServerStatusText" Style="{StaticResource BoldHeader}"/>
+        <TextBlock x:Name="ServerStatusText" Text="Stopped" FontSize="24" Foreground="Red" TextAlignment="Center" FontWeight="SemiBold"/>
     </Grid>
 </UserControl>

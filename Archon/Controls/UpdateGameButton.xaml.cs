@@ -23,12 +23,12 @@ namespace Archon.Controls
 
         private void UpdateButton_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            Tooltip.Visibility = Visibility.Visible;
+            //Tooltip.Visibility = Visibility.Visible;
         }
 
         private void UpdateButton_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-            Tooltip.Visibility = Visibility.Collapsed;
+            //Tooltip.Visibility = Visibility.Collapsed;
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -35,6 +36,7 @@ namespace Archon.Controls
             {
                 _isServerRunning = receivedStatus;
                 ServerStatusText.Text = _isServerRunning ? "Running" : "Stopped";
+                ServerStatusText.Foreground = new SolidColorBrush(_isServerRunning ? Colors.Green : Colors.Red);
             }
         }
     }

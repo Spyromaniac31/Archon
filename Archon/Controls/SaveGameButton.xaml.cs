@@ -26,13 +26,13 @@ namespace Archon.Controls
 
         private void Button_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            Tooltip.Visibility = Visibility.Visible;
+            //Tooltip.Visibility = Visibility.Visible;
             //SaveButton.Resources["ButtonForegroundPointerOver"] = Colors.DeepSkyBlue;
         }
 
         private void Button_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-            Tooltip.Visibility = Visibility.Collapsed;
+            //Tooltip.Visibility = Visibility.Collapsed;
             
         }
     }

@@ -9,17 +9,11 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <StackPanel Orientation="Horizontal">
-        <winui:TeachingTip x:Name="StopServerTip" Title="Server running" Subtitle="Stop the server before updating ARK." Target="{x:Bind UpdateButton}">
-            <winui:TeachingTip.IconSource>
-                <winui:FontIconSource FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA41;"/>
-            </winui:TeachingTip.IconSource>
-        </winui:TeachingTip>
+    <Grid>
         <Button Background="Transparent" x:Name="UpdateButton" Click="{x:Bind Clicked}" Margin="12" PointerEntered="UpdateButton_PointerEntered" PointerExited="UpdateButton_PointerExited">
             <Button.Content>
                 <FontIcon FontSize="40" FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE91C;"/>
             </Button.Content>
         </Button>
-        <TextBlock x:Name="Tooltip" Style="{StaticResource ButtonTooltip}" Text="Update ARK" TextAlignment="Left" VerticalAlignment="Center" Visibility="Collapsed"/>
-    </StackPanel>
+    </Grid>
 </UserControl>

@@ -27,14 +27,11 @@ namespace Archon.ViewModels
         private bool _saveErrorOpen = false;
         private bool _updateErrorOpen = false;
         private bool _isWaiting = false;
+        private string _serverName;
+        private string _ipAddress;
 
         public static event EventHandler<StatusChangedEventArgs> RaiseStatusChangedEvent;
 
-        public bool IsWaiting
-        {
-            get => _isWaiting;
-            set => SetProperty(ref _isWaiting, value);
-        }
         public bool IsServerRunning
         {
             get
@@ -51,17 +48,31 @@ namespace Archon.ViewModels
                 }
             }
         }
-
+        public bool IsWaiting
+        {
+            get => _isWaiting;
+            set => SetProperty(ref _isWaiting, value);
+        }
         public bool SaveErrorOpen
         {
             get => _saveErrorOpen;
             set => SetProperty(ref _saveErrorOpen, value);
         }
-
         public bool UpdateErrorOpen
         {
             get => _updateErrorOpen;
             set => SetProperty(ref _updateErrorOpen, value);
+        }
+
+        public string ServerName
+        {
+            get => _serverName;
+            set => SetProperty(ref _serverName, value);
+        }
+        public string IPAddress
+        {
+            get => _ipAddress;
+            set => SetProperty(ref _ipAddress, value);
         }
 
         public ICommand SaveGameCommand => _saveGameCommand ?? (_saveGameCommand = new RelayCommand(async () => await SaveGameAsync()));
@@ -71,6 +82,9 @@ namespace Archon.ViewModels
         public void Initialize()
         {
             IsWaiting = false;
+            var appSettings = ApplicationData.Current.LocalSettings.Values;
+            ServerName = (string)((ApplicationDataCompositeValue)appSettings["GameSettings"])["SessionName"];
+            IPAddress = (string)appSettings["Hostname"];
             UpdateServerStatus();
         }
 
