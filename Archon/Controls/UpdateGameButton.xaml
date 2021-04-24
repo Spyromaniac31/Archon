@@ -10,7 +10,13 @@
     d:DesignWidth="400">
 
     <Grid>
-        <Button Background="Transparent" x:Name="UpdateButton" Click="{x:Bind Clicked}" Margin="12" PointerEntered="UpdateButton_PointerEntered" PointerExited="UpdateButton_PointerExited">
+        <Button Background="Transparent" 
+                x:Name="UpdateButton" 
+                Click="{x:Bind Clicked}" 
+                Margin="12" 
+                PointerEntered="UpdateButton_PointerEntered" 
+                PointerExited="UpdateButton_PointerExited"
+                ToolTipService.ToolTip="Update ARK">
             <Button.Content>
                 <FontIcon FontSize="40" FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE91C;"/>
             </Button.Content>

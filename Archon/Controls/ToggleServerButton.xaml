@@ -9,8 +9,13 @@
     d:DesignWidth="400">
 
     <Grid>
-        <Button x:Name="ToggleButton" Background="Transparent" HorizontalAlignment="Center" 
-                Click="{x:Bind Clicked}" PointerEntered="ToggleButton_PointerEntered" PointerExited="ToggleButton_PointerExited">
+        <Button x:Name="ToggleButton" 
+                Background="Transparent"
+                HorizontalAlignment="Center" 
+                Click="{x:Bind Clicked}" 
+                PointerEntered="ToggleButton_PointerEntered"
+                PointerExited="ToggleButton_PointerExited"
+                ToolTipService.ToolTip="Start ARK">
             <Button.Content>
                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB21;" FontSize="64"/>
             </Button.Content>

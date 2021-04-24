@@ -9,7 +9,13 @@
     d:DesignWidth="400">
 
     <Grid>
-        <Button x:Name="SaveButton" Background="Transparent" Click="{x:Bind Clicked}" PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited" Margin="12">
+        <Button x:Name="SaveButton" 
+                Background="Transparent" 
+                Click="{x:Bind Clicked}"
+                PointerEntered="Button_PointerEntered"
+                PointerExited="Button_PointerExited" 
+                Margin="12"
+                ToolTipService.ToolTip="Save game">
             <Button.Content>
                 <FontIcon FontSize="40" FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB4A;"/>
             </Button.Content>
