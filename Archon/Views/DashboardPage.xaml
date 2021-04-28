@@ -14,51 +14,67 @@
     <Page.Resources>
         <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Page.Resources>
-
-    <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-        <TextBlock Text="{x:Bind ViewModel.ServerName}" Style="{StaticResource BoldHeader}" HorizontalAlignment="Center" TextAlignment="Center"/>
-        <TextBlock Text="{x:Bind ViewModel.IPAddress}" Style="{StaticResource SubHeader}" HorizontalAlignment="Center" TextAlignment="Center"/>
-        <controls:ServerStatusTextBlock HorizontalAlignment="Center"/>
-        <RelativePanel x:Name="ButtonsPanel" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,8">
-            <controls:SaveGameButton x:Name="SaveGameButton" 
+    <Grid>
+        <StackPanel Orientation="Vertical"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center">
+            <TextBlock Text="{x:Bind ViewModel.ServerName}"
+                   Style="{StaticResource BoldHeader}" 
+                   HorizontalAlignment="Center" 
+                   TextAlignment="Center"/>
+            <TextBlock Text="{x:Bind ViewModel.IPAddress}"
+                   Style="{StaticResource SubHeader}"
+                   HorizontalAlignment="Center" 
+                   TextAlignment="Center"/>
+            <controls:ServerStatusTextBlock HorizontalAlignment="Center"/>
+            <RelativePanel x:Name="ButtonsPanel" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,8">
+                <controls:SaveGameButton x:Name="SaveGameButton" 
                                      RelativePanel.LeftOf="ToggleServerButton" RelativePanel.AlignVerticalCenterWithPanel="True">
-                <i:Interaction.Behaviors>
-                    <ic:EventTriggerBehavior EventName="Click">
-                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveGameCommand}"/>
-                    </ic:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
-            </controls:SaveGameButton>
-            <controls:ToggleServerButton x:Name="ToggleServerButton"
+                    <i:Interaction.Behaviors>
+                        <ic:EventTriggerBehavior EventName="Click">
+                            <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveGameCommand}"/>
+                        </ic:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </controls:SaveGameButton>
+                <controls:ToggleServerButton x:Name="ToggleServerButton"
                                          RelativePanel.AlignHorizontalCenterWithPanel="True"
                                          RelativePanel.AlignVerticalCenterWithPanel="True">
-                <i:Interaction.Behaviors>
-                    <ic:EventTriggerBehavior EventName="Click">
-                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.ToggleServerCommand}"/>
-                    </ic:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
-            </controls:ToggleServerButton>
-            <controls:UpdateGameButton x:Name="UpdateGameButton"
+                    <i:Interaction.Behaviors>
+                        <ic:EventTriggerBehavior EventName="Click">
+                            <ic:InvokeCommandAction Command="{x:Bind ViewModel.ToggleServerCommand}"/>
+                        </ic:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </controls:ToggleServerButton>
+                <controls:UpdateGameButton x:Name="UpdateGameButton"
                                        RelativePanel.RightOf="ToggleServerButton" RelativePanel.AlignVerticalCenterWithPanel="True">
-                <i:Interaction.Behaviors>
-                    <ic:EventTriggerBehavior EventName="Click">
-                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.UpdateGameCommand}"/>
-                    </ic:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
-            </controls:UpdateGameButton>
-        </RelativePanel>
-        <winui:TeachingTip x:Name="UpdateErrorTip" Title="Server running" Subtitle="Stop the server before updating ARK." 
+                    <i:Interaction.Behaviors>
+                        <ic:EventTriggerBehavior EventName="Click">
+                            <ic:InvokeCommandAction Command="{x:Bind ViewModel.UpdateGameCommand}"/>
+                        </ic:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </controls:UpdateGameButton>
+            </RelativePanel>
+            <winui:TeachingTip x:Name="UpdateErrorTip" Title="Server running" Subtitle="Stop the server before updating ARK." 
                            Target="{x:Bind UpdateGameButton}" IsOpen="{x:Bind ViewModel.UpdateErrorOpen, Mode=TwoWay}">
-            <winui:TeachingTip.IconSource>
-                <winui:FontIconSource FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA41;"/>
-            </winui:TeachingTip.IconSource>
-        </winui:TeachingTip>
-        <winui:TeachingTip x:Name="SaveErrorTip" Title="Server not running" Subtitle="The ARK server is not currently running."
+                <winui:TeachingTip.IconSource>
+                    <winui:FontIconSource FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA41;"/>
+                </winui:TeachingTip.IconSource>
+            </winui:TeachingTip>
+            <winui:TeachingTip x:Name="SaveErrorTip" Title="Server not running" Subtitle="The ARK server is not currently running."
                            Target="{x:Bind SaveGameButton}" IsOpen="{x:Bind ViewModel.SaveErrorOpen, Mode=TwoWay}">
-            <winui:TeachingTip.IconSource>
-                <winui:FontIconSource FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA41;"/>
-            </winui:TeachingTip.IconSource>
-        </winui:TeachingTip>
-        <Rectangle x:Name="CoverPane" Fill="White" Opacity="0.8" Visibility="{x:Bind ViewModel.IsWaiting, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
+                <winui:TeachingTip.IconSource>
+                    <winui:FontIconSource FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA41;"/>
+                </winui:TeachingTip.IconSource>
+            </winui:TeachingTip>
+           
+        </StackPanel>
+        <Rectangle x:Name="CoverPane" 
+                   Fill="White"
+                   Opacity="0.8"
+                   Visibility="{x:Bind ViewModel.IsWaiting, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"
+                   VerticalAlignment="Stretch"
+                   HorizontalAlignment="Stretch"/>
         <winui:ProgressRing x:Name="LoadingRing" IsActive="{x:Bind ViewModel.IsWaiting, Mode=OneWay}" Width="100" Height="100"/>
-    </StackPanel>
+    </Grid>
+   
 </Page>
