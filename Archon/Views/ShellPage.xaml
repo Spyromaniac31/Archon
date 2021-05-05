@@ -28,9 +28,14 @@
         Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
         Visibility="Visible">
         <winui:NavigationView.MenuItems>
-            <winui:NavigationViewItem x:Uid="Shell_Dashboard" helpers:NavHelper.NavigateTo="views:DashboardPage">
+            <winui:NavigationViewItem Content="Dashboard" helpers:NavHelper.NavigateTo="views:DashboardPage">
                 <winui:NavigationViewItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB2A;"/>
+                </winui:NavigationViewItem.Icon>
+            </winui:NavigationViewItem>
+            <winui:NavigationViewItem Content="Configuration" helpers:NavHelper.NavigateTo="views:ConfigurationPage">
+                <winui:NavigationViewItem.Icon>
+                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB5E;"/>
                 </winui:NavigationViewItem.Icon>
             </winui:NavigationViewItem>
             <!--<winui:NavigationViewItem x:Uid="Shell_Intro" helpers:NavHelper.NavigateTo="views:IntroPage"/>-->

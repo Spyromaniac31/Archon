@@ -121,6 +121,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\GameSettingControl.xaml.cs">
+      <DependentUpon>GameSettingControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SaveGameButton.xaml.cs">
       <DependentUpon>SaveGameButton.xaml</DependentUpon>
     </Compile>
@@ -141,11 +144,15 @@
     <Compile Include="Helpers\ResourceExtensions.cs" />
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
     <Compile Include="Helpers\StringExtensions.cs" />
+    <Compile Include="Models\GameSetting.cs" />
+    <Compile Include="Models\GroupInfoList.cs" />
     <Compile Include="Services\ActivationService.cs" />
+    <Compile Include="Services\DatabaseService.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\RconService.cs" />
     <Compile Include="Services\SshService.cs" />
     <Compile Include="Services\ThemeSelectorService.cs" />
+    <Compile Include="ViewModels\ConfigurationViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\IntroViewModel.cs" />
     <Compile Include="ViewModels\LoadingViewModel.cs" />
@@ -153,6 +160,9 @@
     <Compile Include="ViewModels\SetupViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\ConfigurationPage.xaml.cs">
+      <DependentUpon>ConfigurationPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DashboardPage.xaml.cs">
       <DependentUpon>DashboardPage.xaml</DependentUpon>
     </Compile>
@@ -192,6 +202,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\GameSettingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\SaveGameButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -205,6 +219,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\UpdateGameButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConfigurationPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -237,6 +255,9 @@
     <PackageReference Include="CoreRCON">
       <Version>5.0.2</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.Data.Sqlite">
+      <Version>5.0.5</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.12</Version>
     </PackageReference>
@@ -266,6 +287,9 @@
     <Content Include="Assets\fluentui.ttf" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <None Include="Data\archon.db" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

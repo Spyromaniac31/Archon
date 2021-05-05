@@ -5,7 +5,6 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.UI.Xaml;
 
 namespace Archon.Services
 {
