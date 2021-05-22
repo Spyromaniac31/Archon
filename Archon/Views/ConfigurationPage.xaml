@@ -23,16 +23,16 @@
         <GridView ItemsSource="{x:Bind SettingsCVS.View, Mode=OneWay}" SelectionMode="None">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="models:GameSetting">
-                    <StackPanel>
+                    <StackPanel Padding="8" MinHeight="120">
                         <TextBlock x:Name="DescriptionTextBlock" Text="{x:Bind Description, Mode=OneWay}" FontWeight="SemiBold" FontSize="20" TextWrapping="Wrap"/>
-                        <TextBlock x:Name="NameTextBlock" Text="{x:Bind Name, Mode=OneWay}" Foreground="{ThemeResource SystemBaseMediumColor}" FontWeight="SemiLight"/>
-                        <StackPanel x:Name="PercentControl" x:Load="{x:Bind IsTypePercent, Mode=OneWay}" Orientation="Horizontal">
+                        <TextBlock x:Name="NameTextBlock" x:Phase="2" Text="{x:Bind Name, Mode=OneWay}" Foreground="{ThemeResource SystemBaseMediumColor}" FontWeight="SemiLight"/>
+                        <StackPanel x:Name="PercentControl" x:Load="{x:Bind IsTypePercent, Mode=OneWay}" x:Phase="1" Orientation="Horizontal">
                             <Slider x:Name="PercentSlider" Width="150" Minimum="0" Maximum="5" Value="1"/>
                             <winui:NumberBox x:Name="PercentNumber" Value="{Binding Value, ElementName=PercentSlider, Mode=TwoWay}" Margin="8,0,12,0"/>
                         </StackPanel>
-                        <winui:NumberBox x:Name="NumberBox" x:Load="{x:Bind IsTypeNumber, Mode=OneWay}"/>
-                        <TextBlock x:Name="StringBox" x:Load="{x:Bind IsTypeString, Mode=OneWay}"/>
-                        <ToggleSwitch x:Name="BoolSwitch" x:Load="{x:Bind IsTypeBool, Mode=OneWay}" OnContent="" OffContent=""/>
+                        <winui:NumberBox x:Name="NumberBox" x:Load="{x:Bind IsTypeNumber, Mode=OneWay}" x:Phase="1"/>
+                        <TextBlock x:Name="StringBox" x:Load="{x:Bind IsTypeString, Mode=OneWay}" x:Phase="1"/>
+                        <ToggleSwitch x:Name="BoolSwitch" x:Load="{x:Bind IsTypeBool, Mode=OneWay}" OnContent="" OffContent="" x:Phase="1"/>
                         <!--<Button x:Name="HintButton" HorizontalAlignment="Right" Click="{x:Bind ToggleHint}" Background="Transparent">
                             <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE99E;"/>
                         </Button>
