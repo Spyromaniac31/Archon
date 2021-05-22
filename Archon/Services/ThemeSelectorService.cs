@@ -46,9 +46,9 @@ namespace Archon.Services
             ElementTheme cacheTheme = ElementTheme.Default;
             string themeName = await ApplicationData.Current.LocalSettings.ReadAsync<string>(SettingsKey);
 
-            if(!string.IsNullOrEmpty(themeName))
+            if (!string.IsNullOrEmpty(themeName))
             {
-                Enum.TryParse(themeName, out cacheTheme);
+                _ = Enum.TryParse(themeName, out cacheTheme);
             }
 
             return cacheTheme;

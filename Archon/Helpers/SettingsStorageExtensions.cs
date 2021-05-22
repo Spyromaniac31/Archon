@@ -50,14 +50,8 @@ namespace Archon.Helpers
 
         public static async Task<T> ReadAsync<T>(this ApplicationDataContainer settings, string key)
         {
-            object obj = null;
 
-            if (settings.Values.TryGetValue(key, out obj))
-            {
-                return await Json.ToObjectAsync<T>((string)obj);
-            }
-
-            return default;
+            return settings.Values.TryGetValue(key, out object obj) ? await Json.ToObjectAsync<T>((string)obj) : default;
         }
 
         public static async Task<StorageFile> SaveFileAsync(this StorageFolder folder, byte[] content, string fileName, CreationCollisionOption options = CreationCollisionOption.ReplaceExisting)
@@ -99,7 +93,7 @@ namespace Archon.Helpers
                 {
                     using (var reader = new DataReader(stream.GetInputStreamAt(0)))
                     {
-                        await reader.LoadAsync((uint)stream.Size);
+                        _ = await reader.LoadAsync((uint)stream.Size);
                         var bytes = new byte[stream.Size];
                         reader.ReadBytes(bytes);
                         return bytes;

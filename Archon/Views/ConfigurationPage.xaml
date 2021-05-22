@@ -6,20 +6,56 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    xmlns:controls="using:Archon.Controls"
+    xmlns:models="using:Archon.Models"
+    xmlns:helpers="using:Archon.Helpers"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Page.Resources>
 
     <Grid>
         <Grid.Resources>
             <CollectionViewSource x:Name="SettingsCVS" IsSourceGrouped="True"/>
         </Grid.Resources>
-
-        <ListView ItemsSource="{x:Bind SettingsCVS.View, Mode=OneWay}">
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <ItemsStackPanel AreStickyGroupHeadersEnabled="False"/>
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-        </ListView>
+        <GridView ItemsSource="{x:Bind SettingsCVS.View, Mode=OneWay}" SelectionMode="None">
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="models:GameSetting">
+                    <StackPanel>
+                        <TextBlock x:Name="DescriptionTextBlock" Text="{x:Bind Description, Mode=OneWay}" FontWeight="SemiBold" FontSize="20" TextWrapping="Wrap"/>
+                        <TextBlock x:Name="NameTextBlock" Text="{x:Bind Name, Mode=OneWay}" Foreground="{ThemeResource SystemBaseMediumColor}" FontWeight="SemiLight"/>
+                        <StackPanel x:Name="PercentControl" x:Load="{x:Bind IsTypePercent, Mode=OneWay}" Orientation="Horizontal">
+                            <Slider x:Name="PercentSlider" Width="150" Minimum="0" Maximum="5" Value="1"/>
+                            <winui:NumberBox x:Name="PercentNumber" Value="{Binding Value, ElementName=PercentSlider, Mode=TwoWay}" Margin="8,0,12,0"/>
+                        </StackPanel>
+                        <winui:NumberBox x:Name="NumberBox" x:Load="{x:Bind IsTypeNumber, Mode=OneWay}"/>
+                        <TextBlock x:Name="StringBox" x:Load="{x:Bind IsTypeString, Mode=OneWay}"/>
+                        <ToggleSwitch x:Name="BoolSwitch" x:Load="{x:Bind IsTypeBool, Mode=OneWay}" OnContent="" OffContent=""/>
+                        <!--<Button x:Name="HintButton" HorizontalAlignment="Right" Click="{x:Bind ToggleHint}" Background="Transparent">
+                            <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE99E;"/>
+                        </Button>
+                        <winui:TeachingTip x:Name="HintTip" Target="{x:Bind HintButton}" Title="{x:Bind ViewModel.SettingName}">
+                            <winui:TeachingTip.IconSource>
+                                <winui:FontIconSource FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA8D;"/>
+                            </winui:TeachingTip.IconSource>
+                            <TextBlock Text="{x:Bind ViewModel.SettingHint, Mode=OneWay}" TextWrapping="Wrap"/>
+                        </winui:TeachingTip>-->
+                    </StackPanel>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+            <GridView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate x:DataType="models:GroupInfoList">
+                            <Border AutomationProperties.Name="{x:Bind Key}">
+                                <TextBlock Text="{x:Bind Key}" Style="{ThemeResource TitleTextBlockStyle}"/>
+                            </Border>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </GridView.GroupStyle>
+        </GridView>
     </Grid>
 </Page>

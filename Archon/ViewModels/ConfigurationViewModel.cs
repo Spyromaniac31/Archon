@@ -8,7 +8,7 @@ namespace Archon.ViewModels
 {
     public class ConfigurationViewModel : ObservableObject
     {
-        private ObservableCollection<GroupInfoList> settingsGroups;
+        public ObservableCollection<GroupInfoList> SettingsGroups;
 
         public ConfigurationViewModel()
         {
@@ -17,7 +17,7 @@ namespace Archon.ViewModels
 
         public async Task InitializeAsync()
         {
-            settingsGroups = await DatabaseService.GetGroupedSettingsAsync();
+            SettingsGroups = await DatabaseService.GetGroupedSettingsAsync();
         }
     }
 }

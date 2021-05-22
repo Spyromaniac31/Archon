@@ -3,7 +3,6 @@ using Archon.Services;
 using Archon.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -58,6 +57,7 @@ namespace Archon.ViewModels
 
         private async Task OnLoadedAsync()
         {
+            await InitializeAsync();
             await CacheFilesAsync();
             await ParseFilesAsync();
             //TODO: Populate the event args with any errors that arise

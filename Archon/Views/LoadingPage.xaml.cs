@@ -19,10 +19,10 @@ namespace Archon.Views
             DataContext = ViewModel;
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        /*protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             await ViewModel.InitializeAsync();
-        }
+        }*/
 
     }
 }

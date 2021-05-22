@@ -26,12 +26,9 @@ namespace Archon.Helpers
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            if (parameter is string enumString)
-            {
-                return Enum.Parse(EnumType, enumString);
-            }
-
-            throw new ArgumentException("parameter must be an Enum name!");
+            return parameter is string enumString
+                ? Enum.Parse(EnumType, enumString)
+                : throw new ArgumentException("parameter must be an Enum name!");
         }
     }
 }

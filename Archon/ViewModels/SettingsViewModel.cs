@@ -15,18 +15,18 @@ namespace Archon.ViewModels
 
         public ElementTheme ElementTheme
         {
-            get { return _elementTheme; }
+            get => _elementTheme;
 
-            set { SetProperty(ref _elementTheme, value); }
+            set => SetProperty(ref _elementTheme, value);
         }
 
         private string _versionDescription;
 
         public string VersionDescription
         {
-            get { return _versionDescription; }
+            get => _versionDescription;
 
-            set { SetProperty(ref _versionDescription, value); }
+            set => SetProperty(ref _versionDescription, value);
         }
 
         private ICommand _switchThemeCommand;
@@ -50,7 +50,7 @@ namespace Archon.ViewModels
         }
 
         public SettingsViewModel()
-        { 
+        {
         }
 
         public async Task InitializeAsync()

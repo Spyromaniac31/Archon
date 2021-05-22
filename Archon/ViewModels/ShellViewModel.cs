@@ -25,14 +25,14 @@ namespace Archon.ViewModels
 
         public bool IsBackEnabled
         {
-            get { return _isBackEnabled; }
-            set { SetProperty(ref _isBackEnabled, value); }
+            get => _isBackEnabled;
+            set => SetProperty(ref _isBackEnabled, value);
         }
 
         public WinUI.NavigationViewItem Selected
         {
-            get { return _selected; }
-            set { SetProperty(ref _selected, value); }
+            get => _selected;
+            set => SetProperty(ref _selected, value);
         }
 
         public ICommand LoadedCommand => _loadedCommand ?? (_loadedCommand = new RelayCommand(OnLoaded));
@@ -68,18 +68,18 @@ namespace Archon.ViewModels
         {
             if(args.IsSettingsInvoked)
             {
-                NavigationService.Navigate(typeof(SettingsPage), null, args.RecommendedNavigationTransitionInfo);
+                _ = NavigationService.Navigate(typeof(SettingsPage), null, args.RecommendedNavigationTransitionInfo);
             }
             else if (args.InvokedItemContainer is WinUI.NavigationViewItem selectedItem)
             {
                 var pageType = selectedItem.GetValue(NavHelper.NavigateToProperty) as Type;
-                NavigationService.Navigate(pageType, null, args.RecommendedNavigationTransitionInfo);
+                _ = NavigationService.Navigate(pageType, null, args.RecommendedNavigationTransitionInfo);
             }
         }
 
         private void OnBackRequested(WinUI.NavigationView sender, WinUI.NavigationViewBackRequestedEventArgs args)
         {
-            NavigationService.GoBack();
+            _ = NavigationService.GoBack();
         }
 
         private void Frame_NavigationFailed(object sender, NavigationFailedEventArgs e)

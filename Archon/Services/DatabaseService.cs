@@ -1,4 +1,5 @@
-﻿using Archon.Models;
+﻿using Archon.Helpers;
+using Archon.Models;
 using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
@@ -11,18 +12,34 @@ namespace Archon.Services
 {
     public static class DatabaseService
     {
-        private static SqliteConnection _sqliteConnection;
-        public static SqliteConnection SqliteConnection;
+        private static Dictionary<string, string> categories { get; } = new Dictionary<string, string>()
+        {
+            ["player"] = "🧔🏽 Player",
+            ["dino"] = "🦎 Dino",
+            ["time"] = "🌦 Time and Weather",
+            ["breeding"] = "🥚 Breeding",
+            ["gameplay"] = "🎮 Gameplay",
+            ["xp"] = "📈 XP and Engrams",
+            ["tribe"] = "🤝🏽 Tribe",
+            ["resources"] = "🪨 Resources",
+            ["server"] = "🖥 Server",
+            ["structure"] = "🛖 Structures",
+            ["platform"] = "🛖 Structures",
+            ["cryo"] = "❄️ Cryopods",
+            ["pve"] = "🧑🏽‍🤝‍🧑🏾 PVE",
+            ["tribute"] = "🌐 Tribute"
+        };
+        public static SqliteConnection SqliteConnection { get; private set; }
 
         private static async Task InitializeConnection()
         {
-            if (_sqliteConnection != null)
+            if (SqliteConnection != null)
             {
                 return;
             }
             Uri uri = new Uri("ms-appx:///Data/archon.db");
             StorageFile dbFile = await StorageFile.GetFileFromApplicationUriAsync(uri);
-            _sqliteConnection = new SqliteConnection(dbFile.Path);
+            SqliteConnection = new SqliteConnection($"Filename={dbFile.Path}");
         }
 
         public static async Task<ObservableCollection<GameSetting>> GetSettingsByCategoryAsync(string category)
@@ -48,7 +65,7 @@ namespace Archon.Services
                     Hint = !dataReader.IsDBNull(2) ? dataReader.GetString(2) : null,
                     Type = !dataReader.IsDBNull(3) ? dataReader.GetString(3) : null,
                     Category = !dataReader.IsDBNull(4) ? dataReader.GetString(4) : null,
-                    File = (Models.File)(!dataReader.IsDBNull(5) ? Enum.Parse(typeof(Models.File), dataReader.GetString(5)) : null),
+                    File = (File)(!dataReader.IsDBNull(5) ? Enum.Parse(typeof(File), dataReader.GetString(5)) : null),
                     DefaultValue = !dataReader.IsDBNull(6) ? dataReader.GetString(6) : null,
                 });
             }
@@ -80,7 +97,7 @@ namespace Archon.Services
                     Hint = !dataReader.IsDBNull(2) ? dataReader.GetString(2) : null,
                     Type = !dataReader.IsDBNull(3) ? dataReader.GetString(3) : null,
                     Category = !dataReader.IsDBNull(4) ? dataReader.GetString(4) : null,
-                    File = (File)(!dataReader.IsDBNull(5) ? Enum.Parse(typeof(Models.File), dataReader.GetString(5)) : null),
+                    File = (File)(!dataReader.IsDBNull(5) ? Enum.Parse(typeof(File), dataReader.GetString(5), true) : null),
                     DefaultValue = !dataReader.IsDBNull(6) ? dataReader.GetString(6) : null,
                 });
             }
@@ -93,9 +110,11 @@ namespace Archon.Services
         public static async Task<ObservableCollection<GroupInfoList>> GetGroupedSettingsAsync()
         {
             IEnumerable<GroupInfoList> query = from setting in await GetAllSettingsAsync()
-                        group setting by setting.Type into g
+                                               group setting by categories[setting.Category] into g
                                                select new GroupInfoList(g) { Key = g.Key };
             return new ObservableCollection<GroupInfoList>(query);
         }
+
+
     }
 }
