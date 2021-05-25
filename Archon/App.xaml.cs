@@ -4,6 +4,7 @@ using System;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace Archon
 {
@@ -38,8 +39,17 @@ namespace Archon
             await ActivationService.ActivateAsync(args);
         }
 
-        private void OnAppUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        private async void OnAppUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
+            ContentDialog exceptionDialog = new ContentDialog()
+            {
+                Title = "Unhandled exception occurred",
+                Content = e.Message,
+                CloseButtonText = "Ok"
+            };
+
+            await exceptionDialog.ShowAsync();
+
             // TODO WTS: Please log and handle the exception as appropriate to your scenario
             // For more info see https://docs.microsoft.com/uwp/api/windows.ui.xaml.application.unhandledexception
         }

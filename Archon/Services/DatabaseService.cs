@@ -90,7 +90,7 @@ namespace Archon.Services
             //Adds returned records to the ObservableCollection
             while (dataReader.Read())
             {
-                settings.Add(new GameSetting()
+                GameSetting gameSetting = new GameSetting()
                 {
                     Name = !dataReader.IsDBNull(0) ? dataReader.GetString(0) : null,
                     Description = !dataReader.IsDBNull(1) ? dataReader.GetString(1) : null,
@@ -99,7 +99,9 @@ namespace Archon.Services
                     Category = !dataReader.IsDBNull(4) ? dataReader.GetString(4) : null,
                     File = (File)(!dataReader.IsDBNull(5) ? Enum.Parse(typeof(File), dataReader.GetString(5), true) : null),
                     DefaultValue = !dataReader.IsDBNull(6) ? dataReader.GetString(6) : null,
-                });
+                };
+                gameSetting.UpdateCurrentValue();
+                settings.Add(gameSetting);
             }
 
             SqliteConnection.Close();

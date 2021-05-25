@@ -15,6 +15,8 @@
 
     <Page.Resources>
         <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <helpers:StringToBooleanConverter x:Key="StringToBooleanConverter"/>
+        <helpers:StringToDoubleConverter x:Key="StringToDoubleConverter"/>
     </Page.Resources>
 
     <Grid>
@@ -26,12 +28,12 @@
             <RowDefinition x:Name="GridViewRow" Height="*"/>
         </Grid.RowDefinitions>
         <CommandBar Background="Transparent" IsOpen="False" DefaultLabelPosition="Right" IsSticky="True">
-            <AppBarButton Label="Save settings" Click="{x:Bind ViewModel.SaveSettings}">
+            <AppBarButton Label="Save settings">
                 <AppBarButton.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB4B;"/>
                 </AppBarButton.Icon>
             </AppBarButton>
-            <AppBarButton Label="Reload" Click="{x:Bind ViewModel.}">
+            <AppBarButton Label="Reload">
                 <AppBarButton.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE916;"/>
                 </AppBarButton.Icon>
@@ -43,13 +45,22 @@
                     <StackPanel Padding="8" MinHeight="120">
                         <TextBlock x:Name="DescriptionTextBlock" Text="{x:Bind Description, Mode=OneWay}" FontWeight="SemiBold" FontSize="20" TextWrapping="Wrap"/>
                         <TextBlock x:Name="NameTextBlock" x:Phase="2" Text="{x:Bind Name, Mode=OneWay}" Foreground="{ThemeResource SystemBaseMediumColor}" FontWeight="SemiLight"/>
+
                         <StackPanel x:Name="PercentControl" x:Load="{x:Bind IsTypePercent, Mode=OneWay}" x:Phase="1" Orientation="Horizontal">
-                            <Slider x:Name="PercentSlider" Width="150" Minimum="0" Maximum="5" Value="1"/>
+                            <Slider x:Name="PercentSlider" Width="150" Minimum="0" Maximum="5"
+                                    Value="{x:Bind CurrentValue, Mode=TwoWay, Converter={StaticResource StringToDoubleConverter}}"/>
                             <winui:NumberBox x:Name="PercentNumber" Value="{Binding Value, ElementName=PercentSlider, Mode=TwoWay}" Margin="8,0,12,0"/>
                         </StackPanel>
-                        <winui:NumberBox x:Name="NumberBox" x:Load="{x:Bind IsTypeNumber, Mode=OneWay}" x:Phase="1"/>
-                        <TextBlock x:Name="StringBox" x:Load="{x:Bind IsTypeString, Mode=OneWay}" x:Phase="1"/>
-                        <ToggleSwitch x:Name="BoolSwitch" x:Load="{x:Bind IsTypeBool, Mode=OneWay}" OnContent="" OffContent="" x:Phase="1"/>
+
+                        <winui:NumberBox x:Name="NumberBox" x:Load="{x:Bind IsTypeNumber, Mode=OneWay}" x:Phase="1"
+                                         Value="{x:Bind CurrentValue, Mode=TwoWay, Converter={StaticResource StringToDoubleConverter}}"/>
+
+                        <TextBox x:Name="StringBox" x:Load="{x:Bind IsTypeString, Mode=OneWay}" x:Phase="1" 
+                                 Text="{x:Bind CurrentValue, Mode=TwoWay}"/>
+
+                        <ToggleSwitch x:Name="BoolSwitch" x:Load="{x:Bind IsTypeBool, Mode=OneWay}" OnContent="" OffContent="" x:Phase="1" 
+                                      IsOn="{x:Bind CurrentValue, Mode=TwoWay, Converter={StaticResource StringToBooleanConverter}}"/>
+
                         <!--<Button x:Name="HintButton" HorizontalAlignment="Right" Click="{x:Bind ToggleHint}" Background="Transparent">
                             <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE99E;"/>
                         </Button>

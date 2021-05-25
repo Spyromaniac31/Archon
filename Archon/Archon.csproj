@@ -144,6 +144,8 @@
     <Compile Include="Helpers\ResourceExtensions.cs" />
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
     <Compile Include="Helpers\StringExtensions.cs" />
+    <Compile Include="Helpers\StringToBooleanConverter.cs" />
+    <Compile Include="Helpers\StringToDoubleConverter.cs" />
     <Compile Include="Models\GameSetting.cs" />
     <Compile Include="Models\GroupInfoList.cs" />
     <Compile Include="Services\ActivationService.cs" />
