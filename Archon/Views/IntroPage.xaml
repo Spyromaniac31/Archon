@@ -8,7 +8,7 @@
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     mc:Ignorable="d"
-    Style="{StaticResource PageStyle}">
+    Style="{StaticResource ContentPage}">
 
     <Grid Padding="32">
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="600">

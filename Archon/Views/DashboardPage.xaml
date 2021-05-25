@@ -10,7 +10,8 @@
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    NavigationCacheMode="Required"
+    Style="{StaticResource ContentPage}">
     <Page.Resources>
         <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Page.Resources>

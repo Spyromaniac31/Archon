@@ -14,10 +14,7 @@ namespace Archon
     {
         private Lazy<ActivationService> _activationService;
 
-        private ActivationService ActivationService
-        {
-            get { return _activationService.Value; }
-        }
+        private ActivationService ActivationService => _activationService.Value;
 
         public App()
         {

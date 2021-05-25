@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
-    Style="{StaticResource PageStyle}">
+    Style="{StaticResource ContentPage}">
 
     <Grid>
         <Grid.RowDefinitions>

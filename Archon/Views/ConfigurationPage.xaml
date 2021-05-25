@@ -9,9 +9,10 @@
     xmlns:controls="using:Archon.Controls"
     xmlns:models="using:Archon.Models"
     xmlns:helpers="using:Archon.Helpers"
-    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    NavigationCacheMode="Required"
+    Style="{StaticResource ContentPage}">
+
     <Page.Resources>
         <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Page.Resources>
@@ -20,7 +21,23 @@
         <Grid.Resources>
             <CollectionViewSource x:Name="SettingsCVS" IsSourceGrouped="True"/>
         </Grid.Resources>
-        <GridView ItemsSource="{x:Bind SettingsCVS.View, Mode=OneWay}" SelectionMode="None">
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="CommandBarRow" Height="Auto"/>
+            <RowDefinition x:Name="GridViewRow" Height="*"/>
+        </Grid.RowDefinitions>
+        <CommandBar Background="Transparent" IsOpen="False" DefaultLabelPosition="Right" IsSticky="True">
+            <AppBarButton Label="Save settings" Click="{x:Bind ViewModel.SaveSettings}">
+                <AppBarButton.Icon>
+                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB4B;"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton Label="Reload" Click="{x:Bind ViewModel.}">
+                <AppBarButton.Icon>
+                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE916;"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+        </CommandBar>
+        <GridView ItemsSource="{x:Bind SettingsCVS.View, Mode=OneWay}" SelectionMode="None" Grid.Row="1">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="models:GameSetting">
                     <StackPanel Padding="8" MinHeight="120">

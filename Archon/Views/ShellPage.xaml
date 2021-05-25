@@ -9,6 +9,8 @@
     xmlns:views="using:Archon.Views"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
+    ui:ApplicationViewExtensions.ExtendViewIntoTitleBar="False"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -26,6 +28,7 @@
         IsSettingsVisible="True"
         PaneDisplayMode="Top"
         Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
+        
         Visibility="Visible">
         <winui:NavigationView.MenuItems>
             <winui:NavigationViewItem Content="Dashboard" helpers:NavHelper.NavigateTo="views:DashboardPage">
