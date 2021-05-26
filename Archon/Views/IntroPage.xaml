@@ -2,20 +2,40 @@
     x:Class="Archon.Views.IntroPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Archon.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:i="using:Microsoft.Xaml.Interactivity"
-    mc:Ignorable="d"
-    Style="{StaticResource ContentPage}">
+    Style="{StaticResource ContentPage}"
+    mc:Ignorable="d">
 
     <Grid Padding="32">
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="600">
-            <TextBlock x:Uid="Welcome_Header" Style="{StaticResource BoldHeader}" HorizontalAlignment="Center" TextAlignment="Center" Margin="12"/>
-            <TextBlock x:Uid="Welcome_Description" Style="{StaticResource SubHeader}" HorizontalAlignment="Center" TextAlignment="Center"/>
-            <TextBlock x:Uid="Welcome_EnterInfo" Style="{StaticResource SubHeader}" HorizontalAlignment="Center" TextAlignment="Center"/>
-            <Button x:Uid="Welcome_GetStarted" Style="{ThemeResource AccentButtonStyle}" FontSize="16" Padding="24,10" Command="{x:Bind ViewModel.GetStartedCommand}" HorizontalAlignment="Center" Margin="20"/>
+        <StackPanel
+            MaxWidth="600"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <TextBlock
+                x:Uid="Welcome_Header"
+                Margin="12"
+                HorizontalAlignment="Center"
+                Style="{StaticResource BoldHeader}"
+                TextAlignment="Center" />
+            <TextBlock
+                x:Uid="Welcome_Description"
+                HorizontalAlignment="Center"
+                Style="{StaticResource SubHeader}"
+                TextAlignment="Center" />
+            <TextBlock
+                x:Uid="Welcome_EnterInfo"
+                HorizontalAlignment="Center"
+                Style="{StaticResource SubHeader}"
+                TextAlignment="Center" />
+            <Button
+                x:Uid="Welcome_GetStarted"
+                Margin="20"
+                Padding="24,10"
+                HorizontalAlignment="Center"
+                Command="{x:Bind ViewModel.GetStartedCommand}"
+                FontSize="16"
+                Style="{ThemeResource AccentButtonStyle}" />
         </StackPanel>
     </Grid>
 </Page>

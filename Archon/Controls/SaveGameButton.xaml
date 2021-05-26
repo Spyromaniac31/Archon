@@ -4,20 +4,24 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
     d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+    mc:Ignorable="d">
 
     <Grid>
-        <Button x:Name="SaveButton" 
-                Background="Transparent" 
-                Click="{x:Bind Clicked}"
-                PointerEntered="Button_PointerEntered"
-                PointerExited="Button_PointerExited" 
-                Margin="12"
-                ToolTipService.ToolTip="Save game">
+        <Button
+            x:Name="SaveButton"
+            Margin="12"
+            Background="Transparent"
+            Click="{x:Bind Clicked}"
+            PointerEntered="Button_PointerEntered"
+            PointerExited="Button_PointerExited"
+            ToolTipService.ToolTip="Save game">
             <Button.Content>
-                <FontIcon FontSize="40" FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB4A;"/>
+                <FontIcon
+                    FontFamily="{StaticResource FluentUIGlyphs}"
+                    FontSize="40"
+                    Glyph="&#xEB4A;" />
             </Button.Content>
         </Button>
     </Grid>

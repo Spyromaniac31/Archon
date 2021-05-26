@@ -5,24 +5,52 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
-    mc:Ignorable="d"
-    Style="{StaticResource ContentPage}">
+    Style="{StaticResource ContentPage}"
+    mc:Ignorable="d">
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBlock x:Uid="SetupHeader" Style="{StaticResource BoldHeader}"/>
-        <StackPanel Grid.Row="1" Width="300" HorizontalAlignment="Left" Spacing="20" Margin="0,20">
-            <TextBox x:Uid="SetupHostname" PlaceholderText="192.168.0.32" Text="{x:Bind ViewModel.Hostname, Mode=TwoWay}"/>
-            <TextBox x:Uid="SetupUsername" PlaceholderText="admin" Text="{x:Bind ViewModel.Username, Mode=TwoWay}"/>
-            <PasswordBox x:Uid="SetupPassword" Password="{x:Bind ViewModel.Password, Mode=TwoWay}"/>
-            <TextBox x:Uid="SetupDirectory" PlaceholderText="/servers/ark/ShooterGame" Text="{x:Bind ViewModel.Directory, Mode=TwoWay}"/>
-            <TextBox x:Uid="SetupScript" PlaceholderText="server_start.sh" Text="{x:Bind ViewModel.ScriptName, Mode=TwoWay}"/>
-            <Button x:Uid="SetupContinue" Style="{ThemeResource AccentButtonStyle}" Width="300" Padding="8" Command="{x:Bind ViewModel.FinishSetupCommand}"/>
+        <TextBlock x:Uid="SetupHeader" Style="{StaticResource BoldHeader}" />
+        <StackPanel
+            Grid.Row="1"
+            Width="300"
+            Margin="0,20"
+            HorizontalAlignment="Left"
+            Spacing="20">
+            <TextBox
+                x:Uid="SetupHostname"
+                PlaceholderText="192.168.0.32"
+                Text="{x:Bind ViewModel.Hostname, Mode=TwoWay}" />
+            <TextBox
+                x:Uid="SetupUsername"
+                PlaceholderText="admin"
+                Text="{x:Bind ViewModel.Username, Mode=TwoWay}" />
+            <PasswordBox x:Uid="SetupPassword" Password="{x:Bind ViewModel.Password, Mode=TwoWay}" />
+            <TextBox
+                x:Uid="SetupDirectory"
+                PlaceholderText="/servers/ark/ShooterGame"
+                Text="{x:Bind ViewModel.Directory, Mode=TwoWay}" />
+            <TextBox
+                x:Uid="SetupScript"
+                PlaceholderText="server_start.sh"
+                Text="{x:Bind ViewModel.ScriptName, Mode=TwoWay}" />
+            <Button
+                x:Uid="SetupContinue"
+                Width="300"
+                Padding="8"
+                Command="{x:Bind ViewModel.FinishSetupCommand}"
+                Style="{ThemeResource AccentButtonStyle}" />
         </StackPanel>
-        <winui:InfoBar x:Name="infoBar" Severity="Error" Title="Error" IsOpen="{x:Bind ViewModel.ErrorOpen, Mode=TwoWay}" Message="Server values cannot be empty" Grid.Row="2"/>
+        <winui:InfoBar
+            x:Name="infoBar"
+            Title="Error"
+            Grid.Row="2"
+            IsOpen="{x:Bind ViewModel.ErrorOpen, Mode=TwoWay}"
+            Message="Server values cannot be empty"
+            Severity="Error" />
     </Grid>
 </Page>

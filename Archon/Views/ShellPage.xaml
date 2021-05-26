@@ -3,53 +3,52 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     xmlns:helpers="using:Archon.Helpers"
-    xmlns:views="using:Archon.Views"
-    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
+    xmlns:views="using:Archon.Views"
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     ui:ApplicationViewExtensions.ExtendViewIntoTitleBar="False"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
 
-    <!-- This connects the page's Loaded event to a command in the ViewModel -->
+    <!--  This connects the page's Loaded event to a command in the ViewModel  -->
     <i:Interaction.Behaviors>
         <ic:EventTriggerBehavior EventName="Loaded">
-            <ic:InvokeCommandAction Command="{x:Bind ViewModel.LoadedCommand}"/>
+            <ic:InvokeCommandAction Command="{x:Bind ViewModel.LoadedCommand}" />
         </ic:EventTriggerBehavior>
     </i:Interaction.Behaviors>
 
     <winui:NavigationView
         x:Name="navigationView"
+        Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
         IsBackButtonVisible="Collapsed"
-        SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}"
         IsSettingsVisible="True"
         PaneDisplayMode="Top"
-        Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
-        
+        SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}"
         Visibility="Visible">
         <winui:NavigationView.MenuItems>
-            <winui:NavigationViewItem Content="Dashboard" helpers:NavHelper.NavigateTo="views:DashboardPage">
+            <winui:NavigationViewItem helpers:NavHelper.NavigateTo="views:DashboardPage" Content="Dashboard">
                 <winui:NavigationViewItem.Icon>
-                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB2A;"/>
+                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB2A;" />
                 </winui:NavigationViewItem.Icon>
             </winui:NavigationViewItem>
-            <winui:NavigationViewItem Content="Configuration" helpers:NavHelper.NavigateTo="views:ConfigurationPage">
+            <winui:NavigationViewItem helpers:NavHelper.NavigateTo="views:ConfigurationPage" Content="Configuration">
                 <winui:NavigationViewItem.Icon>
-                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB5E;"/>
+                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB5E;" />
                 </winui:NavigationViewItem.Icon>
             </winui:NavigationViewItem>
             <!--<winui:NavigationViewItem x:Uid="Shell_Intro" helpers:NavHelper.NavigateTo="views:IntroPage"/>-->
         </winui:NavigationView.MenuItems>
         <i:Interaction.Behaviors>
             <ic:EventTriggerBehavior EventName="ItemInvoked">
-                <ic:InvokeCommandAction Command="{x:Bind ViewModel.ItemInvokedCommand}"/>
+                <ic:InvokeCommandAction Command="{x:Bind ViewModel.ItemInvokedCommand}" />
             </ic:EventTriggerBehavior>
         </i:Interaction.Behaviors>
         <Grid>
-            <Frame x:Name="shellFrame"/>
+            <Frame x:Name="shellFrame" />
         </Grid>
     </winui:NavigationView>
 </Page>

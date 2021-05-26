@@ -4,20 +4,24 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
     d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+    mc:Ignorable="d">
 
     <Grid>
-        <Button x:Name="ToggleButton" 
-                Background="Transparent"
-                HorizontalAlignment="Center" 
-                Click="{x:Bind Clicked}" 
-                PointerEntered="ToggleButton_PointerEntered"
-                PointerExited="ToggleButton_PointerExited"
-                ToolTipService.ToolTip="Start ARK">
+        <Button
+            x:Name="ToggleButton"
+            HorizontalAlignment="Center"
+            Background="Transparent"
+            Click="{x:Bind Clicked}"
+            PointerEntered="ToggleButton_PointerEntered"
+            PointerExited="ToggleButton_PointerExited"
+            ToolTipService.ToolTip="Start ARK">
             <Button.Content>
-                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB21;" FontSize="64"/>
+                <FontIcon
+                    FontFamily="{StaticResource FluentUIGlyphs}"
+                    FontSize="64"
+                    Glyph="&#xEB21;" />
             </Button.Content>
         </Button>
     </Grid>
