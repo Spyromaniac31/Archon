@@ -16,8 +16,7 @@ namespace Archon.Models
         private File _file;
         private string _defaultValue;
         private string _currentValue;
-
-        public string NullString { get; set; } = null;
+        private bool _isHintOpen;
 
         public string Name
         {
@@ -74,6 +73,16 @@ namespace Archon.Models
             set => SetProperty(ref _currentValue, value);
         }
 
+        public bool IsHintOpen
+        {
+            get => _isHintOpen;
+            set => SetProperty(ref _isHintOpen, value);
+        }
+
+        public void ToggleHint()
+        {
+            IsHintOpen = !IsHintOpen;
+        }
         public void UpdateCurrentValue()
         {
             var gameSettings = (ApplicationDataCompositeValue)ApplicationData.Current.LocalSettings.Values["GameSettings"];
@@ -84,6 +93,7 @@ namespace Archon.Models
         public bool IsTypeString => Type == "string";
         public bool IsTypeBool => Type == "boolean" || Type == "arg";
         public bool IsTypeNumber => Type == "number";
+        public bool HasHint => !string.IsNullOrEmpty(Hint);
 
         public string GetFormattedLine()
         {

@@ -124,6 +124,9 @@
     <Compile Include="Controls\GameSettingControl.xaml.cs">
       <DependentUpon>GameSettingControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\HintButton.xaml.cs">
+      <DependentUpon>HintButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SaveGameButton.xaml.cs">
       <DependentUpon>SaveGameButton.xaml</DependentUpon>
     </Compile>
@@ -206,6 +209,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Controls\GameSettingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\HintButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

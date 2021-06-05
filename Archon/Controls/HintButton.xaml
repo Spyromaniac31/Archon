@@ -1,0 +1,31 @@
+﻿<UserControl
+    x:Class="Archon.Controls.HintButton"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Button
+            x:Name="IconButton"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Background="Transparent"
+            Click="HintButton_Click">
+            <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE99E;" />
+        </Button>
+        <winui:TeachingTip
+            x:Name="HintTip"
+            IsLightDismissEnabled="True"
+            Target="{x:Bind IconButton}">
+            <!--<winui:TeachingTip.IconSource>
+                <winui:FontIconSource FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA8D;" />
+            </winui:TeachingTip.IconSource>-->
+            <TextBlock x:Name="HintTextBox" TextWrapping="Wrap" />
+        </winui:TeachingTip>
+    </Grid>
+</UserControl>
