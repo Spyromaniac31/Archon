@@ -1,4 +1,5 @@
 ﻿using CoreRCON;
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -16,8 +17,10 @@ namespace Archon.Services
                 {
                     var appSettings = ApplicationData.Current.LocalSettings;
                     var gameSettings = appSettings.Values["GameSettings"] as ApplicationDataCompositeValue;
+
+                    //TODO: Catch incorrectly formatted settings
                     var hostName = IPAddress.Parse((string)appSettings.Values["Hostname"]);
-                    ushort port = (ushort)gameSettings["RCONPort"];
+                    ushort port = ushort.Parse((string)gameSettings["RCONPort"]);
                     string password = (string)gameSettings["ServerAdminPassword"];
 
                     _rconClient = new RCON(hostName, port, password);
