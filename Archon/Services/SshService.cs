@@ -39,9 +39,9 @@ namespace Archon.Services
         private static PasswordConnectionInfo GetConnectionInfo()
         {
             ApplicationDataContainer appSettings = ApplicationData.Current.LocalSettings;
-            string hostname = appSettings.Values["Hostname"] as string;
-            string username = appSettings.Values["Username"] as string;
-            string password = appSettings.Values["Password"] as string;
+            string hostname = (string)appSettings.Values["Hostname"];
+            string username = (string)appSettings.Values["Username"];
+            string password = (string)appSettings.Values["Password"];
 
             return new PasswordConnectionInfo(hostname, username, password);
         }
@@ -88,8 +88,18 @@ namespace Archon.Services
         {
             SftpClient.Connect();
             var stream = await localFile.OpenStreamForReadAsync();
-            SftpClient.UploadFile(stream, remotePath);
-            SftpClient.Disconnect();
+            try
+            {
+                SftpClient.UploadFile(stream, remotePath);
+            }
+            catch (SshConnectionException ex)
+            {
+                //TODO: Show an Infobar on the main page
+            }
+            finally
+            {
+                SftpClient.Disconnect();
+            }
         }
 
         public static async Task DownloadFileAsync(StorageFile localFile, string remotePath)
@@ -108,6 +118,5 @@ namespace Archon.Services
             }
             SftpClient.Disconnect();
         }
-
     }
 }

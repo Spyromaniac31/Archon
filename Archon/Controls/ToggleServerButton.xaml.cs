@@ -37,8 +37,10 @@ namespace Archon.Controls
         private void UpdateButton()
         {
             ((FontIcon)ToggleButton.Content).Glyph = _isServerRunning ? "\xEB8A" : "\xEB21";
-            ToolTip toolTip = new ToolTip();
-            toolTip.Content = _isServerRunning ? "Stop ARK" : "Start ARK";
+            ToolTip toolTip = new ToolTip
+            {
+                Content = _isServerRunning ? "Stop ARK" : "Start ARK"
+            };
             ToolTipService.SetToolTip(ToggleButton, toolTip);
         }
 

@@ -12,7 +12,7 @@ namespace Archon.Services
 {
     public static class DatabaseService
     {
-        private static Dictionary<string, string> categories { get; } = new Dictionary<string, string>()
+        private static Dictionary<string, string> Categories { get; } = new Dictionary<string, string>()
         {
             ["player"] = "🧔🏽 Player",
             ["dino"] = "🦎 Dino",
@@ -112,7 +112,7 @@ namespace Archon.Services
         public static async Task<ObservableCollection<GroupInfoList>> GetGroupedSettingsAsync()
         {
             IEnumerable<GroupInfoList> query = from setting in await GetAllSettingsAsync()
-                                               group setting by categories[setting.Category] into g
+                                               group setting by Categories[setting.Category] into g
                                                select new GroupInfoList(g) { Key = g.Key };
             return new ObservableCollection<GroupInfoList>(query);
         }
