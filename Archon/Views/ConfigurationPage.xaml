@@ -4,13 +4,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:Archon.Helpers"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:Archon.Models"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     NavigationCacheMode="Required"
     Style="{StaticResource ContentPage}"
+    Loaded="Page_Loaded"
     mc:Ignorable="d">
-
+    
     <Page.Resources>
         <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <helpers:StringToBooleanConverter x:Key="StringToBooleanConverter" />
@@ -19,7 +22,7 @@
 
     <Grid>
         <Grid.Resources>
-            <CollectionViewSource x:Name="SettingsCVS" IsSourceGrouped="True" />
+            <CollectionViewSource x:Name="SettingsCVS" IsSourceGrouped="True"/>
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition x:Name="CommandBarRow" Height="Auto" />
@@ -34,6 +37,11 @@
                 <AppBarButton.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB4B;" />
                 </AppBarButton.Icon>
+                <i:Interaction.Behaviors>
+                    <ic:EventTriggerBehavior EventName="Click">
+                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveSettingsCommand}" />
+                    </ic:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
             </AppBarButton>
             <AppBarButton Label="Reload">
                 <AppBarButton.Icon>
@@ -74,7 +82,7 @@
                                 Margin="0,6"
                                 Maximum="5"
                                 Minimum="0"
-                                Value="{x:Bind CurrentValue, Mode=TwoWay, Converter={StaticResource StringToDoubleConverter}}" />
+                                Value="{Binding CurrentValue, Mode=TwoWay, Converter={StaticResource StringToDoubleConverter}}" />
                             <winui:NumberBox
                                 x:Name="PercentNumber"
                                 Margin="8,6,12,0"
@@ -87,7 +95,7 @@
                             HorizontalAlignment="Left"
                             x:Load="{x:Bind IsTypeNumber, Mode=OneWay}"
                             x:Phase="1"
-                            Value="{x:Bind CurrentValue, Mode=TwoWay, Converter={StaticResource StringToDoubleConverter}}" />
+                            Value="{Binding CurrentValue, Mode=TwoWay, Converter={StaticResource StringToDoubleConverter}}" />
                         <TextBox
                             x:Name="StringBox"
                             Margin="0,6"
@@ -98,7 +106,7 @@
                             x:Name="BoolSwitch"
                             x:Load="{x:Bind IsTypeBool, Mode=OneWay}"
                             x:Phase="1"
-                            IsOn="{x:Bind CurrentValue, Mode=TwoWay, Converter={StaticResource StringToBooleanConverter}}"
+                            IsOn="{Binding CurrentValue, Mode=TwoWay, Converter={StaticResource StringToBooleanConverter}}"
                             OffContent=""
                             OnContent="" />
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Windows.UI.Xaml.Data;
 
 namespace Archon.Helpers
@@ -14,10 +15,10 @@ namespace Archon.Helpers
             }
             catch
             {
+                Debug.WriteLine("Error converting " + value + " to boolean");
                 //True is much rarer as a default value, so it's easier to identify if something goes wrong
                 return true;
             }
-            
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

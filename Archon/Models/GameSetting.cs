@@ -1,5 +1,6 @@
 ﻿using Archon.ViewModels;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using System;
 using Windows.Storage;
 using Windows.UI.Xaml;
 
@@ -15,6 +16,8 @@ namespace Archon.Models
         private File _file;
         private string _defaultValue;
         private string _currentValue;
+
+        public string NullString { get; set; } = null;
 
         public string Name
         {
@@ -48,12 +51,26 @@ namespace Archon.Models
         }
         public string DefaultValue
         {
-            get => _defaultValue;
+            get
+            {
+                if ((Type == "number" || Type == "percent") && _defaultValue != null)
+                {
+                    _defaultValue = Convert.ToDouble(_defaultValue).ToString();
+                }
+                return _defaultValue;
+            }
             set => SetProperty(ref _defaultValue, value);
         }
         public string CurrentValue
         {
-            get => _currentValue;
+            get
+            {
+                if ((Type == "number" || Type == "percent") && _currentValue != null)
+                {
+                    _currentValue = Convert.ToDouble(_currentValue).ToString();
+                }
+                return _currentValue;
+            }
             set => SetProperty(ref _currentValue, value);
         }
 
@@ -62,12 +79,20 @@ namespace Archon.Models
             var gameSettings = (ApplicationDataCompositeValue)ApplicationData.Current.LocalSettings.Values["GameSettings"];
             CurrentValue = gameSettings.ContainsKey(Name) ? (string)gameSettings[Name] : DefaultValue;
         }
-        
+
         public bool IsTypePercent => Type == "percent";
         public bool IsTypeString => Type == "string";
         public bool IsTypeBool => Type == "boolean" || Type == "arg";
         public bool IsTypeNumber => Type == "number";
-        
+
+        public string GetFormattedLine()
+        {
+            //We have to remove trailing 0s because the default config files have lots of them
+            return CurrentValue == DefaultValue
+                ? ""
+                : File == File.StartScript ? (Type == "arg" ? $" -{Name}" : $"?{Name}={CurrentValue}") : $"{Name}={CurrentValue}";
+        }
+
         public GameSettingControlViewModel ViewModel => new GameSettingControlViewModel(Name, Description, Hint, Type, DefaultValue);
     }
 

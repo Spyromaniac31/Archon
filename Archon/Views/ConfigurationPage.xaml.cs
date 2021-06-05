@@ -17,9 +17,10 @@ namespace Archon.Views
         {
             InitializeComponent();
             DataContext = ViewModel;
+            
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        private async void Page_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             await ViewModel.InitializeAsync();
             SettingsCVS.Source = ViewModel.SettingsGroups;

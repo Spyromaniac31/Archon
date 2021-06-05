@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Windows.UI.Xaml.Data;
 
 namespace Archon.Helpers
@@ -14,7 +15,22 @@ namespace Archon.Helpers
             }
             catch
             {
-                return 4.0;
+                //For testing purposes. It seems like sometimes boolean strings will be converted here as the GameSettings are moved around during categorization,
+                //but everything works out eventually
+                Debug.WriteLine("Error converting " + value + " to double");
+                if (value is string sValue)
+                {
+                    switch (sValue.ToLower())
+                    {
+                        case "true":
+                            return 1.0;
+                        case "false":
+                            return 0.0;
+                        default:
+                            return 3.0;
+                    }
+                }
+                return 3.0;
             }
         }
 
