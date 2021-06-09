@@ -14,7 +14,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBlock x:Uid="SetupHeader" Style="{StaticResource BoldHeader}" />
+        <TextBlock Style="{StaticResource BoldHeader}" Text="Server information" />
         <StackPanel
             Grid.Row="1"
             Width="300"
@@ -22,27 +22,31 @@
             HorizontalAlignment="Left"
             Spacing="20">
             <TextBox
-                x:Uid="SetupHostname"
-                PlaceholderText="192.168.0.32"
+                Header="Hostname"
+                PlaceholderText="192.168.x.x"
                 Text="{x:Bind ViewModel.Hostname, Mode=TwoWay}" />
             <TextBox
-                x:Uid="SetupUsername"
+                Header="Backup hostname (optional)"
+                PlaceholderText=""
+                Text="{x:Bind ViewModel.BackupHostname, Mode=TwoWay}" />
+            <TextBox
+                Header="Username"
                 PlaceholderText="admin"
                 Text="{x:Bind ViewModel.Username, Mode=TwoWay}" />
-            <PasswordBox x:Uid="SetupPassword" Password="{x:Bind ViewModel.Password, Mode=TwoWay}" />
+            <PasswordBox Header="Password" Password="{x:Bind ViewModel.Password, Mode=TwoWay}" />
             <TextBox
-                x:Uid="SetupDirectory"
-                PlaceholderText="/servers/ark/ShooterGame"
+                Header="ARK directory"
+                PlaceholderText="/servers/ark"
                 Text="{x:Bind ViewModel.Directory, Mode=TwoWay}" />
             <TextBox
-                x:Uid="SetupScript"
+                Header="Start script name"
                 PlaceholderText="server_start.sh"
                 Text="{x:Bind ViewModel.ScriptName, Mode=TwoWay}" />
             <Button
-                x:Uid="SetupContinue"
                 Width="300"
                 Padding="8"
                 Command="{x:Bind ViewModel.FinishSetupCommand}"
+                Content="Continue"
                 Style="{ThemeResource AccentButtonStyle}" />
         </StackPanel>
         <winui:InfoBar

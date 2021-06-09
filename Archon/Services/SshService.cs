@@ -21,6 +21,7 @@ namespace Archon.Services
                 }
                 return _sshClient;
             }
+            set => _sshClient = value;
         }
 
         private static SftpClient _sftpClient;
@@ -34,6 +35,7 @@ namespace Archon.Services
                 }
                 return _sftpClient;
             }
+            set => _sftpClient = value;
         }
 
         private static PasswordConnectionInfo GetConnectionInfo()
@@ -46,77 +48,120 @@ namespace Archon.Services
             return new PasswordConnectionInfo(hostname, username, password);
         }
 
+        private static PasswordConnectionInfo GetBackupConnectionInfo()
+        {
+            ApplicationDataContainer appSettings = ApplicationData.Current.LocalSettings;
+            string hostname = (string)appSettings.Values["BackupHostname"];
+            string username = (string)appSettings.Values["Username"];
+            string password = (string)appSettings.Values["Password"];
+
+            return new PasswordConnectionInfo(hostname, username, password);
+        }
+
         public static string ExecuteCommand(string command)
         {
-            //The client might already be connected if an async command is being run
-            if (!SshClient.IsConnected)
+            if (ConnectSsh())
             {
-                SshClient.Connect();
+                var sshCommand = SshClient.CreateCommand(command);
+                string output = sshCommand.Execute();
+                SshClient.Disconnect();
+                return output;
             }
-            var sshCommand = SshClient.CreateCommand(command);
-            string output = sshCommand.Execute();
-            SshClient.Disconnect();
-            return output;
+            return "Failed to connect";
         }
 
         public static async Task<string> ExecuteCommandAsync(string command)
         {
-            //The client might already be connected if an async command is being run
-            if (!SshClient.IsConnected)
+            if (ConnectSsh())
             {
-                SshClient.Connect();
-            }
-            var sshCommand = SshClient.CreateCommand(command);
-            try
-            {
-                Task<string> output = sshCommand.ExecuteAsync();
-                return await output;
-            }
-            catch (InvalidOperationException ex)
-            {
-                //TODO: Implement error
-            }
-            finally
-            {
-                //This could be harmful if the sshclient is disconnected while a parallel command is being executed
+                var sshCommand = SshClient.CreateCommand(command);
+                //We want to make sure we await the output before we disconnect so that we get the entire output
+                string output = await sshCommand.ExecuteAsync();
                 SshClient.Disconnect();
+                return output;
             }
-            return null;
+            return "Failed to connect";
         }
 
-        public static async Task UploadFileAsync(StorageFile localFile, string remotePath)
+        public static async Task<bool> UploadFileAsync(StorageFile localFile, string remotePath)
         {
-            SftpClient.Connect();
-            var stream = await localFile.OpenStreamForReadAsync();
-            try
+            if (ConnectSftp())
             {
+                var stream = await localFile.OpenStreamForReadAsync();
                 SftpClient.UploadFile(stream, remotePath);
-            }
-            catch (SshConnectionException ex)
-            {
-                //TODO: Show an Infobar on the main page
-            }
-            finally
-            {
                 SftpClient.Disconnect();
+                return true;
             }
+            return false;
         }
 
-        public static async Task DownloadFileAsync(StorageFile localFile, string remotePath)
+        public static async Task<bool> DownloadFileAsync(StorageFile localFile, string remotePath)
         {
-            SftpClient.Connect();
-            //Stream stream = await localFile.OpenStreamForWriteAsync();
-            try
+            if (ConnectSftp())
             {
+                //Stream stream = await localFile.OpenStreamForWriteAsync();
                 byte[] fileLines = SftpClient.ReadAllBytes(remotePath);
                 await FileIO.WriteBytesAsync(localFile, fileLines);
                 //await SftpClient.DownloadAsync(remotePath, stream);
+                SftpClient.Disconnect();
+                return true;
             }
-            catch (SshConnectionException ex)
+            return false;
+        }
+
+        private static bool ConnectSsh()
+        {
+            if (SshClient.IsConnected)
             {
-                //TODO: Show an Infobar on the main page
+                return true;
             }
-            SftpClient.Disconnect();
+            try
+            {
+                SshClient.Connect();
+                return true;
+            }
+            catch
+            {
+                //TODO: Show message about trying backup IP
+                SshClient = new SshClient(GetBackupConnectionInfo());
+                try
+                {
+                    SshClient.Connect();
+                    return true;
+                }
+                catch
+                {
+                    //TODO: Show message
+                    return false;
+                }
+            }
+        }
+        private static bool ConnectSftp()
+        {
+            if (SftpClient.IsConnected)
+            {
+                return true;
+            }
+            try
+            {
+                SftpClient.Connect();
+                return true;
+            }
+            catch
+            {
+                //TODO: Show message about trying backup IP
+                SftpClient = new SftpClient(GetBackupConnectionInfo());
+                try
+                {
+                    SftpClient.Connect();
+                    return true;
+                }
+                catch
+                {
+                    //TODO: Show message
+                    return false;
+                }
+            }
         }
     }
 }

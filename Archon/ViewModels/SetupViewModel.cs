@@ -21,6 +21,7 @@ namespace Archon.ViewModels
         public string Password { get; set; }
         public string Directory { get; set; }
         public string ScriptName { get; set; }
+        public string BackupHostname { get; set; }
 
         public bool ErrorOpen
         {
@@ -52,6 +53,8 @@ namespace Archon.ViewModels
                 appSettings.SaveString("Password", Password);
                 appSettings.SaveString("Directory", Directory);
                 appSettings.SaveString("ScriptName", ScriptName);
+                appSettings.SaveString("BackupHostname", string.IsNullOrEmpty(BackupHostname) ? Hostname : BackupHostname);
+                
 
                 _ = NavigationService.Navigate(typeof(LoadingPage));
             }
