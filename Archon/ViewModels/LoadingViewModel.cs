@@ -61,8 +61,7 @@ namespace Archon.ViewModels
             await CacheFilesAsync();
             await ParseFilesAsync();
             //TODO: Populate the event args with any errors that arise
-            OnRaiseLoadedEvent(new LoadedEventArgs(null));
-            _ = NavigationService.Navigate(typeof(DashboardPage));
+            _ = NavigationService.Navigate(typeof(ShellPage));
         }
 
         private async Task CacheFilesAsync()

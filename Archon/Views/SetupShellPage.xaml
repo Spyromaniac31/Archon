@@ -1,0 +1,74 @@
+﻿<Page
+    x:Class="Archon.Views.SetupShellPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Archon.Helpers"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:Archon.ViewModels"
+    xmlns:views="using:Archon.Views"
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    d:DataContext="{d:DesignInstance Type=viewmodels:SetupViewModel}"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <SolidColorBrush x:Key="NavigationViewTopPaneBackground" Color="Transparent" />
+        <Style TargetType="winui:NavigationViewItem">
+            <Setter Property="Margin" Value="4,0" />
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <winui:NavigationView
+            x:Name="navigationView"
+            IsBackButtonVisible="Visible"
+            IsBackEnabled="{x:Bind ViewModel.IsBackEnabled, Mode=OneWay}"
+            IsSettingsVisible="False"
+            PaneDisplayMode="Top"
+            SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}">
+            <winui:NavigationView.MenuItems>
+                <winui:NavigationViewItem helpers:NavHelper.NavigateTo="views:HostnamePage" Content="Hostname">
+                    <winui:NavigationViewItem.Icon>
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEAEB;" />
+                    </winui:NavigationViewItem.Icon>
+                </winui:NavigationViewItem>
+                <winui:NavigationViewItem helpers:NavHelper.NavigateTo="views:CredentialsPage" Content="Credentials">
+                    <winui:NavigationViewItem.Icon>
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEAB1;" />
+                    </winui:NavigationViewItem.Icon>
+                </winui:NavigationViewItem>
+                <winui:NavigationViewItem helpers:NavHelper.NavigateTo="views:DirectoryPage" Content="Directory">
+                    <winui:NavigationViewItem.Icon>
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA5A;" />
+                    </winui:NavigationViewItem.Icon>
+                </winui:NavigationViewItem>
+            </winui:NavigationView.MenuItems>
+            <i:Interaction.Behaviors>
+                <ic:EventTriggerBehavior EventName="ItemInvoked">
+                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.ItemInvokedCommand}" />
+                </ic:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+            <RelativePanel>
+                <Frame
+                    x:Name="shellFrame"
+                    HorizontalAlignment="Stretch"
+                    DataContext="{x:Bind ViewModel}"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignRightWithPanel="True"
+                    RelativePanel.AlignVerticalCenterWithPanel="True" />
+                <winui:InfoBar
+                    x:Name="ErrorBar"
+                    Title="Empty fields"
+                    Margin="8"
+                    IsOpen="{x:Bind ViewModel.ErrorOpen, Mode=TwoWay}"
+                    Message="Fields cannot be empty unless marked otherwise."
+                    RelativePanel.AlignBottomWithPanel="True"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignRightWithPanel="True"
+                    Severity="Error" />
+            </RelativePanel>
+        </winui:NavigationView>
+    </Grid>
+</Page>

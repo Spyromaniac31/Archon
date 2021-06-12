@@ -10,9 +10,12 @@
 
             <FontFamily x:Key="FluentUIGlyphs">/Assets/fluentui.ttf#fluentui</FontFamily>
 
+
+            <!--#region Text-->
             <Style x:Key="BoldHeader" TargetType="TextBlock">
                 <Setter Property="FontWeight" Value="Bold" />
                 <Setter Property="FontSize" Value="40" />
+                <Setter Property="TextWrapping" Value="WrapWholeWords" />
             </Style>
 
             <Style x:Key="SubHeader" TargetType="TextBlock">
@@ -21,16 +24,25 @@
                 <Setter Property="Foreground" Value="{ThemeResource SystemBaseMediumColor}" />
                 <Setter Property="TextWrapping" Value="WrapWholeWords" />
             </Style>
-
-            <Style x:Key="ButtonTooltip" TargetType="TextBlock">
-                <Setter Property="FontWeight" Value="SemiBold" />
-                <Setter Property="FontSize" Value="13" />
-                <Setter Property="Width" Value="100" />
-            </Style>
+            <!--#endregion-->
 
             <Style x:Key="ContentPage" TargetType="Page">
                 <Setter Property="Background" Value="{ThemeResource SystemChromeLowColor}" />
             </Style>
+
+            <!--#region App Setup-->
+            <Style x:Key="SetupGraphic" TargetType="Image">
+                <Setter Property="MaxWidth" Value="400" />
+                <Setter Property="MaxHeight" Value="400" />
+                <Setter Property="Grid.Column" Value="1" />
+            </Style>
+            <Style x:Key="SetupStackPanel" TargetType="StackPanel">
+                <Setter Property="MaxWidth" Value="380" />
+                <Setter Property="Margin" Value="24" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Spacing" Value="12" />
+            </Style>
+            <!--#endregion-->
         </ResourceDictionary>
     </Application.Resources>
 </Application>

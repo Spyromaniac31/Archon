@@ -57,13 +57,20 @@ namespace Archon
         private ActivationService CreateActivationService()
         {
             ApplicationDataContainer appSettings = ApplicationData.Current.LocalSettings;
-            Type startPageType = string.IsNullOrWhiteSpace(appSettings.Values["Hostname"] as string) ? typeof(IntroPage) : typeof(LoadingPage);
+            //This should be of type LoadingPage or HostnamePage depending on whether setup has happened
+            Type startPageType = string.IsNullOrWhiteSpace(appSettings.Values["Hostname"] as string) ? typeof(HostnamePage) : typeof(HostnamePage);
             return new ActivationService(this, startPageType, new Lazy<UIElement>(CreateShell));
         }
 
         private UIElement CreateShell()
         {
-            return new ShellPage();
+            var appSettings = ApplicationData.Current.LocalSettings;
+            if (string.IsNullOrWhiteSpace(appSettings.Values["Hostname"] as string))
+            {
+                return new SetupShellPage();
+            }
+            //This should say ShellPage() when done with testing
+            return new SetupShellPage();
         }
     }
 }
