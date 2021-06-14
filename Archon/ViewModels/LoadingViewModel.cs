@@ -61,7 +61,9 @@ namespace Archon.ViewModels
             await CacheFilesAsync();
             await ParseFilesAsync();
             //TODO: Populate the event args with any errors that arise
+            //When the ShellPage is loaded, it changes the NavigationService frame, so then we can navigate to the dashboard within the shell
             _ = NavigationService.Navigate(typeof(ShellPage));
+            _ = NavigationService.Navigate(typeof(DashboardPage));
         }
 
         private async Task CacheFilesAsync()
