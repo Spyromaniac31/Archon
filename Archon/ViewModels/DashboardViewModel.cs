@@ -115,9 +115,7 @@ namespace Archon.ViewModels
             {
                 IsWaiting = true;
                 string gameDir = (string)ApplicationData.Current.LocalSettings.Values["Directory"];
-                //This gives the directory that the ShooterGame folder is in
-                string installDir = gameDir.Substring(0, gameDir.Length - 12);
-                _ = await SshService.ExecuteCommandAsync($"steamcmd +login anonymous +force_install_dir {installDir} +app_update 376030 +quit");
+                _ = await SshService.ExecuteCommandAsync($"steamcmd +login anonymous +force_install_dir {gameDir} +app_update 376030 +quit");
                 IsWaiting = false;
             }
         }

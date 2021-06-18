@@ -71,13 +71,13 @@ namespace Archon.ViewModels
             Status = "Caching files";
             ApplicationDataContainer appSettings = ApplicationData.Current.LocalSettings;
 
-            string scriptPath = (string)appSettings.Values["Directory"] + "/Binaries/Linux/" + (string)appSettings.Values["ScriptName"];
+            string scriptPath = (string)appSettings.Values["Directory"] + "/ShooterGame/Binaries/Linux/" + (string)appSettings.Values["ScriptName"];
             await SshService.DownloadFileAsync(_script, scriptPath);
 
-            string gameIniPath = (string)appSettings.Values["Directory"] + "/Saved/Config/LinuxServer/Game.ini";
+            string gameIniPath = (string)appSettings.Values["Directory"] + "/ShooterGame/Saved/Config/LinuxServer/Game.ini";
             await SshService.DownloadFileAsync(_gameIni, gameIniPath);
 
-            string gameUserIniPath = (string)appSettings.Values["Directory"] + "/Saved/Config/LinuxServer/GameUserSettings.ini";
+            string gameUserIniPath = (string)appSettings.Values["Directory"] + "/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini";
             await SshService.DownloadFileAsync(_gameUserIni, gameUserIniPath);
         }
 
