@@ -99,10 +99,18 @@ namespace Archon.Services
         {
             if (ConnectSftp())
             {
-                //Stream stream = await localFile.OpenStreamForWriteAsync();
-                byte[] fileLines = SftpClient.ReadAllBytes(remotePath);
-                await FileIO.WriteBytesAsync(localFile, fileLines);
-                //await SftpClient.DownloadAsync(remotePath, stream);
+                try
+                {
+                    byte[] fileLines = SftpClient.ReadAllBytes(remotePath);
+                    await FileIO.WriteBytesAsync(localFile, fileLines);
+                }
+                catch
+                {
+                    return false;
+                    //var stream = await localFile.OpenStreamForWriteAsync();
+                    //await SftpClient.DownloadAsync(remotePath, stream);
+                }
+
                 SftpClient.Disconnect();
                 return true;
             }
