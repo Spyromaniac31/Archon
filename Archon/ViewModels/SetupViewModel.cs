@@ -81,11 +81,7 @@ namespace Archon.ViewModels
 
         private void OnItemInvoked(WinUI.NavigationViewItemInvokedEventArgs args)
         {
-            if (args.IsSettingsInvoked)
-            {
-                _ = NavigationService.Navigate(typeof(SettingsPage), null, args.RecommendedNavigationTransitionInfo);
-            }
-            else if (args.InvokedItemContainer is WinUI.NavigationViewItem selectedItem)
+            if (args.InvokedItemContainer is WinUI.NavigationViewItem selectedItem)
             {
                 var pageType = selectedItem.GetValue(NavHelper.NavigateToProperty) as Type;
                 _ = NavigationService.Navigate(pageType, null, args.RecommendedNavigationTransitionInfo);
