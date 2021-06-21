@@ -9,6 +9,7 @@
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:Archon.Models"
+    xmlns:vm="using:Archon.ViewModels"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     Loaded="Page_Loaded"
     NavigationCacheMode="Required"
@@ -21,15 +22,31 @@
         <helpers:StringToDoubleConverter x:Key="StringToDoubleConverter" />
     </Page.Resources>
 
-    <Grid>
-        <Grid.Resources>
-            <CollectionViewSource x:Name="SettingsCVS" IsSourceGrouped="True" />
-        </Grid.Resources>
-        <Grid.RowDefinitions>
-            <RowDefinition x:Name="CommandBarRow" Height="Auto" />
-            <RowDefinition x:Name="GridViewRow" Height="*" />
-        </Grid.RowDefinitions>
-        <CommandBar
+    <winui:NavigationView
+        IsBackButtonVisible="Collapsed"
+        IsPaneToggleButtonVisible="False"
+        IsSettingsVisible="False"
+        MenuItemsSource="{x:Bind ViewModel.NavItems}"
+        OpenPaneLength="180">
+        <winui:NavigationView.MenuItemTemplate>
+            <DataTemplate x:DataType="vm:SourceNavItem">
+                <winui:NavigationViewItem Content="{x:Bind Name}" Tag="{x:Bind Tag}">
+                    <winui:NavigationViewItem.Icon>
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="{x:Bind Glyph}" />
+                    </winui:NavigationViewItem.Icon>
+                </winui:NavigationViewItem>
+            </DataTemplate>
+        </winui:NavigationView.MenuItemTemplate>
+        <Grid>
+            <Grid.Resources>
+                <CollectionViewSource x:Name="SettingsCVS" IsSourceGrouped="True" />
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition x:Name="CommandBarRow" Height="Auto" />
+                <RowDefinition x:Name="GridViewRow" Height="*" />
+            </Grid.RowDefinitions>
+
+            <!--<CommandBar
             Background="Transparent"
             DefaultLabelPosition="Right"
             IsOpen="False"
@@ -144,6 +161,7 @@
                     </GroupStyle.HeaderTemplate>
                 </GroupStyle>
             </GridView.GroupStyle>
-        </GridView>
-    </Grid>
+        </GridView>-->
+        </Grid>
+    </winui:NavigationView>
 </Page>

@@ -27,7 +27,14 @@ namespace Archon.Services
             ["platform"] = "🛖 Structures",
             ["cryo"] = "❄️ Cryopods",
             ["pve"] = "🧑🏽‍🤝‍🧑🏾 PVE",
-            ["tribute"] = "🌐 Tribute"
+            ["tribute"] = "🌐 Tribute",
+            ["slot"] = "🎒 Slot Counts",
+            ["speed"] = "💨 Crafting Speeds",
+            ["range"] = "🎯 Structure Ranges",
+            ["general"] = "🌐 General Settings",
+            ["functionality"] = "⚙ Structure Functionality",
+            ["building"] = "🏗 Building and Placement",
+            ["list"] = "📃 Item lists"
         };
         public static SqliteConnection SqliteConnection { get; private set; }
 
@@ -75,14 +82,14 @@ namespace Archon.Services
             return settings;
         }
 
-        public static async Task<List<GameSetting>> GetAllSettingsAsync()
+        public static async Task<List<GameSetting>> GetSettings(string table)
         {
             await InitializeConnection();
             var settings = new List<GameSetting>();
             SqliteConnection.Open();
 
             //Creates SELECT command using method parameter
-            string commandText = "SELECT * FROM settings";
+            string commandText = $"SELECT * FROM {table}";
             var selectCommand = new SqliteCommand(commandText, SqliteConnection);
 
             var dataReader = selectCommand.ExecuteReader();
@@ -109,9 +116,9 @@ namespace Archon.Services
             return settings;
         }
 
-        public static async Task<ObservableCollection<GroupInfoList>> GetGroupedSettingsAsync()
+        public static async Task<ObservableCollection<GroupInfoList>> GetGroupedSettingsAsync(string table)
         {
-            IEnumerable<GroupInfoList> query = from setting in await GetAllSettingsAsync()
+            IEnumerable<GroupInfoList> query = from setting in await GetSettings(table)
                                                group setting by Categories[setting.Category] into g
                                                select new GroupInfoList(g) { Key = g.Key };
             return new ObservableCollection<GroupInfoList>(query);
