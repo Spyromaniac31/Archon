@@ -2,23 +2,37 @@
 using Archon.Services;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
+using WinUI = Microsoft.UI.Xaml.Controls;
 
 namespace Archon.ViewModels
 {
     public class ConfigurationViewModel : ObservableObject
     {
         private ICommand _saveSettingsCommand;
+        private ICommand _itemInvokedCommand;
+        private ObservableCollection<GroupInfoList> _selectedSettingGroup;
 
-        public ObservableCollection<GroupInfoList> SettingsGroups;
+        public Dictionary<string, ObservableCollection<GroupInfoList>> SettingGroups = new Dictionary<string, ObservableCollection<GroupInfoList>>();
+
+        public ObservableCollection<GroupInfoList> SelectedSettingGroup
+        {
+            get => _selectedSettingGroup;
+            set => SetProperty(ref _selectedSettingGroup, value);
+        }
+
+        public ObservableCollection<SourceNavItem> NavItems = new ObservableCollection<SourceNavItem>();
+
+        //public ObservableCollection<GroupInfoList> SettingsGroups;
 
         public ICommand SaveSettingsCommand => _saveSettingsCommand ?? (_saveSettingsCommand = new RelayCommand(async () => await SaveSettingsAsync()));
+
+        public ICommand ItemInvokedCommand => _itemInvokedCommand ?? (_itemInvokedCommand = new RelayCommand<WinUI.NavigationViewItemInvokedEventArgs>(OnItemInvoked));
 
         public ConfigurationViewModel()
         {
@@ -27,7 +41,33 @@ namespace Archon.ViewModels
 
         public async Task InitializeAsync()
         {
-            SettingsGroups = await DatabaseService.GetGroupedSettingsAsync();
+            await RetrieveSettingsAsync();
+            SelectedSettingGroup = SettingGroups["ServerSettings"];
+        }
+
+        //This should be updated as settings sources are added
+        private async Task RetrieveSettingsAsync()
+        {
+            ApplicationDataContainer appSettings = ApplicationData.Current.LocalSettings;
+            var gameSettings = (ApplicationDataCompositeValue)appSettings.Values["GameSettings"];
+
+            SettingGroups.Add("ServerSettings", await DatabaseService.GetGroupedSettingsAsync("settings"));
+            NavItems.Add(new SourceNavItem("Base game", "ServerSettings", "\xEA67"));
+
+            if (gameSettings.ContainsKey("ActiveMods") && gameSettings["ActiveMods"].ToString().Contains("731604991"))
+            {
+                SettingGroups.Add("StructuresPlus", await DatabaseService.GetGroupedSettingsAsync("structuresplus"));
+                NavItems.Add(new SourceNavItem("Structures Plus", "StructuresPlus", "\xEA81"));
+            }
+        }
+
+        private void OnItemInvoked(WinUI.NavigationViewItemInvokedEventArgs args)
+        {
+            if (args.InvokedItemContainer is WinUI.NavigationViewItem selectedItem)
+            {
+                SelectedSettingGroup = SettingGroups[(string)selectedItem.Tag];
+            }
+
         }
 
         public async Task SaveSettingsAsync()
@@ -36,37 +76,56 @@ namespace Archon.ViewModels
             StorageFolder localCache = ApplicationData.Current.LocalCacheFolder;
 
             List<string> gameLines = new List<string>() { "[/script/shootergame.shootergamemode]" };
-            List<string> gameUserLines = new List<string>() { "[ServerSettings]" };
+
+            Dictionary<string, List<string>> gameUserLinesSections = new Dictionary<string, List<string>>();
+            //List<string> gameUserLines = new List<string>() { "[ServerSettings]" };
             List<string> scriptSettings = new List<string>();
             List<string> scriptArgs = new List<string>() { " -server" };
 
-            foreach (GroupInfoList group in SettingsGroups)
+            foreach (KeyValuePair<string, ObservableCollection<GroupInfoList>> source in SettingGroups)
             {
-                foreach (GameSetting setting in group)
+                foreach (GroupInfoList group in source.Value)
                 {
-                    if (setting.GetFormattedLine() != "")
+                    foreach (GameSetting setting in group)
                     {
-                        switch (setting.File)
+                        if (setting.GetFormattedLine() != "")
                         {
-                            case File.Game:
-                                gameLines.Add(setting.GetFormattedLine());
-                                break;
-                            case File.GameUserSettings:
-                                gameUserLines.Add(setting.GetFormattedLine());
-                                break;
-                            case File.StartScript:
-                                (setting.Type == "arg" ? scriptArgs : scriptSettings).Add(setting.GetFormattedLine());
-                                break;
-                            default:
-                                break;
+                            switch (setting.File)
+                            {
+                                case File.Game:
+                                    gameLines.Add(setting.GetFormattedLine());
+                                    break;
+                                case File.GameUserSettings:
+                                    string section = source.Key;
+                                    if (setting.Name == "SessionName")
+                                    {
+                                        section = "SessionSettings";
+                                    }
+                                    else if (setting.Name == "MaxPlayers")
+                                    {
+                                        section = "/Script/Engine.GameSession";
+                                    }
+                                    if (!gameUserLinesSections.ContainsKey(section))
+                                    {
+                                        gameUserLinesSections[section] = new List<string>();
+                                    }
+                                    gameUserLinesSections[section].Add(setting.GetFormattedLine());
+                                    break;
+                                case File.StartScript:
+                                    (setting.Type == "arg" ? scriptArgs : scriptSettings).Add(setting.GetFormattedLine());
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }
                 }
             }
+            
 
-            StorageFile ScriptFile = await localCache.CreateFileAsync((string)appSettings.Values["ScriptName"], CreationCollisionOption.OpenIfExists);
-            StorageFile GameFile = await localCache.CreateFileAsync("Game.ini", CreationCollisionOption.OpenIfExists);
-            StorageFile GameUserFile = await localCache.CreateFileAsync("GameUserSettings.ini", CreationCollisionOption.OpenIfExists);
+            StorageFile scriptFile = await localCache.CreateFileAsync((string)appSettings.Values["ScriptName"], CreationCollisionOption.OpenIfExists);
+            StorageFile gameFile = await localCache.CreateFileAsync("Game.ini", CreationCollisionOption.OpenIfExists);
+            StorageFile gameUserFile = await localCache.CreateFileAsync("GameUserSettings.ini", CreationCollisionOption.OpenIfExists);
 
             string startLine = "./ShooterGameServer " + (string)((ApplicationDataCompositeValue)appSettings.Values["GameSettings"])["Map"] + "?listen";
             foreach (string setting in scriptSettings)
@@ -77,10 +136,35 @@ namespace Archon.ViewModels
             {
                 startLine += arg;
             }
+            await FileIO.WriteLinesAsync(scriptFile, new List<string>() { "#! /bin/bash", startLine });
 
-            await FileIO.WriteLinesAsync(GameFile, gameLines);
-            await FileIO.WriteLinesAsync(GameUserFile, gameUserLines);
-            await FileIO.WriteLinesAsync(ScriptFile, new List<string>() { "#! /bin/bash", startLine });
+            await FileIO.WriteLinesAsync(gameFile, gameLines);
+
+            await FileIO.WriteTextAsync(gameUserFile, "");
+            foreach (KeyValuePair<string, List<string>> section in gameUserLinesSections)
+            {
+                List<string> groupedSection = new List<string>() { $"[{section.Key}]" };
+                groupedSection.AddRange(section.Value);
+                //Adds a line between sections for readability
+                groupedSection.Add("");
+                await FileIO.AppendLinesAsync(gameUserFile, groupedSection);
+            }
+            
         }
     }
+
+    public class SourceNavItem
+    {
+        public string Name { get; set; }
+        public string Tag { get; set; }
+        public string Glyph { get; set; }
+
+        public SourceNavItem(string name, string tag, string glyph)
+        {
+            Name = name;
+            Tag = tag;
+            Glyph = glyph;
+        }
+    }
+
 }
