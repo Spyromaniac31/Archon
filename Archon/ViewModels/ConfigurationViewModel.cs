@@ -2,27 +2,37 @@
 using Archon.Services;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
+using WinUI = Microsoft.UI.Xaml.Controls;
 
 namespace Archon.ViewModels
 {
     public class ConfigurationViewModel : ObservableObject
     {
         private ICommand _saveSettingsCommand;
+        private ICommand _itemInvokedCommand;
+        private ObservableCollection<GroupInfoList> _selectedSettingGroup;
 
         public Dictionary<string, ObservableCollection<GroupInfoList>> SettingGroups = new Dictionary<string, ObservableCollection<GroupInfoList>>();
+
+        public ObservableCollection<GroupInfoList> SelectedSettingGroup
+        {
+            get => _selectedSettingGroup;
+            set => SetProperty(ref _selectedSettingGroup, value);
+        }
 
         public ObservableCollection<SourceNavItem> NavItems = new ObservableCollection<SourceNavItem>();
 
         //public ObservableCollection<GroupInfoList> SettingsGroups;
 
         public ICommand SaveSettingsCommand => _saveSettingsCommand ?? (_saveSettingsCommand = new RelayCommand(async () => await SaveSettingsAsync()));
+
+        public ICommand ItemInvokedCommand => _itemInvokedCommand ?? (_itemInvokedCommand = new RelayCommand<WinUI.NavigationViewItemInvokedEventArgs>(OnItemInvoked));
 
         public ConfigurationViewModel()
         {
@@ -32,6 +42,7 @@ namespace Archon.ViewModels
         public async Task InitializeAsync()
         {
             await RetrieveSettingsAsync();
+            SelectedSettingGroup = SettingGroups["ServerSettings"];
         }
 
         //This should be updated as settings sources are added
@@ -48,6 +59,15 @@ namespace Archon.ViewModels
                 SettingGroups.Add("StructuresPlus", await DatabaseService.GetGroupedSettingsAsync("structuresplus"));
                 NavItems.Add(new SourceNavItem("Structures Plus", "StructuresPlus", "\xEA81"));
             }
+        }
+
+        private void OnItemInvoked(WinUI.NavigationViewItemInvokedEventArgs args)
+        {
+            if (args.InvokedItemContainer is WinUI.NavigationViewItem selectedItem)
+            {
+                SelectedSettingGroup = SettingGroups[(string)selectedItem.Tag];
+            }
+
         }
 
         public async Task SaveSettingsAsync()
@@ -123,8 +143,10 @@ namespace Archon.ViewModels
             await FileIO.WriteTextAsync(gameUserFile, "");
             foreach (KeyValuePair<string, List<string>> section in gameUserLinesSections)
             {
-                List<string> groupedSection = new List<string>() { section.Key };
+                List<string> groupedSection = new List<string>() { $"[{section.Key}]" };
                 groupedSection.AddRange(section.Value);
+                //Adds a line between sections for readability
+                groupedSection.Add("");
                 await FileIO.AppendLinesAsync(gameUserFile, groupedSection);
             }
             

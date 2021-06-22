@@ -37,9 +37,30 @@
                 </winui:NavigationViewItem>
             </DataTemplate>
         </winui:NavigationView.MenuItemTemplate>
+        <winui:NavigationView.PaneFooter>
+            <Button x:Name="SaveSettingsButton" Style="{ThemeResource AccentButtonStyle}" HorizontalAlignment="Center" Width="160">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB4B;" />
+                    <TextBlock Text="Save settings" />
+                </StackPanel>
+                <i:Interaction.Behaviors>
+                    <ic:EventTriggerBehavior EventName="Click">
+                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveSettingsCommand}" />
+                    </ic:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </Button>
+        </winui:NavigationView.PaneFooter>
+        <i:Interaction.Behaviors>
+            <ic:EventTriggerBehavior EventName="ItemInvoked">
+                <ic:InvokeCommandAction Command="{x:Bind ViewModel.ItemInvokedCommand}" />
+            </ic:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
         <Grid>
             <Grid.Resources>
-                <CollectionViewSource x:Name="SettingsCVS" IsSourceGrouped="True" />
+                <CollectionViewSource
+                    x:Name="SettingsCVS"
+                    IsSourceGrouped="True"
+                    Source="{x:Bind ViewModel.SelectedSettingGroup, Mode=OneWay}" />
             </Grid.Resources>
             <Grid.RowDefinitions>
                 <RowDefinition x:Name="CommandBarRow" Height="Auto" />
@@ -66,102 +87,102 @@
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE916;" />
                 </AppBarButton.Icon>
             </AppBarButton>
-        </CommandBar>
-        <GridView
-            Grid.Row="1"
-            ItemsSource="{x:Bind SettingsCVS.View, Mode=OneWay}"
-            SelectionMode="None">
-            <GridView.ItemTemplate>
-                <DataTemplate x:DataType="models:GameSetting">
-                    <RelativePanel
-                        Width="264"
-                        MinHeight="140"
-                        Padding="12">
-                        <TextBlock
-                            x:Name="DescriptionTextBlock"
-                            FontSize="20"
-                            FontWeight="SemiBold"
-                            RelativePanel.AlignLeftWithPanel="True"
-                            RelativePanel.AlignTopWithPanel="True"
-                            RelativePanel.LeftOf="HintButton"
-                            Text="{x:Bind Description, Mode=OneWay}"
-                            TextWrapping="Wrap" />
-                        <controls:HintButton
-                            x:Name="HintButton"
-                            x:Load="{x:Bind HasHint, Mode=OneWay}"
-                            HintText="{x:Bind Hint}"
-                            HintTitle="{x:Bind Name}"
-                            RelativePanel.AlignRightWithPanel="True"
-                            RelativePanel.AlignTopWithPanel="True" />
-                        <TextBlock
-                            x:Name="NameTextBlock"
-                            x:Phase="2"
-                            FontWeight="SemiLight"
-                            Foreground="{ThemeResource SystemBaseMediumColor}"
-                            RelativePanel.AlignLeftWith="DescriptionTextBlock"
-                            RelativePanel.Below="DescriptionTextBlock"
-                            Text="{x:Bind Name, Mode=OneWay}" />
-                        <StackPanel
-                            x:Name="PercentControl"
-                            x:Load="{x:Bind IsTypePercent, Mode=OneWay}"
-                            x:Phase="1"
-                            Orientation="Horizontal"
-                            RelativePanel.AlignLeftWith="NameTextBlock"
-                            RelativePanel.Below="NameTextBlock">
-                            <Slider
-                                x:Name="PercentSlider"
-                                Width="150"
-                                Margin="0,6"
-                                Maximum="5"
-                                Minimum="0"
-                                Value="{Binding CurrentValue, Mode=TwoWay, Converter={StaticResource StringToDoubleConverter}}" />
+        </CommandBar>-->
+            <GridView
+                Grid.Row="1"
+                ItemsSource="{x:Bind SettingsCVS.View, Mode=OneWay}"
+                SelectionMode="None">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="models:GameSetting">
+                        <RelativePanel
+                            Width="264"
+                            MinHeight="140"
+                            Padding="12">
+                            <TextBlock
+                                x:Name="DescriptionTextBlock"
+                                FontSize="20"
+                                FontWeight="SemiBold"
+                                RelativePanel.AlignLeftWithPanel="True"
+                                RelativePanel.AlignTopWithPanel="True"
+                                RelativePanel.LeftOf="HintButton"
+                                Text="{x:Bind Description, Mode=OneWay}"
+                                TextWrapping="Wrap" />
+                            <controls:HintButton
+                                x:Name="HintButton"
+                                x:Load="{x:Bind HasHint, Mode=OneWay}"
+                                HintText="{x:Bind Hint}"
+                                HintTitle="{x:Bind Name}"
+                                RelativePanel.AlignRightWithPanel="True"
+                                RelativePanel.AlignTopWithPanel="True" />
+                            <TextBlock
+                                x:Name="NameTextBlock"
+                                x:Phase="2"
+                                FontWeight="SemiLight"
+                                Foreground="{ThemeResource SystemBaseMediumColor}"
+                                RelativePanel.AlignLeftWith="DescriptionTextBlock"
+                                RelativePanel.Below="DescriptionTextBlock"
+                                Text="{x:Bind Name, Mode=OneWay}" />
+                            <StackPanel
+                                x:Name="PercentControl"
+                                x:Load="{x:Bind IsTypePercent, Mode=OneWay}"
+                                x:Phase="1"
+                                Orientation="Horizontal"
+                                RelativePanel.AlignLeftWith="NameTextBlock"
+                                RelativePanel.Below="NameTextBlock">
+                                <Slider
+                                    x:Name="PercentSlider"
+                                    Width="150"
+                                    Margin="0,6"
+                                    Maximum="5"
+                                    Minimum="0"
+                                    Value="{Binding CurrentValue, Mode=TwoWay, Converter={StaticResource StringToDoubleConverter}}" />
+                                <winui:NumberBox
+                                    x:Name="PercentNumber"
+                                    Margin="8,6,12,0"
+                                    Value="{Binding Value, ElementName=PercentSlider, Mode=TwoWay}" />
+                            </StackPanel>
                             <winui:NumberBox
-                                x:Name="PercentNumber"
-                                Margin="8,6,12,0"
-                                Value="{Binding Value, ElementName=PercentSlider, Mode=TwoWay}" />
-                        </StackPanel>
-                        <winui:NumberBox
-                            x:Name="NumberBox"
-                            Width="100"
-                            Margin="0,6"
-                            HorizontalAlignment="Left"
-                            x:Load="{x:Bind IsTypeNumber, Mode=OneWay}"
-                            x:Phase="1"
-                            RelativePanel.AlignLeftWith="NameTextBlock"
-                            RelativePanel.Below="NameTextBlock"
-                            Value="{Binding CurrentValue, Mode=TwoWay, Converter={StaticResource StringToDoubleConverter}}" />
-                        <TextBox
-                            x:Name="StringBox"
-                            Margin="0,6"
-                            x:Load="{x:Bind IsTypeString, Mode=OneWay}"
-                            x:Phase="1"
-                            RelativePanel.AlignLeftWith="NameTextBlock"
-                            RelativePanel.Below="NameTextBlock"
-                            Text="{x:Bind CurrentValue, Mode=TwoWay}" />
-                        <ToggleSwitch
-                            x:Name="BoolSwitch"
-                            x:Load="{x:Bind IsTypeBool, Mode=OneWay}"
-                            x:Phase="1"
-                            IsOn="{Binding CurrentValue, Mode=TwoWay, Converter={StaticResource StringToBooleanConverter}}"
-                            OffContent=""
-                            OnContent=""
-                            RelativePanel.AlignLeftWith="NameTextBlock"
-                            RelativePanel.Below="NameTextBlock" />
-                    </RelativePanel>
-                </DataTemplate>
-            </GridView.ItemTemplate>
-            <GridView.GroupStyle>
-                <GroupStyle>
-                    <GroupStyle.HeaderTemplate>
-                        <DataTemplate x:DataType="models:GroupInfoList">
-                            <Border AutomationProperties.Name="{x:Bind Key}">
-                                <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Text="{x:Bind Key}" />
-                            </Border>
-                        </DataTemplate>
-                    </GroupStyle.HeaderTemplate>
-                </GroupStyle>
-            </GridView.GroupStyle>
-        </GridView>-->
+                                x:Name="NumberBox"
+                                Width="100"
+                                Margin="0,6"
+                                HorizontalAlignment="Left"
+                                x:Load="{x:Bind IsTypeNumber, Mode=OneWay}"
+                                x:Phase="1"
+                                RelativePanel.AlignLeftWith="NameTextBlock"
+                                RelativePanel.Below="NameTextBlock"
+                                Value="{Binding CurrentValue, Mode=TwoWay, Converter={StaticResource StringToDoubleConverter}}" />
+                            <TextBox
+                                x:Name="StringBox"
+                                Margin="0,6"
+                                x:Load="{x:Bind IsTypeString, Mode=OneWay}"
+                                x:Phase="1"
+                                RelativePanel.AlignLeftWith="NameTextBlock"
+                                RelativePanel.Below="NameTextBlock"
+                                Text="{x:Bind CurrentValue, Mode=TwoWay}" />
+                            <ToggleSwitch
+                                x:Name="BoolSwitch"
+                                x:Load="{x:Bind IsTypeBool, Mode=OneWay}"
+                                x:Phase="1"
+                                IsOn="{Binding CurrentValue, Mode=TwoWay, Converter={StaticResource StringToBooleanConverter}}"
+                                OffContent=""
+                                OnContent=""
+                                RelativePanel.AlignLeftWith="NameTextBlock"
+                                RelativePanel.Below="NameTextBlock" />
+                        </RelativePanel>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+                <GridView.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate x:DataType="models:GroupInfoList">
+                                <Border AutomationProperties.Name="{x:Bind Key}">
+                                    <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Text="{x:Bind Key}" />
+                                </Border>
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+                    </GroupStyle>
+                </GridView.GroupStyle>
+            </GridView>
         </Grid>
     </winui:NavigationView>
 </Page>
