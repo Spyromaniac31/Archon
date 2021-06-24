@@ -18,12 +18,12 @@ namespace Archon.Views
             DataContext = ViewModel;
 
             //I want to put this in an async method but I don't know one that won't be called multiple times in the page's lifespan
-            ViewModel.InitializeAsync();
+            //ViewModel.InitializeAsync();
         }
 
         private async void Page_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            //await ViewModel.InitializeAsync();
+            await ViewModel.InitializeAsync();
             //SettingsCVS.Source = ViewModel.SelectedSettingGroup;
         }
     }
