@@ -38,7 +38,12 @@
             </DataTemplate>
         </winui:NavigationView.MenuItemTemplate>
         <winui:NavigationView.PaneFooter>
-            <Button x:Name="SaveSettingsButton" Style="{ThemeResource AccentButtonStyle}" HorizontalAlignment="Center" Width="160">
+            <Button
+                x:Name="SaveSettingsButton"
+                Width="160"
+                Margin="0,0,0,-40"
+                HorizontalAlignment="Center"
+                Style="{ThemeResource AccentButtonStyle}">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB4B;" />
                     <TextBlock Text="Save settings" />
@@ -96,7 +101,7 @@
                     <DataTemplate x:DataType="models:GameSetting">
                         <RelativePanel
                             Width="264"
-                            MinHeight="140"
+                            MinHeight="150"
                             Padding="12">
                             <TextBlock
                                 x:Name="DescriptionTextBlock"
@@ -121,24 +126,29 @@
                                 Foreground="{ThemeResource SystemBaseMediumColor}"
                                 RelativePanel.AlignLeftWith="DescriptionTextBlock"
                                 RelativePanel.Below="DescriptionTextBlock"
-                                Text="{x:Bind Name, Mode=OneWay}" />
+                                Text="{x:Bind Name, Mode=OneWay}"
+                                TextTrimming="CharacterEllipsis" />
                             <StackPanel
                                 x:Name="PercentControl"
+                                Width="240"
                                 x:Load="{x:Bind IsTypePercent, Mode=OneWay}"
                                 x:Phase="1"
                                 Orientation="Horizontal"
                                 RelativePanel.AlignLeftWith="NameTextBlock"
+                                RelativePanel.AlignRightWithPanel="True"
                                 RelativePanel.Below="NameTextBlock">
                                 <Slider
                                     x:Name="PercentSlider"
-                                    Width="150"
+                                    Width="168"
                                     Margin="0,6"
                                     Maximum="5"
                                     Minimum="0"
                                     Value="{Binding CurrentValue, Mode=TwoWay, Converter={StaticResource StringToDoubleConverter}}" />
                                 <winui:NumberBox
                                     x:Name="PercentNumber"
-                                    Margin="8,6,12,0"
+                                    Width="64"
+                                    Margin="8,6,0,0"
+                                    PlaceholderText="{Binding DefaultValue, Mode=OneWay, Converter={StaticResource StringToDoubleConverter}}"
                                     Value="{Binding Value, ElementName=PercentSlider, Mode=TwoWay}" />
                             </StackPanel>
                             <winui:NumberBox
@@ -148,14 +158,17 @@
                                 HorizontalAlignment="Left"
                                 x:Load="{x:Bind IsTypeNumber, Mode=OneWay}"
                                 x:Phase="1"
+                                PlaceholderText="{Binding DefaultValue, Mode=OneWay, Converter={StaticResource StringToDoubleConverter}}"
                                 RelativePanel.AlignLeftWith="NameTextBlock"
                                 RelativePanel.Below="NameTextBlock"
                                 Value="{Binding CurrentValue, Mode=TwoWay, Converter={StaticResource StringToDoubleConverter}}" />
                             <TextBox
                                 x:Name="StringBox"
+                                Width="240"
                                 Margin="0,6"
                                 x:Load="{x:Bind IsTypeString, Mode=OneWay}"
                                 x:Phase="1"
+                                PlaceholderText="{x:Bind DefaultValue, Mode=OneWay}"
                                 RelativePanel.AlignLeftWith="NameTextBlock"
                                 RelativePanel.Below="NameTextBlock"
                                 Text="{x:Bind CurrentValue, Mode=TwoWay}" />
