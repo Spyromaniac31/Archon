@@ -89,25 +89,40 @@ namespace Archon.ViewModels
             var scriptSettings = await FileParsers.ParseScriptAsync(_script);
             foreach (var setting in scriptSettings)
             {
-                gameSettings[setting.Key] = setting.Value;
+                AddOrConcat(gameSettings, setting);
             }
 
             Status = "Reading Game.ini";
             var gameIniSettings = await FileParsers.ParseIniAsync(_gameIni);
             foreach (var setting in gameIniSettings)
             {
-                gameSettings[setting.Key] = setting.Value;
+                AddOrConcat(gameSettings, setting);
             }
 
             Status = "Reading GameUserSettings.ini";
             var gameUserIniSettings = await FileParsers.ParseIniAsync(_gameUserIni);
             foreach (var setting in gameUserIniSettings)
             {
-                gameSettings[setting.Key] = setting.Value;
+                AddOrConcat(gameSettings, setting);
             }
 
             ApplicationDataContainer appSettings = ApplicationData.Current.LocalSettings;
             appSettings.Values["GameSettings"] = gameSettings;
+        }
+
+        private void AddOrConcat(ApplicationDataCompositeValue settings, KeyValuePair<string, string> keyValuePair)
+        {
+            if (settings.ContainsKey(keyValuePair.Key))
+            {
+                if ((string)settings[keyValuePair.Key] != keyValuePair.Value)
+                {
+                    settings[keyValuePair.Key] = settings[keyValuePair.Key] + "," + keyValuePair.Value;
+                }
+            }
+            else
+            {
+                settings[keyValuePair.Key] = keyValuePair.Value;
+            }
         }
 
     }
