@@ -5,7 +5,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" ControlsResourcesVersion="Version1" />
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" ControlsResourcesVersion="Version2" />
             </ResourceDictionary.MergedDictionaries>
 
             <FontFamily x:Key="FluentUIGlyphs">/Assets/fluentui.ttf#fluentui</FontFamily>
@@ -27,7 +27,7 @@
             <!--#endregion-->
 
             <Style x:Key="ContentPage" TargetType="Page">
-                <Setter Property="Background" Value="{ThemeResource SystemChromeLowColor}" />
+                <Setter Property="Background" Value="{ThemeResource LayerFillColorDefaultBrush}" />
             </Style>
 
             <!--#region App Setup-->

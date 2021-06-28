@@ -13,6 +13,7 @@
             x:Name="SaveButton"
             Margin="12"
             Background="Transparent"
+            BorderBrush="Transparent"
             Click="{x:Bind Clicked}"
             PointerEntered="Button_PointerEntered"
             PointerExited="Button_PointerExited"

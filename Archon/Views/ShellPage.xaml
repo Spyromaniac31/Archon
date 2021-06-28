@@ -10,9 +10,10 @@
     xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:views="using:Archon.Views"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
-    xmlns:services="using:Archon.Services"
     ui:ApplicationViewExtensions.ExtendViewIntoTitleBar="False"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    winui:BackdropMaterial.ApplyToRootOrPageBackground="True"
+    xmlns:services="using:Archon.Services"
     mc:Ignorable="d">
 
     <!--  This connects the page's Loaded event to a command in the ViewModel  -->
@@ -22,41 +23,67 @@
         </ic:EventTriggerBehavior>
     </i:Interaction.Behaviors>
 
-    <winui:NavigationView
-        x:Name="navigationView"
-        Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
-        IsBackButtonVisible="Collapsed"
-        IsSettingsVisible="True"
-        PaneDisplayMode="Top"
-        SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}"
-        Visibility="Visible">
-        <winui:NavigationView.MenuItems>
-            <winui:NavigationViewItem helpers:NavHelper.NavigateTo="views:DashboardPage" Content="Dashboard">
-                <winui:NavigationViewItem.Icon>
-                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB2A;" />
-                </winui:NavigationViewItem.Icon>
-            </winui:NavigationViewItem>
-            <winui:NavigationViewItem helpers:NavHelper.NavigateTo="views:ConfigurationPage" Content="Configuration">
-                <winui:NavigationViewItem.Icon>
-                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB5E;" />
-                </winui:NavigationViewItem.Icon>
-            </winui:NavigationViewItem>
-            <!--<winui:NavigationViewItem x:Uid="Shell_Intro" helpers:NavHelper.NavigateTo="views:IntroPage"/>-->
-        </winui:NavigationView.MenuItems>
-        <i:Interaction.Behaviors>
-            <ic:EventTriggerBehavior EventName="ItemInvoked">
-                <ic:InvokeCommandAction Command="{x:Bind ViewModel.ItemInvokedCommand}" />
-            </ic:EventTriggerBehavior>
-        </i:Interaction.Behaviors>
-        <Grid>
-            <Frame x:Name="shellFrame" />
-            <ListView ItemsSource="{x:Bind ViewModel.AppErrors}">
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="services:AppError">
-                        <winui:InfoBar Title="{x:Bind Title}" Message="{x:Bind Message}" Severity="{x:Bind Severity}"/>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </Grid>
-    </winui:NavigationView>
+    <Grid>
+        <Border 
+            x:Name="AppTitleBar"
+            IsHitTestVisible="True"
+            VerticalAlignment="Top"
+            Background="Transparent"
+            Height="32"
+            Margin="16,0,0,0"
+            Canvas.ZIndex="1">
+            <StackPanel Orientation="Horizontal">
+                <Image 
+                    x:Name="AppFontIcon"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Source="ms-appx:///Assets/StoreLogo.png"
+                    Width="16"
+                    Height="16"/>
+                <TextBlock 
+                    x:Name="AppTitle"
+                    Text="Archon"
+                    VerticalAlignment="Center"
+                    Margin="12,0,0,0"
+                    Style="{StaticResource CaptionTextBlockStyle}"/>
+            </StackPanel>
+        </Border>
+        <winui:NavigationView
+            x:Name="navigationView"
+            Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
+            IsBackButtonVisible="Collapsed"
+            IsSettingsVisible="True"
+            PaneDisplayMode="Top"
+            SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}"
+            Visibility="Visible"
+            Canvas.ZIndex="0">
+            <winui:NavigationView.MenuItems>
+                <winui:NavigationViewItem helpers:NavHelper.NavigateTo="views:DashboardPage" Content="Dashboard">
+                    <winui:NavigationViewItem.Icon>
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB2A;" />
+                    </winui:NavigationViewItem.Icon>
+                </winui:NavigationViewItem>
+                <winui:NavigationViewItem helpers:NavHelper.NavigateTo="views:ConfigurationPage" Content="Configuration">
+                    <winui:NavigationViewItem.Icon>
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB5E;" />
+                    </winui:NavigationViewItem.Icon>
+                </winui:NavigationViewItem>
+            </winui:NavigationView.MenuItems>
+            <i:Interaction.Behaviors>
+                <ic:EventTriggerBehavior EventName="ItemInvoked">
+                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.ItemInvokedCommand}" />
+                </ic:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+            <Grid>
+                <Frame x:Name="shellFrame" />
+                <ListView ItemsSource="{x:Bind ViewModel.AppErrors}" VerticalAlignment="Bottom">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="services:AppError">
+                            <winui:InfoBar Title="{x:Bind Title}" Message="{x:Bind Message}" Severity="{x:Bind Severity}"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </winui:NavigationView>
+    </Grid>
 </Page>
