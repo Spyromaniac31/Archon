@@ -10,6 +10,7 @@
     xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:views="using:Archon.Views"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    xmlns:services="using:Archon.Services"
     ui:ApplicationViewExtensions.ExtendViewIntoTitleBar="False"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
@@ -49,6 +50,13 @@
         </i:Interaction.Behaviors>
         <Grid>
             <Frame x:Name="shellFrame" />
+            <ListView ItemsSource="{x:Bind ViewModel.AppErrors}">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="services:AppError">
+                        <winui:InfoBar Title="{x:Bind Title}" Message="{x:Bind Message}" Severity="{x:Bind Severity}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </Grid>
     </winui:NavigationView>
 </Page>

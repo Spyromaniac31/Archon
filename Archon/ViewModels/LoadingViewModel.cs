@@ -13,12 +13,6 @@ namespace Archon.ViewModels
 {
     public class LoadedEventArgs : EventArgs
     {
-        public LoadedEventArgs(List<string> errors)
-        {
-            Errors = errors;
-        }
-
-        public List<string> Errors { get; set; }
     }
 
     public class LoadingViewModel : ObservableObject
@@ -60,7 +54,6 @@ namespace Archon.ViewModels
             await InitializeAsync();
             await CacheFilesAsync();
             await ParseFilesAsync();
-            //TODO: Populate the event args with any errors that arise
             //When the ShellPage is loaded, it changes the NavigationService frame, so then we can navigate to the dashboard within the shell
             _ = NavigationService.Navigate(typeof(ShellPage));
             _ = NavigationService.Navigate(typeof(DashboardPage));
@@ -72,13 +65,13 @@ namespace Archon.ViewModels
             ApplicationDataContainer appSettings = ApplicationData.Current.LocalSettings;
 
             string scriptPath = (string)appSettings.Values["Directory"] + "/ShooterGame/Binaries/Linux/" + (string)appSettings.Values["ScriptName"];
-            await SshService.DownloadFileAsync(_script, scriptPath);
+            _ = await SshService.DownloadFileAsync(_script, scriptPath);
 
             string gameIniPath = (string)appSettings.Values["Directory"] + "/ShooterGame/Saved/Config/LinuxServer/Game.ini";
-            await SshService.DownloadFileAsync(_gameIni, gameIniPath);
+            _ = await SshService.DownloadFileAsync(_gameIni, gameIniPath);
 
             string gameUserIniPath = (string)appSettings.Values["Directory"] + "/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini";
-            await SshService.DownloadFileAsync(_gameUserIni, gameUserIniPath);
+            _ = await SshService.DownloadFileAsync(_gameUserIni, gameUserIniPath);
         }
 
         private async Task ParseFilesAsync()

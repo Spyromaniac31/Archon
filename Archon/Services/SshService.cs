@@ -106,9 +106,17 @@ namespace Archon.Services
                 }
                 catch
                 {
-                    return false;
-                    //var stream = await localFile.OpenStreamForWriteAsync();
-                    //await SftpClient.DownloadAsync(remotePath, stream);
+                    try
+                    {
+                        //TODO: Sometimes this works when the other method doesn't? Still have to figure out what actually causes the stupid MAC exception
+                        var stream = await localFile.OpenStreamForWriteAsync();
+                        await SftpClient.DownloadAsync(remotePath, stream);
+                    }
+                    catch
+                    {
+                        ErrorReporterService.ReportError("Download failed", "Archon ran into an issue while downloading a file. The app will use a previously cached version of the file, so setting information may be out-of-date.", "Warning");
+                        return false;
+                    }
                 }
 
                 SftpClient.Disconnect();
@@ -130,16 +138,16 @@ namespace Archon.Services
             }
             catch
             {
-                //TODO: Show message about trying backup IP
                 SshClient = new SshClient(GetBackupConnectionInfo());
                 try
                 {
                     SshClient.Connect();
+                    ErrorReporterService.ReportError("Backup IP used", "The primary IP address failed to connect, but Archon was able to connect using the backup IP address.", "Informational");
                     return true;
                 }
                 catch
                 {
-                    //TODO: Show message
+                    ErrorReporterService.ReportError("Connection failed", "Archon failed to establish an SSH connection using either IP address", "Error");
                     return false;
                 }
             }
@@ -157,16 +165,16 @@ namespace Archon.Services
             }
             catch
             {
-                //TODO: Show message about trying backup IP
                 SftpClient = new SftpClient(GetBackupConnectionInfo());
                 try
                 {
                     SftpClient.Connect();
+                    ErrorReporterService.ReportError("Backup IP used", "The primary IP address failed to connect, but Archon was able to connect using the backup IP address.", "Informational");
                     return true;
                 }
                 catch
                 {
-                    //TODO: Show message
+                    ErrorReporterService.ReportError("Connection failed", "Archon failed to establish an SFTP connection using either IP address", "Error");
                     return false;
                 }
             }

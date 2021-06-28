@@ -30,9 +30,16 @@ namespace Archon.Services
             }
         }
 
-        public async static Task<string> SendCommandAsync(string command)
+        public static async Task<string> SendCommandAsync(string command)
         {
-            await RconClient.ConnectAsync();
+            try
+            {
+                await RconClient.ConnectAsync();
+            }
+            catch
+            {
+                ErrorReporterService.ReportError("RCON failure", "Archon was unable to connect to your server using RCON. Ensure RCON is enabled, you have an ARK server admin password, and port forwarding is set up correctly.", "Error");
+            }
             string response = await RconClient.SendCommandAsync(command);
             return response;
         }

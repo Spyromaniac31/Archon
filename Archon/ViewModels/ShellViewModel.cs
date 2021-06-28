@@ -5,6 +5,7 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -35,6 +36,8 @@ namespace Archon.ViewModels
             set => SetProperty(ref _selected, value);
         }
 
+        public ObservableCollection<AppError> AppErrors { get; set; } = new ObservableCollection<AppError>();
+
         public ICommand LoadedCommand => _loadedCommand ?? (_loadedCommand = new RelayCommand(OnLoaded));
 
         public ICommand ItemInvokedCommand => _itemInvokedCommand ?? (_itemInvokedCommand = new RelayCommand<WinUI.NavigationViewItemInvokedEventArgs>(OnItemInvoked));
@@ -56,6 +59,8 @@ namespace Archon.ViewModels
             NavigationService.NavigationFailed += Frame_NavigationFailed;
             NavigationService.Navigated += Frame_Navigated;
             _navigationView.BackRequested += OnBackRequested;
+
+            AppErrors = ErrorReporterService.AppErrors;
         }
 
         private async void OnLoaded()
