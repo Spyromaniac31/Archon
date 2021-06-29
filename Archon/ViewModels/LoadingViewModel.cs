@@ -44,11 +44,6 @@ namespace Archon.ViewModels
             _gameUserIni = await localCache.CreateFileAsync("GameUserSettings.ini", CreationCollisionOption.OpenIfExists);
         }
 
-        private void OnRaiseLoadedEvent(LoadedEventArgs e)
-        {
-            RaiseLoadedEvent?.Invoke(this, e);
-        }
-
         private async Task OnLoadedAsync()
         {
             await InitializeAsync();
@@ -107,7 +102,7 @@ namespace Archon.ViewModels
         {
             if (settings.ContainsKey(keyValuePair.Key))
             {
-                if ((string)settings[keyValuePair.Key] != keyValuePair.Value)
+                if (((string)settings[keyValuePair.Key]).ToLower() != keyValuePair.Value.ToLower())
                 {
                     settings[keyValuePair.Key] = settings[keyValuePair.Key] + "," + keyValuePair.Value;
                 }

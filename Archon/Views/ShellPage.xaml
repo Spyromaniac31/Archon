@@ -81,7 +81,9 @@
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="services:AppError">
                             <winui:InfoBar
+                                Margin="8,20"
                                 Title="{x:Bind Title}"
+                                IsOpen="True"
                                 Message="{x:Bind Message}"
                                 Severity="{x:Bind Severity, Converter={StaticResource StringToSeverityConverter}}" />
                         </DataTemplate>

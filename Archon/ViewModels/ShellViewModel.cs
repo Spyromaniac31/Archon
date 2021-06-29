@@ -23,6 +23,7 @@ namespace Archon.ViewModels
         private WinUI.NavigationViewItem _selected;
         private ICommand _loadedCommand;
         private ICommand _itemInvokedCommand;
+        private ObservableCollection<AppError> _appErrors;
 
         public bool IsBackEnabled
         {
@@ -36,7 +37,11 @@ namespace Archon.ViewModels
             set => SetProperty(ref _selected, value);
         }
 
-        public ObservableCollection<AppError> AppErrors { get; set; } = new ObservableCollection<AppError>();
+        public ObservableCollection<AppError> AppErrors
+        {
+            get => _appErrors;
+            set => SetProperty(ref _appErrors, value);
+        }
 
         public ICommand LoadedCommand => _loadedCommand ?? (_loadedCommand = new RelayCommand(OnLoaded));
 
