@@ -12,11 +12,10 @@
         <Button
             x:Name="ToggleButton"
             HorizontalAlignment="Center"
-            BorderBrush="Transparent"
-            Background="Transparent"
             Click="{x:Bind Clicked}"
             PointerEntered="ToggleButton_PointerEntered"
             PointerExited="ToggleButton_PointerExited"
+            Style="{StaticResource TransparentButton}"
             ToolTipService.ToolTip="Start ARK">
             <Button.Content>
                 <FontIcon

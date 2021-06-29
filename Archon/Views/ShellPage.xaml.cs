@@ -41,9 +41,6 @@ namespace Archon.Views
             // For example, when the title bar is invoked in full screen mode.
             coreTitleBar.IsVisibleChanged += CoreTitleBar_IsVisibleChanged;
 
-            //Register a handler for when the window changes focus
-            Window.Current.Activated += Current_Activated;
-
             DataContext = ViewModel;
             ViewModel.Initialize(shellFrame, navigationView);
         }
@@ -66,17 +63,6 @@ namespace Archon.Views
         private void CoreTitleBar_IsVisibleChanged(CoreApplicationViewTitleBar sender, object args)
         {
             AppTitleBar.Visibility = sender.IsVisible ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        // Update the TitleBar based on the inactive/active state of the app
-        private void Current_Activated(object sender, Windows.UI.Core.WindowActivatedEventArgs e)
-        {
-            SolidColorBrush defaultForegroundBrush = (SolidColorBrush)Application.Current.Resources["TextFillColorPrimaryBrush"];
-            SolidColorBrush inactiveForegroundBrush = (SolidColorBrush)Application.Current.Resources["TextFillColorDisabledBrush"];
-
-            AppTitle.Foreground = e.WindowActivationState == Windows.UI.Core.CoreWindowActivationState.Deactivated
-                ? inactiveForegroundBrush
-                : defaultForegroundBrush;
         }
     }
 }

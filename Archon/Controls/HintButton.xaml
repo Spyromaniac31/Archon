@@ -14,8 +14,8 @@
             x:Name="IconButton"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Background="Transparent"
-            Click="HintButton_Click">
+            Click="HintButton_Click"
+            Style="{StaticResource TransparentButton}">
             <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE99E;" />
         </Button>
         <winui:TeachingTip

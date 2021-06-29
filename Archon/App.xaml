@@ -10,7 +10,6 @@
 
             <FontFamily x:Key="FluentUIGlyphs">/Assets/fluentui.ttf#fluentui</FontFamily>
 
-
             <!--#region Text-->
             <Style x:Key="BoldHeader" TargetType="TextBlock">
                 <Setter Property="FontWeight" Value="Bold" />
@@ -29,6 +28,13 @@
             <Style x:Key="ContentPage" TargetType="Page">
                 <Setter Property="Background" Value="{ThemeResource LayerFillColorDefaultBrush}" />
             </Style>
+
+            <Style x:Key="TransparentButton" TargetType="Button">
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="CornerRadius" Value="4" />
+            </Style>
+            <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="Transparent" />
 
             <!--#region App Setup-->
             <Style x:Key="SetupGraphic" TargetType="Image">

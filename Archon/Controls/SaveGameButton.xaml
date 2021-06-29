@@ -12,11 +12,10 @@
         <Button
             x:Name="SaveButton"
             Margin="12"
-            Background="Transparent"
-            BorderBrush="Transparent"
             Click="{x:Bind Clicked}"
             PointerEntered="Button_PointerEntered"
             PointerExited="Button_PointerExited"
+            Style="{StaticResource TransparentButton}"
             ToolTipService.ToolTip="Save game">
             <Button.Content>
                 <FontIcon
