@@ -149,6 +149,7 @@
     <Compile Include="Helpers\StringExtensions.cs" />
     <Compile Include="Helpers\StringToBooleanConverter.cs" />
     <Compile Include="Helpers\StringToDoubleConverter.cs" />
+    <Compile Include="Helpers\StringToSeverityConverter.cs" />
     <Compile Include="Models\GameSetting.cs" />
     <Compile Include="Models\GroupInfoList.cs" />
     <Compile Include="Services\ActivationService.cs" />
