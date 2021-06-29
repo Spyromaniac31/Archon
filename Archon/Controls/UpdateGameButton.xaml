@@ -12,10 +12,10 @@
         <Button
             x:Name="UpdateButton"
             Margin="12"
-            Background="Transparent"
             Click="{x:Bind Clicked}"
             PointerEntered="UpdateButton_PointerEntered"
             PointerExited="UpdateButton_PointerExited"
+            Style="{StaticResource TransparentButton}"
             ToolTipService.ToolTip="Update ARK">
             <Button.Content>
                 <FontIcon

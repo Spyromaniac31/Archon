@@ -3,7 +3,9 @@ using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
+using Windows.UI;
 using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 
 namespace Archon.Services
@@ -39,6 +41,8 @@ namespace Archon.Services
                     }
                 });
             }
+
+            UpdateSystemCaptionButtonColors();
         }
 
         private static async Task<ElementTheme> LoadThemeFromSettingsAsync()
@@ -57,6 +61,18 @@ namespace Archon.Services
         private static async Task SaveThemeInSettingsAsync(ElementTheme theme)
         {
             await ApplicationData.Current.LocalSettings.SaveAsync(SettingsKey, theme.ToString());
+        }
+
+        public static bool IsDarkTheme()
+        {
+            return Theme == ElementTheme.Default ? Application.Current.RequestedTheme == ApplicationTheme.Dark : Theme == ElementTheme.Dark;
+        }
+
+        public static void UpdateSystemCaptionButtonColors()
+        {
+            ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
+
+            titleBar.ButtonForegroundColor = IsDarkTheme() ? Colors.White : Colors.Black;
         }
     }
 }
