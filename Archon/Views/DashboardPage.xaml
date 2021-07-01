@@ -14,6 +14,7 @@
     mc:Ignorable="d">
     <Page.Resources>
         <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <helpers:BooleanInversionConverter x:Key="BooleanInversionConverter" />
     </Page.Resources>
     <Grid>
         <StackPanel
