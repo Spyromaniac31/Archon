@@ -27,6 +27,8 @@ namespace Archon.ViewModels
         private bool _saveErrorOpen = false;
         private bool _updateErrorOpen = false;
         private bool _isWaiting = false;
+        private bool _connectionFailed;
+        private bool _connectionSuccess;
         private string _serverName;
         private string _ipAddress;
 
@@ -34,11 +36,7 @@ namespace Archon.ViewModels
 
         public bool IsServerRunning
         {
-            get
-            {
-                UpdateServerStatus();
-                return _isServerRunning;
-            }
+            get => ConnectionSuccess && _isServerRunning;
             private set
             {
                 if (value != _isServerRunning)
@@ -48,6 +46,20 @@ namespace Archon.ViewModels
                 }
             }
         }
+
+        //I'd rather use !ConnectionFailed but this is easier for now
+        public bool ConnectionSuccess
+        {
+            get => _connectionSuccess;
+            set => SetProperty(ref _connectionSuccess, value);
+        }
+
+        public bool ConnectionFailed
+        {
+            get => _connectionFailed;
+            set => SetProperty(ref _connectionFailed, value);
+        }
+
         public bool IsWaiting
         {
             get => _isWaiting;
@@ -79,18 +91,33 @@ namespace Archon.ViewModels
         public ICommand UpdateGameCommand => _updateGameCommand ?? (_updateGameCommand = new RelayCommand(async () => await UpdateGameAsync()));
         public ICommand ToggleServerCommand => _toggleServerCommand ?? (_toggleServerCommand = new RelayCommand(async () => await ToggleServerAsync()));
 
-        public void Initialize()
+        public async Task InitializeAsync()
         {
             IsWaiting = false;
             var appSettings = ApplicationData.Current.LocalSettings.Values;
             ServerName = (string)((ApplicationDataCompositeValue)appSettings["GameSettings"])["SessionName"];
             IPAddress = (string)appSettings["Hostname"];
-            UpdateServerStatus();
+            IsWaiting = true;
+            await UpdateServerStatusAsync();
+            IsWaiting = false;
         }
 
-        private void UpdateServerStatus()
+        private async Task UpdateServerStatusAsync()
         {
-            IsServerRunning = !string.IsNullOrEmpty(SshService.ExecuteCommand("pidof ShooterGameServer"));
+            var sshResult = await SshService.ExecuteCommandAsync("pidof ShooterGameServer");
+
+            if (sshResult == "Failed to connect")
+            {
+                ConnectionSuccess = false;
+                ConnectionFailed = true;
+                IsServerRunning = false;
+            }
+            else
+            {
+                ConnectionSuccess = true;
+                ConnectionFailed = false;
+                IsServerRunning = !string.IsNullOrEmpty(sshResult);
+            }
         }
 
         public async Task SaveGameAsync()

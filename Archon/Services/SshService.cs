@@ -58,21 +58,9 @@ namespace Archon.Services
             return new PasswordConnectionInfo(hostname, username, password);
         }
 
-        public static string ExecuteCommand(string command)
-        {
-            if (ConnectSsh())
-            {
-                var sshCommand = SshClient.CreateCommand(command);
-                string output = sshCommand.Execute();
-                SshClient.Disconnect();
-                return output;
-            }
-            return "Failed to connect";
-        }
-
         public static async Task<string> ExecuteCommandAsync(string command)
         {
-            if (ConnectSsh())
+            if (await ConnectSshAsync())
             {
                 var sshCommand = SshClient.CreateCommand(command);
                 //We want to make sure we await the output before we disconnect so that we get the entire output
@@ -85,7 +73,7 @@ namespace Archon.Services
 
         public static async Task<bool> UploadFileAsync(StorageFile localFile, string remotePath)
         {
-            if (ConnectSftp())
+            if (await ConnectSftpAsync())
             {
                 var stream = await localFile.OpenStreamForReadAsync();
                 SftpClient.UploadFile(stream, remotePath);
@@ -97,7 +85,7 @@ namespace Archon.Services
 
         public static async Task<bool> DownloadFileAsync(StorageFile localFile, string remotePath)
         {
-            if (ConnectSftp())
+            if (await ConnectSftpAsync())
             {
                 try
                 {
@@ -125,7 +113,7 @@ namespace Archon.Services
             return false;
         }
 
-        private static bool ConnectSsh()
+        private static async Task<bool> ConnectSshAsync()
         {
             if (SshClient.IsConnected)
             {
@@ -133,7 +121,7 @@ namespace Archon.Services
             }
             try
             {
-                SshClient.Connect();
+                await SshClient.ConnectAsync();
                 return true;
             }
             catch
@@ -141,7 +129,7 @@ namespace Archon.Services
                 SshClient = new SshClient(GetBackupConnectionInfo());
                 try
                 {
-                    SshClient.Connect();
+                    await SshClient.ConnectAsync();
                     ErrorReporterService.ReportError("Backup IP used", "The primary IP address failed to connect, but Archon was able to connect using the backup IP address.", "Informational");
                     return true;
                 }
@@ -152,7 +140,8 @@ namespace Archon.Services
                 }
             }
         }
-        private static bool ConnectSftp()
+        
+        private static async Task<bool> ConnectSftpAsync()
         {
             if (SftpClient.IsConnected)
             {
@@ -160,7 +149,7 @@ namespace Archon.Services
             }
             try
             {
-                SftpClient.Connect();
+                await SftpClient.ConnectAsync();
                 return true;
             }
             catch
@@ -168,16 +157,21 @@ namespace Archon.Services
                 SftpClient = new SftpClient(GetBackupConnectionInfo());
                 try
                 {
-                    SftpClient.Connect();
+                    await SftpClient.ConnectAsync();
                     ErrorReporterService.ReportError("Backup IP used", "The primary IP address failed to connect, but Archon was able to connect using the backup IP address.", "Informational");
                     return true;
                 }
                 catch
                 {
-                    ErrorReporterService.ReportError("Connection failed", "Archon failed to establish an SFTP connection using either IP address", "Error");
+                    ErrorReporterService.ReportError("Connection failed", "Archon failed to establish an SFTP connection using either IP address.", "Error");
                     return false;
                 }
             }
+        }
+
+        private static async Task ConnectAsync(this BaseClient client)
+        {
+            await Task.Run(client.Connect);
         }
     }
 }

@@ -14,10 +14,13 @@
     mc:Ignorable="d">
     <Page.Resources>
         <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <helpers:BooleanInversionConverter x:Key="BooleanInversionConverter" />
     </Page.Resources>
     <Grid>
         <StackPanel
+            x:Name="ServerControls"
             HorizontalAlignment="Center"
+            x:Load="{x:Bind ViewModel.ConnectionSuccess}"
             VerticalAlignment="Center"
             Orientation="Vertical">
             <TextBlock
@@ -89,11 +92,42 @@
             </winui:TeachingTip>
 
         </StackPanel>
+        <Grid x:Name="ConnectionFailControl" x:Load="{x:Bind ViewModel.ConnectionFailed, Mode=OneWay}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" MinWidth="350"/>
+                <ColumnDefinition Width="3*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Style="{StaticResource SetupStackPanel}">
+                <TextBlock Style="{StaticResource BoldHeader}" Text="Connection failed."/>
+                <TextBlock Foreground="{ThemeResource SystemBaseMediumColor}"
+                           Text="Archon was unable to connect to your server to control it. Verify the server information in the Archon settings page. If the problem persists, please file feedback."
+                           TextWrapping="WrapWholeWords"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Spacing="8">
+                    <Button x:Name="FeedbackButton">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEAE8;"/>
+                                <TextBlock Text="Report issue"/>
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                    <Button x:Name="ReloadButton" Style="{ThemeResource AccentButtonStyle}" Click="{x:Bind ViewModel.InitializeAsync}">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE916;"/>
+                                <TextBlock Text="Reconnect"/>
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+            <Image Source="/Assets/UD-ServerDown.png" Style="{StaticResource SetupGraphic}"/>
+        </Grid>
         <Rectangle
             x:Name="CoverPane"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            Fill="White"
+            Fill="{ThemeResource LayerFillColorDefaultBrush}"
             Opacity="0.8"
             Visibility="{x:Bind ViewModel.IsWaiting, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
         <winui:ProgressRing
