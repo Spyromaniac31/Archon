@@ -77,7 +77,7 @@
             </i:Interaction.Behaviors>
             <Grid>
                 <Frame x:Name="shellFrame" />
-                <ListView VerticalAlignment="Bottom" ItemsSource="{x:Bind ViewModel.AppErrors}">
+                <ListView VerticalAlignment="Bottom" ItemsSource="{x:Bind ViewModel.AppErrors}" SelectionMode="None">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="services:AppError">
                             <winui:InfoBar
@@ -85,7 +85,8 @@
                                 Title="{x:Bind Title}"
                                 IsOpen="True"
                                 Message="{x:Bind Message}"
-                                Severity="{x:Bind Severity, Converter={StaticResource StringToSeverityConverter}}" />
+                                Severity="{x:Bind Severity, Converter={StaticResource StringToSeverityConverter}}"
+                                CloseButtonClick="{x:Bind RemoveFromList}"/>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>

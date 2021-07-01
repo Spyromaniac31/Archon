@@ -56,15 +56,17 @@ namespace Archon.ViewModels
 
         private async Task CacheFilesAsync()
         {
-            Status = "Caching files";
             ApplicationDataContainer appSettings = ApplicationData.Current.LocalSettings;
 
+            Status = "Caching start script";
             string scriptPath = (string)appSettings.Values["Directory"] + "/ShooterGame/Binaries/Linux/" + (string)appSettings.Values["ScriptName"];
             _ = await SshService.DownloadFileAsync(_script, scriptPath);
 
+            Status = "Caching Game.ini";
             string gameIniPath = (string)appSettings.Values["Directory"] + "/ShooterGame/Saved/Config/LinuxServer/Game.ini";
             _ = await SshService.DownloadFileAsync(_gameIni, gameIniPath);
 
+            Status = "Caching GameUserSettings.ini";
             string gameUserIniPath = (string)appSettings.Values["Directory"] + "/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini";
             _ = await SshService.DownloadFileAsync(_gameUserIni, gameUserIniPath);
         }

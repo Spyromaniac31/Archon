@@ -8,7 +8,19 @@ namespace Archon.Services
 
         public static void ReportError(string title, string message, string severity)
         {
-            AppErrors.Add(new AppError(title, message, severity));
+            AppError newError = new AppError(title, message, severity);
+            bool alreadyReported = false;
+            foreach (AppError appError in AppErrors)
+            {
+                if (appError.Equals(newError))
+                {
+                    alreadyReported = true;
+                }
+            }
+            if (!alreadyReported)
+            {
+                AppErrors.Add(newError);
+            }
         }
     }
 
@@ -23,6 +35,16 @@ namespace Archon.Services
             Title = title;
             Message = message;
             Severity = severity;
+        }
+
+        public bool Equals(AppError other)
+        {
+            return Title == other.Title && Message == other.Message && Severity == other.Severity;
+        }
+
+        public void RemoveFromList()
+        {
+            _ = ErrorReporterService.AppErrors.Remove(this);
         }
     }
 }
