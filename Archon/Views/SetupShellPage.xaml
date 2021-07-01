@@ -11,18 +11,44 @@
     xmlns:views="using:Archon.Views"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     d:DataContext="{d:DesignInstance Type=viewmodels:SetupViewModel}"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    winui:BackdropMaterial.ApplyToRootOrPageBackground="True"
     mc:Ignorable="d">
     <Page.Resources>
-        <SolidColorBrush x:Key="NavigationViewTopPaneBackground" Color="Transparent" />
+        <Thickness x:Key="NavigationViewContentGridBorderThickness">0</Thickness>
+        <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
         <Style TargetType="winui:NavigationViewItem">
             <Setter Property="Margin" Value="4,0" />
         </Style>
     </Page.Resources>
 
     <Grid>
+        <Border
+            x:Name="AppTitleBar"
+            Height="32"
+            Margin="16,0,0,0"
+            VerticalAlignment="Top"
+            Background="Transparent"
+            Canvas.ZIndex="1"
+            IsHitTestVisible="True">
+            <StackPanel Orientation="Horizontal">
+                <Image
+                    x:Name="AppFontIcon"
+                    Width="16"
+                    Height="16"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Source="ms-appx:///Assets/StoreLogo.png" />
+                <TextBlock
+                    x:Name="AppTitle"
+                    Margin="12,0,0,0"
+                    VerticalAlignment="Center"
+                    FontSize="12"
+                    Text="Archon" />
+            </StackPanel>
+        </Border>
         <winui:NavigationView
             x:Name="navigationView"
+            Canvas.ZIndex="0"
             IsBackButtonVisible="Visible"
             IsBackEnabled="{x:Bind ViewModel.IsBackEnabled, Mode=OneWay}"
             IsSettingsVisible="False"
@@ -50,25 +76,19 @@
                     <ic:InvokeCommandAction Command="{x:Bind ViewModel.ItemInvokedCommand}" />
                 </ic:EventTriggerBehavior>
             </i:Interaction.Behaviors>
-            <RelativePanel>
+            <Grid>
                 <Frame
                     x:Name="shellFrame"
-                    HorizontalAlignment="Stretch"
-                    DataContext="{x:Bind ViewModel}"
-                    RelativePanel.AlignLeftWithPanel="True"
-                    RelativePanel.AlignRightWithPanel="True"
-                    RelativePanel.AlignVerticalCenterWithPanel="True" />
+                    DataContext="{x:Bind ViewModel}"/>
                 <winui:InfoBar
                     x:Name="ErrorBar"
                     Title="Empty fields"
                     Margin="8"
+                    VerticalAlignment="Bottom"
                     IsOpen="{x:Bind ViewModel.ErrorOpen, Mode=TwoWay}"
                     Message="Fields cannot be empty unless marked otherwise."
-                    RelativePanel.AlignBottomWithPanel="True"
-                    RelativePanel.AlignLeftWithPanel="True"
-                    RelativePanel.AlignRightWithPanel="True"
                     Severity="Error" />
-            </RelativePanel>
+            </Grid>
         </winui:NavigationView>
     </Grid>
 </Page>
