@@ -17,6 +17,10 @@ namespace Archon.Helpers
             var scriptLines = await FileIO.ReadLinesAsync(script);
 
             //this retrieves the map name from the script and trims the stuff we don't need
+            if (scriptLines.Count == 0)
+            {
+                return new Dictionary<string, string>();
+            }
             string mainLine = scriptLines[scriptLines.Count - 1];
             Dictionary<string, string> settings = new Dictionary<string, string>
             {

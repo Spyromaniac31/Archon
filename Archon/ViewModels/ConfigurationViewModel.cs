@@ -5,6 +5,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
@@ -17,6 +18,7 @@ namespace Archon.ViewModels
         private ICommand _saveSettingsCommand;
         private ICommand _itemInvokedCommand;
         private ObservableCollection<GroupInfoList> _selectedSettingGroup;
+        private WinUI.NavigationView _navigationView;
 
         public Dictionary<string, ObservableCollection<GroupInfoList>> SettingGroups = new Dictionary<string, ObservableCollection<GroupInfoList>>();
 
@@ -39,10 +41,12 @@ namespace Archon.ViewModels
 
         }
 
-        public async Task InitializeAsync()
+        public async Task InitializeAsync(WinUI.NavigationView navigationView)
         {
+            _navigationView = navigationView;
             await RetrieveSettingsAsync();
             SelectedSettingGroup = SettingGroups["ServerSettings"];
+            //navigationView.SelectedItem = navigationView.MenuItems[0];
         }
 
         //This should be updated as settings sources are added
@@ -72,6 +76,10 @@ namespace Archon.ViewModels
 
         public async Task SaveSettingsAsync()
         {
+            foreach (var x in _navigationView.MenuItems)
+            {
+                var b = 4;
+            }
             ApplicationDataContainer appSettings = ApplicationData.Current.LocalSettings;
             StorageFolder localCache = ApplicationData.Current.LocalCacheFolder;
 

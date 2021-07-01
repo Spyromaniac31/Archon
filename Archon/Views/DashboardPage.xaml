@@ -14,13 +14,12 @@
     mc:Ignorable="d">
     <Page.Resources>
         <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        <helpers:BooleanInversionConverter x:Key="BooleanInversionConverter" />
     </Page.Resources>
     <Grid>
         <StackPanel
             x:Name="ServerControls"
             HorizontalAlignment="Center"
-            x:Load="{x:Bind ViewModel.ConnectionSuccess}"
+            x:Load="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay}"
             VerticalAlignment="Center"
             Orientation="Vertical">
             <TextBlock

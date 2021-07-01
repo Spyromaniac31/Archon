@@ -57,7 +57,8 @@ namespace Archon
         private ActivationService CreateActivationService()
         {
             ApplicationDataContainer appSettings = ApplicationData.Current.LocalSettings;
-            Type startPageType = string.IsNullOrWhiteSpace(appSettings.Values["Hostname"] as string) ? typeof(HostnamePage) : typeof(LoadingPage);
+            //make the last one loading page when done
+            Type startPageType = string.IsNullOrWhiteSpace(appSettings.Values["Hostname"] as string) ? typeof(HostnamePage) : typeof(HostnamePage);
             return new ActivationService(this, startPageType, new Lazy<UIElement>(CreateShell));
         }
 
@@ -68,7 +69,8 @@ namespace Archon
             {
                 return new SetupShellPage();
             }
-            return new Frame();
+            //make thsi frame when done
+            return new SetupShellPage();
         }
     }
 }
