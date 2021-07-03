@@ -5,7 +5,6 @@ using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
@@ -45,8 +44,8 @@ namespace Archon.ViewModels
         {
             _navigationView = navigationView;
             await RetrieveSettingsAsync();
+            _navigationView.SelectedItem = NavItems[0];
             SelectedSettingGroup = SettingGroups["ServerSettings"];
-            //navigationView.SelectedItem = navigationView.MenuItems[0];
         }
 
         //This should be updated as settings sources are added
@@ -57,6 +56,7 @@ namespace Archon.ViewModels
 
             SettingGroups.Add("ServerSettings", await DatabaseService.GetGroupedSettingsAsync("settings"));
             NavItems.Add(new SourceNavItem("Base game", "ServerSettings", "\xEA67"));
+
 
             if (gameSettings.ContainsKey("ActiveMods") && gameSettings["ActiveMods"].ToString().Contains("731604991"))
             {
@@ -76,10 +76,6 @@ namespace Archon.ViewModels
 
         public async Task SaveSettingsAsync()
         {
-            foreach (var x in _navigationView.MenuItems)
-            {
-                var b = 4;
-            }
             ApplicationDataContainer appSettings = ApplicationData.Current.LocalSettings;
             StorageFolder localCache = ApplicationData.Current.LocalCacheFolder;
 
