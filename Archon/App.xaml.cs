@@ -58,7 +58,7 @@ namespace Archon
         {
             ApplicationDataContainer appSettings = ApplicationData.Current.LocalSettings;
             //make the last one loading page when done
-            Type startPageType = string.IsNullOrWhiteSpace(appSettings.Values["Hostname"] as string) ? typeof(HostnamePage) : typeof(HostnamePage);
+            Type startPageType = string.IsNullOrWhiteSpace(appSettings.Values["Hostname"] as string) ? typeof(HostnamePage) : typeof(LoadingPage);
             return new ActivationService(this, startPageType, new Lazy<UIElement>(CreateShell));
         }
 
@@ -69,8 +69,7 @@ namespace Archon
             {
                 return new SetupShellPage();
             }
-            //make thsi frame when done
-            return new SetupShellPage();
+            return new Frame();
         }
     }
 }
