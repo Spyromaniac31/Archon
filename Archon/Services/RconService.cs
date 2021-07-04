@@ -36,9 +36,9 @@ namespace Archon.Services
             {
                 await RconClient.ConnectAsync();
             }
-            catch
+            catch (Exception ex)
             {
-                ErrorReporterService.ReportError("RCON failure", "Archon was unable to connect to your server using RCON. Ensure RCON is enabled, you have an ARK server admin password, and port forwarding is set up correctly.", "Error");
+                ErrorReporterService.ReportError("RCON failure", "Archon was unable to connect to your server using RCON. Ensure RCON is enabled, you have an ARK server admin password, and port forwarding is set up correctly. Error: " + ex.Message, "Error");
             }
             string response = await RconClient.SendCommandAsync(command);
             return response;
