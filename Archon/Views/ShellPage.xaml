@@ -77,16 +77,19 @@
             </i:Interaction.Behaviors>
             <Grid>
                 <Frame x:Name="shellFrame" />
-                <ListView VerticalAlignment="Bottom" ItemsSource="{x:Bind ViewModel.AppErrors}" SelectionMode="None">
+                <ListView
+                    VerticalAlignment="Bottom"
+                    ItemsSource="{x:Bind ViewModel.AppErrors}"
+                    SelectionMode="None">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="services:AppError">
                             <winui:InfoBar
-                                Margin="8,20"
                                 Title="{x:Bind Title}"
+                                Margin="8,20"
+                                CloseButtonClick="{x:Bind RemoveFromList}"
                                 IsOpen="True"
                                 Message="{x:Bind Message}"
-                                Severity="{x:Bind Severity, Converter={StaticResource StringToSeverityConverter}}"
-                                CloseButtonClick="{x:Bind RemoveFromList}"/>
+                                Severity="{x:Bind Severity, Converter={StaticResource StringToSeverityConverter}}" />
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
