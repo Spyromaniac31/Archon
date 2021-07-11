@@ -1,8 +1,6 @@
-﻿using Archon.ViewModels;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using Windows.Storage;
-using Windows.UI.Xaml;
 
 namespace Archon.Models
 {
@@ -93,6 +91,7 @@ namespace Archon.Models
         public bool IsTypeString => Type == "string";
         public bool IsTypeBool => Type == "boolean" || Type == "arg";
         public bool IsTypeNumber => Type == "number";
+        public bool IsTypeSpecial => Type == "special";
         public bool HasHint => !string.IsNullOrEmpty(Hint);
 
         public string GetFormattedLine()
@@ -102,8 +101,6 @@ namespace Archon.Models
                 ? ""
                 : File == File.StartScript ? (Type == "arg" ? $" -{Name}" : $"?{Name}={CurrentValue}") : $"{Name}={CurrentValue}";
         }
-
-        public GameSettingControlViewModel ViewModel => new GameSettingControlViewModel(Name, Description, Hint, Type, DefaultValue);
     }
 
     public enum File

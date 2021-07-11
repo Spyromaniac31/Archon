@@ -161,6 +161,13 @@
                             OnContent=""
                             RelativePanel.AlignLeftWith="NameTextBlock"
                             RelativePanel.Below="NameTextBlock" />
+                        <controls:DialogOpenerButton
+                            x:Name="SpecialButton"
+                            x:Load="{x:Bind IsTypeSpecial, Mode=OneWay}"
+                            x:Phase="1"
+                            RelativePanel.AlignLeftWith="NameTextBlock"
+                            RelativePanel.Below="NameTextBlock"
+                            SettingValue="{x:Bind CurrentValue, Mode=TwoWay}" />
                     </RelativePanel>
                 </DataTemplate>
             </GridView.ItemTemplate>

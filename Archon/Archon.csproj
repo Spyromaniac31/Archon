@@ -121,8 +121,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\GameSettingControl.xaml.cs">
-      <DependentUpon>GameSettingControl.xaml</DependentUpon>
+    <Compile Include="Controls\DialogOpenerButton.xaml.cs">
+      <DependentUpon>DialogOpenerButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\HintButton.xaml.cs">
       <DependentUpon>HintButton.xaml</DependentUpon>
@@ -132,6 +132,15 @@
     </Compile>
     <Compile Include="Controls\ServerStatusTextBlock.xaml.cs">
       <DependentUpon>ServerStatusTextBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SpecialSettingContainer.xaml.cs">
+      <DependentUpon>SpecialSettingContainer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SpecialSettingControllers\ClassNameMultiplierControl.xaml.cs">
+      <DependentUpon>ClassNameMultiplierControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SpecialSettingEditor.xaml.cs">
+      <DependentUpon>SpecialSettingEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ToggleServerButton.xaml.cs">
       <DependentUpon>ToggleServerButton.xaml</DependentUpon>
@@ -150,8 +159,10 @@
     <Compile Include="Helpers\StringToBooleanConverter.cs" />
     <Compile Include="Helpers\StringToDoubleConverter.cs" />
     <Compile Include="Helpers\StringToSeverityConverter.cs" />
+    <Compile Include="Models\Entity.cs" />
     <Compile Include="Models\GameSetting.cs" />
     <Compile Include="Models\GroupInfoList.cs" />
+    <Compile Include="Models\Item.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Services\DatabaseService.cs" />
     <Compile Include="Services\ErrorReporterService.cs" />
@@ -161,7 +172,6 @@
     <Compile Include="Services\ThemeSelectorService.cs" />
     <Compile Include="ViewModels\ConfigurationViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
-    <Compile Include="ViewModels\GameSettingControlViewModel.cs" />
     <Compile Include="ViewModels\IntroViewModel.cs" />
     <Compile Include="ViewModels\LoadingViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
@@ -229,7 +239,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Controls\GameSettingControl.xaml">
+    <Page Include="Controls\DialogOpenerButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -242,6 +252,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\ServerStatusTextBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SpecialSettingContainer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SpecialSettingControllers\ClassNameMultiplierControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SpecialSettingEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -318,7 +340,7 @@
       <Version>7.0.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.6.0</Version>
+      <Version>2.6.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
       <Version>2.0.1</Version>
@@ -339,11 +361,14 @@
   <ItemGroup>
     <Content Include="Assets\fluentui.ttf" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Content Include="Data\archon.db">
+    <Content Include="Data\settings.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\creatures.db" />
+    <None Include="Data\items.db" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
