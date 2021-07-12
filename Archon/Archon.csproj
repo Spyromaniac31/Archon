@@ -121,9 +121,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\GameSettingControl.xaml.cs">
-      <DependentUpon>GameSettingControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\HintButton.xaml.cs">
       <DependentUpon>HintButton.xaml</DependentUpon>
     </Compile>
@@ -161,7 +158,6 @@
     <Compile Include="Services\ThemeSelectorService.cs" />
     <Compile Include="ViewModels\ConfigurationViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
-    <Compile Include="ViewModels\GameSettingControlViewModel.cs" />
     <Compile Include="ViewModels\IntroViewModel.cs" />
     <Compile Include="ViewModels\LoadingViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
@@ -229,10 +225,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Controls\GameSettingControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Controls\HintButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -339,11 +331,10 @@
   <ItemGroup>
     <Content Include="Assets\fluentui.ttf" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Content Include="Data\archon.db">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <None Include="Data\creatures.db" />
+    <None Include="Data\items.db" />
+    <None Include="Data\settings.db" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
