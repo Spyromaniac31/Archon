@@ -332,9 +332,15 @@
     <Content Include="Assets\fluentui.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Data\creatures.db" />
-    <None Include="Data\items.db" />
-    <None Include="Data\settings.db" />
+    <Content Include="Data\creatures.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\items.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\settings.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
