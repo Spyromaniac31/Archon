@@ -102,8 +102,6 @@ namespace Archon.Models
                 ? ""
                 : File == File.StartScript ? (Type == "arg" ? $" -{Name}" : $"?{Name}={CurrentValue}") : $"{Name}={CurrentValue}";
         }
-
-        public GameSettingControlViewModel ViewModel => new GameSettingControlViewModel(Name, Description, Hint, Type, DefaultValue);
     }
 
     public enum File
