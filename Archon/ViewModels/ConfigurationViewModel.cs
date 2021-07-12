@@ -54,15 +54,22 @@ namespace Archon.ViewModels
             ApplicationDataContainer appSettings = ApplicationData.Current.LocalSettings;
             var gameSettings = (ApplicationDataCompositeValue)appSettings.Values["GameSettings"];
 
-            SettingGroups.Add("ServerSettings", await DatabaseService.GetGroupedSettingsAsync("settings"));
-            NavItems.Add(new SourceNavItem("Base game", "ServerSettings", "\xEA67"));
+            SettingGroups.Add("ServerSettings", await DatabaseService.GetGroupedSettingsAsync("basegame"));
+            NavItems.Add(new SourceNavItem("Base game", "ServerSettings", "\uEA67"));
 
 
             if (gameSettings.ContainsKey("ActiveMods") && gameSettings["ActiveMods"].ToString().Contains("731604991"))
             {
                 SettingGroups.Add("StructuresPlus", await DatabaseService.GetGroupedSettingsAsync("structuresplus"));
-                NavItems.Add(new SourceNavItem("Structures Plus", "StructuresPlus", "\xEA81"));
+                NavItems.Add(new SourceNavItem("Structures Plus", "StructuresPlus", "\uEA81"));
             }
+
+            if (gameSettings.ContainsKey("Map") && gameSettings["Map"].ToString() == "Ragnarok")
+            {
+                SettingGroups.Add("Ragnarok", await DatabaseService.GetGroupedSettingsAsync("ragnarok"));
+                NavItems.Add(new SourceNavItem("Ragnarok", "Ragnarok", "\uEA83"));
+            }
+
         }
 
         private void OnItemInvoked(WinUI.NavigationViewItemInvokedEventArgs args)

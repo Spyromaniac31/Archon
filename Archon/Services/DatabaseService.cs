@@ -34,7 +34,9 @@ namespace Archon.Services
             ["general"] = "🌐 General Settings",
             ["functionality"] = "⚙ Structure Functionality",
             ["building"] = "🏗 Building and Placement",
-            ["list"] = "📃 Item lists"
+            ["list"] = "📃 Item lists",
+            ["unicorn"] = "🦄 Unicorn",
+            ["volcano"] = "🌋 Volcano"
         };
         public static SqliteConnection SqliteConnection { get; private set; }
 

@@ -75,7 +75,7 @@
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="models:GameSetting">
                     <RelativePanel
-                        MinWidth="264"
+                        Width="264"
                         MinHeight="150"
                         Padding="12"
                         Background="{ThemeResource LayerFillColorDefaultBrush}"
