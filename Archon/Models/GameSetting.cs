@@ -90,7 +90,7 @@ namespace Archon.Models
         }
 
         public bool IsTypePercent => Type == "percent";
-        public bool IsTypeString => Type == "string";
+        public bool IsTypeString => Type == "string" || Type == "special";
         public bool IsTypeBool => Type == "boolean" || Type == "arg";
         public bool IsTypeNumber => Type == "number";
         public bool HasHint => !string.IsNullOrEmpty(Hint);
