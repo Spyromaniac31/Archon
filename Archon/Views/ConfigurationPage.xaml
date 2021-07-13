@@ -32,7 +32,7 @@
         OpenPaneLength="220"
         PaneDisplayMode="Left">
         <winui:NavigationView.AutoSuggestBox>
-            <AutoSuggestBox QueryIcon="Find" x:Name="SettingSearchBox"/>
+            <AutoSuggestBox QueryIcon="Find" x:Name="SettingSearchBox" PlaceholderText="Search for a setting"/>
         </winui:NavigationView.AutoSuggestBox>
         <winui:NavigationView.MenuItemTemplate>
             <DataTemplate x:DataType="vm:SourceNavItem">
