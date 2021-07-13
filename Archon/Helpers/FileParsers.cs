@@ -67,7 +67,17 @@ namespace Archon.Helpers
                     string settingName = line.Before("=");
                     string settingValue = line.After("=");
 
-                    settings[settingName] = settingValue;
+                    if (settings.ContainsKey(settingName))
+                    {
+                        if (settings[settingName] != settingValue)
+                        {
+                            settings[settingName] += "," + settingValue;
+                        }
+                    }
+                    else
+                    {
+                        settings[settingName] = settingValue;
+                    }
                 }
             }
 
