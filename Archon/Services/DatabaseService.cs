@@ -51,7 +51,7 @@ namespace Archon.Services
             SqliteConnection = new SqliteConnection($"Filename={dbFile.Path}");
         }
 
-        public static async Task<List<GameSetting>> GetSettings(string table)
+        public static async Task<List<GameSetting>> GetSettingsAsync(string table)
         {
             await InitializeConnection("settings");
             var settings = new List<GameSetting>();
@@ -87,7 +87,7 @@ namespace Archon.Services
 
         public static async Task<ObservableCollection<GroupInfoList>> GetGroupedSettingsAsync(string table)
         {
-            IEnumerable<GroupInfoList> query = from setting in await GetSettings(table)
+            IEnumerable<GroupInfoList> query = from setting in await GetSettingsAsync(table)
                                                group setting by Categories[setting.Category] into g
                                                select new GroupInfoList(g) { Key = g.Key };
             return new ObservableCollection<GroupInfoList>(query);
