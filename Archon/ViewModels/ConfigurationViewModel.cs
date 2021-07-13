@@ -5,9 +5,11 @@ using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
+using Windows.UI.Xaml.Controls;
 using WinUI = Microsoft.UI.Xaml.Controls;
 
 namespace Archon.ViewModels
@@ -17,7 +19,10 @@ namespace Archon.ViewModels
         private ICommand _saveSettingsCommand;
         private ICommand _itemInvokedCommand;
         private ObservableCollection<GroupInfoList> _selectedSettingGroup;
+        private AutoSuggestBox _autoSuggestBox;
         private WinUI.NavigationView _navigationView;
+        private List<GameSetting> AllSettings { get; set; } = new List<GameSetting>();
+        private List<string> SearchSuggestions { get; set; } = new List<string>();
 
         public Dictionary<string, ObservableCollection<GroupInfoList>> SettingGroups = new Dictionary<string, ObservableCollection<GroupInfoList>>();
 
@@ -40,12 +45,44 @@ namespace Archon.ViewModels
 
         }
 
-        public async Task InitializeAsync(WinUI.NavigationView navigationView)
+        public async Task InitializeAsync(WinUI.NavigationView navigationView, AutoSuggestBox autoSuggestBox)
         {
             _navigationView = navigationView;
             await RetrieveSettingsAsync();
             _navigationView.SelectedItem = NavItems[0];
             SelectedSettingGroup = SettingGroups["ServerSettings"];
+            _autoSuggestBox = autoSuggestBox;
+            _autoSuggestBox.TextChanged += OnSearchTextChanged;
+            _autoSuggestBox.QuerySubmitted += OnQuerySubmitted;
+            _autoSuggestBox.SuggestionChosen += OnSuggestionChosen;
+        }
+
+        private void OnSearchTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            string text = sender.Text.ToLower();
+            if (text == "")
+            {
+                return;
+            }
+            SearchSuggestions = AllSettings.Where(s => s.Name.ToLower().Contains(text) || s.Description.ToLower().Contains(text)).Select(s => s.Name).ToList();
+            _autoSuggestBox.ItemsSource = SearchSuggestions;
+        }
+
+        private void OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            string text = sender.Text.ToLower();
+            if (text == "")
+            {
+                return;
+            }
+            var settingResults = AllSettings.Where(s => s.Name.ToLower().Contains(text) || s.Description.ToLower().Contains(text)).ToList();
+            SelectedSettingGroup = new ObservableCollection<GroupInfoList>() { new GroupInfoList(settingResults) { Key = "🔎 Results for \'" + text + "\'" } };
+            _navigationView.SelectedItem = null;
+        }
+
+        private void OnSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            OnQuerySubmitted(sender, new AutoSuggestBoxQuerySubmittedEventArgs());
         }
 
         //This should be updated as settings sources are added
@@ -56,20 +93,21 @@ namespace Archon.ViewModels
 
             SettingGroups.Add("ServerSettings", await DatabaseService.GetGroupedSettingsAsync("basegame"));
             NavItems.Add(new SourceNavItem("Base game", "ServerSettings", "\uEA67"));
-
+            AllSettings.AddRange(await DatabaseService.GetSettingsAsync("basegame"));
 
             if (gameSettings.ContainsKey("ActiveMods") && gameSettings["ActiveMods"].ToString().Contains("731604991"))
             {
                 SettingGroups.Add("StructuresPlus", await DatabaseService.GetGroupedSettingsAsync("structuresplus"));
                 NavItems.Add(new SourceNavItem("Structures Plus", "StructuresPlus", "\uEA81"));
+                AllSettings.AddRange(await DatabaseService.GetSettingsAsync("structuresplus"));
             }
 
             if (gameSettings.ContainsKey("Map") && gameSettings["Map"].ToString() == "Ragnarok")
             {
                 SettingGroups.Add("Ragnarok", await DatabaseService.GetGroupedSettingsAsync("ragnarok"));
                 NavItems.Add(new SourceNavItem("Ragnarok", "Ragnarok", "\uEA83"));
+                AllSettings.AddRange(await DatabaseService.GetSettingsAsync("ragnarok"));
             }
-
         }
 
         private void OnItemInvoked(WinUI.NavigationViewItemInvokedEventArgs args)
@@ -78,7 +116,6 @@ namespace Archon.ViewModels
             {
                 SelectedSettingGroup = SettingGroups[(string)selectedItem.Tag];
             }
-
         }
 
         public async Task SaveSettingsAsync()

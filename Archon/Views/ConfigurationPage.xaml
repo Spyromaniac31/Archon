@@ -29,8 +29,11 @@
         IsPaneToggleButtonVisible="False"
         IsSettingsVisible="False"
         MenuItemsSource="{x:Bind ViewModel.NavItems}"
-        OpenPaneLength="180"
+        OpenPaneLength="220"
         PaneDisplayMode="Left">
+        <winui:NavigationView.AutoSuggestBox>
+            <AutoSuggestBox QueryIcon="Find" x:Name="SettingSearchBox"/>
+        </winui:NavigationView.AutoSuggestBox>
         <winui:NavigationView.MenuItemTemplate>
             <DataTemplate x:DataType="vm:SourceNavItem">
                 <winui:NavigationViewItem Content="{x:Bind Name}" Tag="{x:Bind Tag}">
@@ -43,8 +46,8 @@
         <winui:NavigationView.PaneFooter>
             <Button
                 x:Name="SaveSettingsButton"
-                Width="160"
-                HorizontalAlignment="Center"
+                Width="200"
+                HorizontalAlignment="Stretch"
                 Style="{ThemeResource AccentButtonStyle}">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <FontIcon

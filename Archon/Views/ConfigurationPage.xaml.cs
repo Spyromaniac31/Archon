@@ -18,7 +18,7 @@ namespace Archon.Views
             DataContext = ViewModel;
 
             //I want to put this in an async method but I don't know one that won't be called multiple times in the page's lifespan
-            ViewModel.InitializeAsync(SourceNavView);
+            ViewModel.InitializeAsync(SourceNavView, SettingSearchBox);
         }
     }
 }
