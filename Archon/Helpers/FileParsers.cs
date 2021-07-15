@@ -50,11 +50,10 @@ namespace Archon.Helpers
         }
 
         /// <summary>
-        /// Extracts the individual settings from a .ini file
+        /// Extracts the individual settings from a.ini file
         /// </summary>
-        /// <param name="ini">The .ini file to be parsed</param>
+        /// <param name = "ini" > The.ini file to be parsed</param>
         /// <returns>A Dictionary containing each of the settings in the ini file.</returns>
-        /// TODO: Deal with special settings
         public static async Task<Dictionary<string, string>> ParseIniAsync(StorageFile ini)
         {
             var settings = new Dictionary<string, string>();
