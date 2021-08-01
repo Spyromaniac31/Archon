@@ -121,14 +121,23 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ArkInstallationBlock.xaml.cs">
+      <DependentUpon>ArkInstallationBlock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\HintButton.xaml.cs">
       <DependentUpon>HintButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\SaveGameButton.xaml.cs">
       <DependentUpon>SaveGameButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ServerInfoBlock.xaml.cs">
+      <DependentUpon>ServerInfoBlock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ServerStatusTextBlock.xaml.cs">
       <DependentUpon>ServerStatusTextBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TerminalOutputBlock.xaml.cs">
+      <DependentUpon>TerminalOutputBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ToggleServerButton.xaml.cs">
       <DependentUpon>ToggleServerButton.xaml</DependentUpon>
@@ -204,6 +213,16 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Logos\CrystalIsles.png" />
+    <Content Include="Assets\Logos\Extinction.png" />
+    <Content Include="Assets\Logos\Aberration_P.png" />
+    <Content Include="Assets\Logos\Gen2.png" />
+    <Content Include="Assets\Logos\Genesis.png" />
+    <Content Include="Assets\Logos\Ragnarok.png" />
+    <Content Include="Assets\Logos\ScorchedEarth_P.png" />
+    <Content Include="Assets\Logos\TheCenter.png" />
+    <Content Include="Assets\Logos\TheIsland.png" />
+    <Content Include="Assets\Logos\Valguero_P.png" />
     <Content Include="Assets\UD-Authenticate.png" />
     <Content Include="Assets\UD-Authenticate.svg" />
     <Content Include="Assets\UD-FolderFiles.png" />
@@ -225,6 +244,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\ArkInstallationBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\HintButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -233,7 +256,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\ServerInfoBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\ServerStatusTextBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TerminalOutputBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

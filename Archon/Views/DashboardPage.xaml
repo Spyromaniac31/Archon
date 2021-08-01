@@ -9,138 +9,229 @@
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    Background="Transparent"
     NavigationCacheMode="Required"
-    Style="{StaticResource ContentPage}"
     mc:Ignorable="d">
     <Page.Resources>
-        <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#09444444" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark" />
+            </ResourceDictionary.ThemeDictionaries>
+            <Style x:Key="TransparentIconButton" TargetType="Button">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="Width" Value="64" />
+                <Setter Property="Height" Value="64" />
+                <Setter Property="CornerRadius" Value="4" />
+            </Style>
+            <SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="Transparent" />
+            <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
+            <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        </ResourceDictionary>
     </Page.Resources>
-    <Grid>
-        <StackPanel
-            x:Name="ServerControls"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            x:Load="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay}"
-            Orientation="Vertical">
-            <TextBlock
-                HorizontalAlignment="Center"
-                Style="{StaticResource BoldHeader}"
-                Text="{x:Bind ViewModel.ServerName}"
-                TextAlignment="Center" />
-            <TextBlock
-                HorizontalAlignment="Center"
-                Style="{StaticResource SubHeader}"
-                Text="{x:Bind ViewModel.IPAddress}"
-                TextAlignment="Center" />
-            <controls:ServerStatusTextBlock HorizontalAlignment="Center" />
-            <RelativePanel
-                x:Name="ButtonsPanel"
-                Margin="0,8"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center">
-                <controls:SaveGameButton
-                    x:Name="SaveGameButton"
-                    RelativePanel.AlignVerticalCenterWithPanel="True"
-                    RelativePanel.LeftOf="ToggleServerButton">
-                    <i:Interaction.Behaviors>
-                        <ic:EventTriggerBehavior EventName="Click">
-                            <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveGameCommand}" />
-                        </ic:EventTriggerBehavior>
-                    </i:Interaction.Behaviors>
-                </controls:SaveGameButton>
-                <controls:ToggleServerButton
-                    x:Name="ToggleServerButton"
-                    RelativePanel.AlignHorizontalCenterWithPanel="True"
-                    RelativePanel.AlignVerticalCenterWithPanel="True">
-                    <i:Interaction.Behaviors>
-                        <ic:EventTriggerBehavior EventName="Click">
-                            <ic:InvokeCommandAction Command="{x:Bind ViewModel.ToggleServerCommand}" />
-                        </ic:EventTriggerBehavior>
-                    </i:Interaction.Behaviors>
-                </controls:ToggleServerButton>
-                <controls:UpdateGameButton
-                    x:Name="UpdateGameButton"
-                    RelativePanel.AlignVerticalCenterWithPanel="True"
-                    RelativePanel.RightOf="ToggleServerButton">
-                    <i:Interaction.Behaviors>
-                        <ic:EventTriggerBehavior EventName="Click">
-                            <ic:InvokeCommandAction Command="{x:Bind ViewModel.UpdateGameCommand}" />
-                        </ic:EventTriggerBehavior>
-                    </i:Interaction.Behaviors>
-                </controls:UpdateGameButton>
-            </RelativePanel>
-            <winui:TeachingTip
-                x:Name="UpdateErrorTip"
-                Title="Server running"
-                IsOpen="{x:Bind ViewModel.UpdateErrorOpen, Mode=TwoWay}"
-                Subtitle="Stop the server before updating ARK."
-                Target="{x:Bind UpdateGameButton}">
-                <winui:TeachingTip.IconSource>
-                    <winui:FontIconSource FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA41;" />
-                </winui:TeachingTip.IconSource>
-            </winui:TeachingTip>
-            <winui:TeachingTip
-                x:Name="SaveErrorTip"
-                Title="Server not running"
-                IsOpen="{x:Bind ViewModel.SaveErrorOpen, Mode=TwoWay}"
-                Subtitle="The ARK server is not currently running."
-                Target="{x:Bind SaveGameButton}">
-                <winui:TeachingTip.IconSource>
-                    <winui:FontIconSource FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA41;" />
-                </winui:TeachingTip.IconSource>
-            </winui:TeachingTip>
 
-        </StackPanel>
-        <Grid x:Name="ConnectionFailControl" x:Load="{x:Bind ViewModel.ConnectionFailed, Mode=OneWay}">
+    <ScrollViewer MaxWidth="1200" MaxHeight="800">
+        <Grid MaxWidth="1200" MaxHeight="800">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*" MinWidth="350" />
-                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <StackPanel Style="{StaticResource SetupStackPanel}">
-                <TextBlock Style="{StaticResource BoldHeader}" Text="Connection failed." />
-                <TextBlock
-                    Foreground="{ThemeResource SystemBaseMediumColor}"
-                    Text="Archon was unable to connect to your server to control it. Verify the server information in the Archon settings page. If the problem persists, please file feedback."
-                    TextWrapping="WrapWholeWords" />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" MinHeight="80"/>
+                <RowDefinition Height="*" MinHeight="80"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*" MinHeight="80"/>
+                <RowDefinition Height="*" MinHeight="80"/>
+                <RowDefinition Height="6*"/>
+            </Grid.RowDefinitions>
+            <Grid
+                x:Name="ServerControlBlock"
+                Grid.Column="1"
+                Grid.RowSpan="3"
+                Margin="8"
+                x:Load="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay}"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                CornerRadius="8">
                 <StackPanel
-                    HorizontalAlignment="Stretch"
+                    HorizontalAlignment="Center"
                     Orientation="Horizontal"
-                    Spacing="8">
-                    <Button x:Name="FeedbackButton">
-                        <Button.Content>
-                            <StackPanel Orientation="Horizontal" Spacing="6">
-                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEAE8;" />
-                                <TextBlock Text="Report issue" />
-                            </StackPanel>
-                        </Button.Content>
+                    Spacing="16">
+                    <controls:ToggleServerButton>
+                        <i:Interaction.Behaviors>
+                            <ic:EventTriggerBehavior EventName="Click">
+                                <ic:InvokeCommandAction Command="{x:Bind ViewModel.ToggleServerCommand}" />
+                            </ic:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </controls:ToggleServerButton>
+                    <Button
+                        x:Name="SaveServerButton"
+                        Command="{x:Bind ViewModel.SaveGameCommand}"
+                        IsEnabled="{x:Bind ViewModel.IsServerRunning, Mode=OneWay}"
+                        Style="{StaticResource TransparentIconButton}"
+                        ToolTipService.ToolTip="Save game">
+                        <FontIcon
+                            FontFamily="{StaticResource FluentUIGlyphs}"
+                            FontSize="40"
+                            Glyph="&#xEB4A;" />
                     </Button>
                     <Button
-                        x:Name="ReloadButton"
-                        Click="{x:Bind ViewModel.InitializeAsync}"
-                        Style="{ThemeResource AccentButtonStyle}">
-                        <Button.Content>
-                            <StackPanel Orientation="Horizontal" Spacing="6">
-                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE916;" />
-                                <TextBlock Text="Reconnect" />
-                            </StackPanel>
-                        </Button.Content>
+                        x:Name="UpdateServerButton"
+                        Command="{x:Bind ViewModel.UpdateGameCommand}"
+                        Style="{StaticResource TransparentIconButton}"
+                        ToolTipService.ToolTip="Update ARK">
+                        <FontIcon
+                            FontFamily="{StaticResource FluentUIGlyphs}"
+                            FontSize="40"
+                            Glyph="&#xE91C;" />
+                    </Button>
+                    <Button
+                        x:Name="ValidateServerButton"
+                        Command="{x:Bind ViewModel.VerifyInstallCommand}"
+                        Style="{StaticResource TransparentIconButton}"
+                        ToolTipService.ToolTip="Verify game files">
+                        <FontIcon
+                            FontFamily="{StaticResource FluentUIGlyphs}"
+                            FontSize="40"
+                            Glyph="&#xE9A2;" />
                     </Button>
                 </StackPanel>
-            </StackPanel>
-            <Image Source="/Assets/UD-ServerDown.png" Style="{StaticResource SetupGraphic}" />
+            </Grid>
+            <controls:ArkInstallationBlock
+                x:Name="ArkInstallationBlock"
+                Grid.Column="1"
+                Grid.Row="3"
+                Grid.RowSpan="3"
+                x:Load="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay}"
+                DataContext="{x:Bind ViewModel}" />
+            <controls:ServerInfoBlock
+                x:Name="ServerInfoBlock"
+                Grid.RowSpan="6"
+                x:Load="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay}"
+                DataContext="{x:Bind ViewModel}" />
+            <controls:TerminalOutputBlock
+                x:Name="TerminalOutputBlock"
+                Grid.Row="6"
+                Grid.ColumnSpan="2"
+                HorizontalAlignment="Stretch"
+                x:Load="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay}" />
+            <Rectangle
+                x:Name="CoverPane"
+                Grid.RowSpan="6"
+                Grid.ColumnSpan="2"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Fill="{ThemeResource LayerFillColorDefaultBrush}"
+                Opacity="0.8"
+                Visibility="{x:Bind ViewModel.IsWaiting, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
+            <winui:ProgressRing
+                x:Name="LoadingRing"
+                Grid.RowSpan="6"
+                Grid.ColumnSpan="2"
+                Width="100"
+                Height="100"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsActive="{x:Bind ViewModel.IsWaiting, Mode=OneWay}" />
+            <Grid
+                x:Name="ConnectionFailControl"
+                Grid.RowSpan="7"
+                Grid.ColumnSpan="2"
+                x:Load="{x:Bind ViewModel.ConnectionFailed, Mode=OneWay}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" MinWidth="350" />
+                    <ColumnDefinition Width="3*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Style="{StaticResource SetupStackPanel}">
+                    <TextBlock Style="{StaticResource BoldHeader}" Text="Connection failed." />
+                    <TextBlock
+                        Foreground="{ThemeResource SystemBaseMediumColor}"
+                        Text="Archon was unable to connect to your server to control it. Verify the server information in the Archon settings page. If the problem persists, please file feedback."
+                        TextWrapping="WrapWholeWords" />
+                    <StackPanel
+                        HorizontalAlignment="Stretch"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                        <Button x:Name="FeedbackButton">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEAE8;" />
+                                    <TextBlock Text="Report issue" />
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <Button
+                            x:Name="ReloadButton"
+                            Click="{x:Bind ViewModel.InitializeAsync}"
+                            Style="{ThemeResource AccentButtonStyle}">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE916;" />
+                                    <TextBlock Text="Reconnect" />
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+                <Image Source="/Assets/UD-ServerDown.png" Style="{StaticResource SetupGraphic}" />
+            </Grid>
         </Grid>
-        <Rectangle
-            x:Name="CoverPane"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Fill="{ThemeResource LayerFillColorDefaultBrush}"
-            Opacity="0.8"
-            Visibility="{x:Bind ViewModel.IsWaiting, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
-        <winui:ProgressRing
-            x:Name="LoadingRing"
-            Width="100"
-            Height="100"
-            IsActive="{x:Bind ViewModel.IsWaiting, Mode=OneWay}" />
-    </Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="LargeLayout">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1000" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ServerControlBlock.(Grid.Column)" Value="1" />
+                        <Setter Target="ServerControlBlock.(Grid.ColumnSpan)" Value="1" />
+                        <Setter Target="ServerControlBlock.(Grid.Row)" Value="0" />
+                        <Setter Target="ServerControlBlock.(Grid.RowSpan)" Value="3"/>
 
+                        <Setter Target="ArkInstallationBlock.(Grid.Row)" Value="3" />
+                        <Setter Target="ArkInstallationBlock.(Grid.RowSpan)" Value="3"/>
+                        <Setter Target="ArkInstallationBlock.(Grid.Column)" Value="1" />
+                        <Setter Target="ArkInstallationBlock.(Grid.ColumnSpan)" Value="1" />
+
+                        <!--<Setter Target="TerminalOutputBlock.(Grid.Row)" Value="2" />
+                        <Setter Target="TerminalOutputBlock.(Grid.RowSpan)" Value="2" />-->
+
+                        <Setter Target="ServerInfoBlock.(Grid.Row)" Value="0" />
+                        <Setter Target="ServerInfoBlock.(Grid.Column)" Value="0" />
+                        <Setter Target="ServerInfoBlock.(Grid.RowSpan)" Value="6" />
+                        <Setter Target="ServerInfoBlock.(Grid.ColumnSpan)" Value="1" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="SmallLayout">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+
+                        <Setter Target="ServerControlBlock.(Grid.Column)" Value="0" />
+                        <Setter Target="ServerControlBlock.(Grid.ColumnSpan)" Value="2" />
+                        <Setter Target="ServerControlBlock.(Grid.Row)" Value="2" />
+                        <Setter Target="ServerControlBlock.(Grid.RowSpan)" Value="2"/>
+
+                        <Setter Target="ArkInstallationBlock.(Grid.Row)" Value="4" />
+                        <Setter Target="ArkInstallationBlock.(Grid.RowSpan)" Value="2"/>
+                        <Setter Target="ArkInstallationBlock.(Grid.Column)" Value="0" />
+                        <Setter Target="ArkInstallationBlock.(Grid.ColumnSpan)" Value="2" />
+
+                        <!--<Setter Target="TerminalOutputBlock.(Grid.Row)" Value="3" />
+                        <Setter Target="TerminalOutputBlock.(Grid.RowSpan)" Value="1" />-->
+
+                        <Setter Target="ServerInfoBlock.(Grid.Row)" Value="0" />
+                        <Setter Target="ServerInfoBlock.(Grid.Column)" Value="0" />
+                        <Setter Target="ServerInfoBlock.(Grid.RowSpan)" Value="2" />
+                        <Setter Target="ServerInfoBlock.(Grid.ColumnSpan)" Value="2" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </ScrollViewer>
 </Page>

@@ -11,18 +11,18 @@
     <Grid>
         <Button
             x:Name="SaveButton"
+            Width="60"
+            Height="60"
             Margin="12"
             Click="{x:Bind Clicked}"
+            CornerRadius="30"
             PointerEntered="Button_PointerEntered"
             PointerExited="Button_PointerExited"
-            Style="{StaticResource TransparentButton}"
             ToolTipService.ToolTip="Save game">
-            <Button.Content>
-                <FontIcon
-                    FontFamily="{StaticResource FluentUIGlyphs}"
-                    FontSize="40"
-                    Glyph="&#xEB4A;" />
-            </Button.Content>
+            <FontIcon
+                FontFamily="{StaticResource FluentUIGlyphs}"
+                FontSize="40"
+                Glyph="&#xEB4A;" />
         </Button>
     </Grid>
 </UserControl>

@@ -1,7 +1,8 @@
 ﻿using Archon.ViewModels;
 using System;
-using Windows.UI.Xaml;
+using Windows.UI;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -36,22 +37,13 @@ namespace Archon.Controls
 
         private void UpdateButton()
         {
-            ((FontIcon)ToggleButton.Content).Glyph = _isServerRunning ? "\xEB8A" : "\xEB21";
+            ((FontIcon)ToggleButton.Content).Glyph = _isServerRunning ? "\xE9F9" : "\xEB21";
+            ((FontIcon)ToggleButton.Content).Foreground = new SolidColorBrush(_isServerRunning ? Colors.Red : Colors.Green);
             ToolTip toolTip = new ToolTip
             {
                 Content = _isServerRunning ? "Stop ARK" : "Start ARK"
             };
             ToolTipService.SetToolTip(ToggleButton, toolTip);
-        }
-
-        private void ToggleButton_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            //TODO: Implement tooltip
-        }
-
-        private void ToggleButton_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            //TODO: Implement tooltip
         }
     }
 }

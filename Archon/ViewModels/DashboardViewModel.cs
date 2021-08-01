@@ -1,7 +1,10 @@
-﻿using Archon.Services;
+﻿using Archon.Helpers;
+using Archon.Services;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
+using System.Diagnostics;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
@@ -23,6 +26,8 @@ namespace Archon.ViewModels
         private ICommand _saveGameCommand;
         private ICommand _updateGameCommand;
         private ICommand _toggleServerCommand;
+        private ICommand _retrieveVersionsCommmand;
+        private ICommand _verifyInstallCommand;
         private bool _isServerRunning;
         private bool _saveErrorOpen = false;
         private bool _updateErrorOpen = false;
@@ -31,6 +36,8 @@ namespace Archon.ViewModels
         private bool _connectionSuccess;
         private string _serverName;
         private string _ipAddress;
+        private string _installedVersion;
+        private string _latestVersion;
 
         public static event EventHandler<StatusChangedEventArgs> RaiseStatusChangedEvent;
 
@@ -41,7 +48,7 @@ namespace Archon.ViewModels
             {
                 if (value != _isServerRunning)
                 {
-                    _isServerRunning = value;
+                    SetProperty(ref _isServerRunning, value);
                     RaiseStatusChangedEvent?.Invoke(this, new StatusChangedEventArgs(value));
                 }
             }
@@ -53,13 +60,11 @@ namespace Archon.ViewModels
             get => _connectionSuccess;
             set => SetProperty(ref _connectionSuccess, value);
         }
-
         public bool ConnectionFailed
         {
             get => _connectionFailed;
             set => SetProperty(ref _connectionFailed, value);
         }
-
         public bool IsWaiting
         {
             get => _isWaiting;
@@ -75,7 +80,6 @@ namespace Archon.ViewModels
             get => _updateErrorOpen;
             set => SetProperty(ref _updateErrorOpen, value);
         }
-
         public string ServerName
         {
             get => _serverName;
@@ -86,10 +90,22 @@ namespace Archon.ViewModels
             get => _ipAddress;
             set => SetProperty(ref _ipAddress, value);
         }
+        public string InstalledVersion
+        {
+            get => _installedVersion;
+            set => SetProperty(ref _installedVersion, value);
+        }
+        public string LatestVersion
+        {
+            get => _latestVersion;
+            set => SetProperty(ref _latestVersion, value);
+        }
 
         public ICommand SaveGameCommand => _saveGameCommand ?? (_saveGameCommand = new RelayCommand(async () => await SaveGameAsync()));
         public ICommand UpdateGameCommand => _updateGameCommand ?? (_updateGameCommand = new RelayCommand(async () => await UpdateGameAsync()));
         public ICommand ToggleServerCommand => _toggleServerCommand ?? (_toggleServerCommand = new RelayCommand(async () => await ToggleServerAsync()));
+        public ICommand RetrieveVersionsCommand => _retrieveVersionsCommmand ?? (_retrieveVersionsCommmand = new RelayCommand(async () => await RetrieveVersionsAsync()));
+        public ICommand VerifyInstallCommand => _verifyInstallCommand ?? (_verifyInstallCommand = new RelayCommand(async () => await VerifyInstallAsync()));
 
         public async Task InitializeAsync()
         {
@@ -99,6 +115,7 @@ namespace Archon.ViewModels
             IPAddress = (string)appSettings["Hostname"];
             IsWaiting = true;
             await UpdateServerStatusAsync();
+            await RetrieveVersionsAsync();
             IsWaiting = false;
         }
 
@@ -120,6 +137,34 @@ namespace Archon.ViewModels
             }
         }
 
+        private async Task RetrieveVersionsAsync()
+        {
+            StorageFolder localCache = ApplicationData.Current.LocalCacheFolder;
+            ApplicationDataContainer appSettings = ApplicationData.Current.LocalSettings;
+
+            var versionFile = await localCache.CreateFileAsync("version.txt", CreationCollisionOption.OpenIfExists);
+            string filePath = (string)appSettings.Values["Directory"] + "/version.txt";
+            _ = await SshService.DownloadFileAsync(versionFile, filePath);
+            var lines = await FileIO.ReadLinesAsync(versionFile);
+            InstalledVersion = lines[0].Before(" ") ?? "Unknown";
+            
+            //If we ever use web content anywhere else, I'll make an HTTP service class, but for now that seemed excessive for one usage
+            var httpClient = new HttpClient();
+            var responseMessage = await httpClient.GetAsync("http://arkdedicated.com/version");
+            var siteContent = await responseMessage.Content.ReadAsStringAsync();
+            //I thought it would be good to have some sort of check to make sure the site response
+            //is probably a version number while still being flexible and futureproof
+            LatestVersion = (siteContent.Length <= 10) ? siteContent : "Unknown";
+        }
+
+        private async Task VerifyInstallAsync()
+        {
+            IsWaiting = true;
+            string gameDir = (string)ApplicationData.Current.LocalSettings.Values["Directory"];
+            await SshService.ExecuteCommandInStreamAsync($"steamcmd +login anonymous +force_install_dir {gameDir} +app_update 376030 validate +quit");
+            IsWaiting = false;
+        }
+
         public async Task SaveGameAsync()
         {
             if (IsServerRunning)
@@ -134,17 +179,10 @@ namespace Archon.ViewModels
 
         public async Task UpdateGameAsync()
         {
-            if (IsServerRunning)
-            {
-                UpdateErrorOpen = true;
-            }
-            else
-            {
-                IsWaiting = true;
-                string gameDir = (string)ApplicationData.Current.LocalSettings.Values["Directory"];
-                _ = await SshService.ExecuteCommandAsync($"steamcmd +login anonymous +force_install_dir {gameDir} +app_update 376030 +quit");
-                IsWaiting = false;
-            }
+            IsWaiting = true;
+            string gameDir = (string)ApplicationData.Current.LocalSettings.Values["Directory"];
+            await SshService.ExecuteCommandInStreamAsync($"steamcmd +login anonymous +force_install_dir {gameDir} +app_update 376030 +quit");
+            IsWaiting = false;
         }
 
         public async Task ToggleServerAsync()
@@ -164,7 +202,8 @@ namespace Archon.ViewModels
             string gameDir = (string)ApplicationData.Current.LocalSettings.Values["Directory"];
             string scriptName = (string)ApplicationData.Current.LocalSettings.Values["ScriptName"];
             IsWaiting = true;
-            _ = SshService.ExecuteCommandAsync($"cd {gameDir}/Binaries/Linux && ./{scriptName}");
+            //Don't await because it never returns until the server's stopped
+            _ = SshService.ExecuteCommandAsync($"cd {gameDir}/ShooterGame/Binaries/Linux && ./{scriptName}");
 
             //Checks for 15 seconds to see if server successfully started
             int refreshCount = 0;
@@ -172,6 +211,7 @@ namespace Archon.ViewModels
             {
                 await Task.Delay(1000);
                 refreshCount++;
+                await UpdateServerStatusAsync();
             }
 
             IsWaiting = false;
@@ -191,6 +231,7 @@ namespace Archon.ViewModels
             {
                 await Task.Delay(1000);
                 refreshCount++;
+                await UpdateServerStatusAsync();
             }
 
             IsWaiting = false;

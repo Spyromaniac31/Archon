@@ -8,13 +8,10 @@
     d:DesignWidth="400"
     mc:Ignorable="d">
 
-    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBlock
-            x:Name="ServerStatusText"
-            FontSize="24"
-            FontWeight="SemiBold"
-            Foreground="Red"
-            Text="Stopped"
-            TextAlignment="Center" />
-    </Grid>
+    <TextBlock
+        x:Name="ServerStatusText"
+        Style="{StaticResource CardPrimaryText}"
+        Foreground="Red"
+        Text="Stopped"
+        TextAlignment="Left" />
 </UserControl>
