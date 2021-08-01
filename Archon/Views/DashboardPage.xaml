@@ -33,8 +33,8 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <ScrollViewer MaxWidth="1200" MaxHeight="800">
-        <Grid MaxWidth="1200" MaxHeight="800">
+    <ScrollViewer MaxWidth="1200" MaxHeight="890">
+        <Grid MaxWidth="1200" MaxHeight="890">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
@@ -46,7 +46,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*" MinHeight="80"/>
                 <RowDefinition Height="*" MinHeight="80"/>
-                <RowDefinition Height="6*"/>
+                <RowDefinition Height="6*" />
             </Grid.RowDefinitions>
             <Grid
                 x:Name="ServerControlBlock"
