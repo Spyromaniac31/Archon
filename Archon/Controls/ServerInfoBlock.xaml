@@ -1,0 +1,146 @@
+﻿<UserControl
+    x:Class="Archon.Controls.ServerInfoBlock"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Archon.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Archon.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    Background="{ThemeResource LayerFillColorDefaultBrush}"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+    <Grid
+        x:Name="MainGrid"
+        Margin="8"
+        Padding="16"
+        Background="{ThemeResource LayerFillColorDefaultBrush}"
+        CornerRadius="8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Image
+            x:Name="LogoImage"
+            MaxWidth="300"
+            MaxHeight="300"
+            Margin="24"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center" />
+        <StackPanel
+            x:Name="StatusStackPanel"
+            Grid.Column="1"
+            VerticalAlignment="Center">
+            <TextBlock
+                x:Name="ServerNameTextBlock"
+                Style="{StaticResource BoldHeader}"
+                TextTrimming="CharacterEllipsis" />
+            <controls:ServerStatusTextBlock Grid.Column="1" />
+        </StackPanel>
+        <StackPanel
+            x:Name="PrimaryIPStackPanel"
+            Grid.Row="1"
+            Margin="24,0,0,0"
+            VerticalAlignment="Center">
+            <TextBlock Style="{StaticResource CardSecondaryText}" Text="Primary IP address" />
+            <TextBlock
+                x:Name="PrimaryIPTextBlock"
+                Style="{StaticResource CardPrimaryText}"
+                TextTrimming="CharacterEllipsis" />
+        </StackPanel>
+        <StackPanel
+            x:Name="BackupIPStackPanel"
+            Grid.Row="1"
+            VerticalAlignment="Center">
+            <TextBlock Style="{StaticResource CardSecondaryText}" Text="Backup IP address" />
+            <TextBlock
+                x:Name="BackupIPTextBlock"
+                Style="{StaticResource CardPrimaryText}"
+                TextTrimming="CharacterEllipsis" />
+        </StackPanel>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="LogoImage.(Grid.RowSpan)" Value="2" />
+                        <Setter Target="LogoImage.Margin" Value="8" />
+                        <Setter Target="LogoImage.(Grid.Column)" Value="0" />
+
+                        <Setter Target="StatusStackPanel.(Grid.ColumnSpan)" Value="2" />
+                        <Setter Target="StatusStackPanel.(Grid.RowSpan)" Value="2" />
+                        <Setter Target="StatusStackPanel.(Grid.Column)" Value="1" />
+
+                        <Setter Target="ServerNameTextBlock.FontSize" Value="32" />
+
+                        <Setter Target="PrimaryIPStackPanel.(Grid.Column)" Value="3" />
+                        <Setter Target="PrimaryIPStackPanel.(Grid.Row)" Value="0" />
+                        <Setter Target="PrimaryIPStackPanel.Margin" Value="0" />
+                        <Setter Target="PrimaryIPTextBlock.FontSize" Value="20" />
+
+                        <Setter Target="BackupIPStackPanel.(Grid.Column)" Value="3" />
+                        <Setter Target="BackupIPTextBlock.FontSize" Value="20" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="LogoImage.(Grid.RowSpan)" Value="2" />
+                        <Setter Target="LogoImage.Margin" Value="8" />
+                        <Setter Target="LogoImage.(Grid.Column)" Value="0" />
+
+                        <Setter Target="StatusStackPanel.(Grid.ColumnSpan)" Value="1" />
+                        <Setter Target="StatusStackPanel.(Grid.RowSpan)" Value="2" />
+                        <Setter Target="StatusStackPanel.(Grid.Column)" Value="1" />
+                        <Setter Target="ServerNameTextBlock.FontSize" Value="32" />
+
+                        <Setter Target="PrimaryIPStackPanel.(Grid.Column)" Value="2" />
+                        <Setter Target="PrimaryIPStackPanel.(Grid.Row)" Value="0" />
+                        <Setter Target="PrimaryIPStackPanel.(Grid.RowSpan)" Value="2" />
+                        <Setter Target="PrimaryIPTextBlock.FontSize" Value="20" />
+
+                        <Setter Target="BackupIPStackPanel.(Grid.Column)" Value="3" />
+                        <Setter Target="BackupIPStackPanel.(Grid.Row)" Value="0" />
+                        <Setter Target="BackupIPStackPanel.(Grid.RowSpan)" Value="2" />
+                        <Setter Target="BackupIPStackPanel.Margin" Value="24,0,0,0" />
+                        <Setter Target="BackupIPTextBlock.FontSize" Value="20" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1000" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="LogoImage.(Grid.RowSpan)" Value="1" />
+                        <Setter Target="LogoImage.(Grid.ColumnSpan)" Value="2" />
+
+                        <Setter Target="StatusStackPanel.(Grid.ColumnSpan)" Value="3" />
+                        <Setter Target="StatusStackPanel.(Grid.Column)" Value="2" />
+
+                        <Setter Target="PrimaryIPStackPanel.(Grid.Column)" Value="0" />
+                        <Setter Target="PrimaryIPStackPanel.(Grid.ColumnSpan)" Value="2" />
+                        <Setter Target="PrimaryIPStackPanel.Margin" Value="24,0,0,0" />
+                        <Setter Target="PrimaryIPTextBlock.FontSize" Value="32" />
+
+                        <Setter Target="BackupIPStackPanel.(Grid.Column)" Value="2" />
+                        <Setter Target="BackupIPStackPanel.(Grid.ColumnSpan)" Value="2" />
+                        <Setter Target="BackupIPTextBlock.FontSize" Value="32" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</UserControl>

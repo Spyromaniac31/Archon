@@ -11,16 +11,19 @@
     <Grid>
         <Button
             x:Name="ToggleButton"
+            Width="88"
+            Height="88"
             HorizontalAlignment="Center"
+            Background="Transparent"
+            BorderBrush="Transparent"
             Click="{x:Bind Clicked}"
-            PointerEntered="ToggleButton_PointerEntered"
-            PointerExited="ToggleButton_PointerExited"
-            Style="{StaticResource TransparentButton}"
+            CornerRadius="4"
             ToolTipService.ToolTip="Start ARK">
             <Button.Content>
                 <FontIcon
                     FontFamily="{StaticResource FluentUIGlyphs}"
                     FontSize="64"
+                    Foreground="Green"
                     Glyph="&#xEB21;" />
             </Button.Content>
         </Button>

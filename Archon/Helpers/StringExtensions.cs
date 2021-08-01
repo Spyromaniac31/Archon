@@ -1,4 +1,6 @@
-﻿namespace Archon.Helpers
+﻿using System.Collections.Generic;
+
+namespace Archon.Helpers
 {
     public static class StringExtensions
     {
@@ -29,11 +31,7 @@
         /// <returns>The substring after the parameter, or null if the parameter is invalid.</returns>
         public static string After(this string str, string start)
         {
-            if (!str.Contains(start))
-            {
-                return null;
-            }
-            return str.Substring(str.IndexOf(start) + start.Length);
+            return !str.Contains(start) ? null : str.Substring(str.IndexOf(start) + start.Length);
         }
 
         /// <summary>
@@ -44,11 +42,7 @@
         /// <returns>The substring before the parameter, or null if the parameter is invalid.</returns>
         public static string Before(this string str, string end)
         {
-            if (!str.Contains(end))
-            {
-                return null;
-            }
-            return str.Substring(0, str.IndexOf(end));
+            return !str.Contains(end) ? str : str.Substring(0, str.IndexOf(end));
         }
 
         public static string Capitalize(this string str)

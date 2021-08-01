@@ -2,6 +2,7 @@
 using Renci.SshNet.Async;
 using Renci.SshNet.Common;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -11,6 +12,8 @@ namespace Archon.Services
     public static class SshService
     {
         private static SshClient _sshClient;
+        private static SftpClient _sftpClient;
+
         public static SshClient SshClient
         {
             get
@@ -23,8 +26,6 @@ namespace Archon.Services
             }
             set => _sshClient = value;
         }
-
-        private static SftpClient _sftpClient;
         public static SftpClient SftpClient
         {
             get
@@ -38,6 +39,7 @@ namespace Archon.Services
             set => _sftpClient = value;
         }
 
+        public static event EventHandler<ShellDataEventArgs> DataReceived;
         private static PasswordConnectionInfo GetConnectionInfo()
         {
             ApplicationDataContainer appSettings = ApplicationData.Current.LocalSettings;
@@ -58,6 +60,27 @@ namespace Archon.Services
             return new PasswordConnectionInfo(hostname, username, password);
         }
 
+        public static async Task ExecuteCommandInStreamAsync(string command)
+        {
+            if (await ConnectSshAsync())
+            {
+                await Task.Run(() =>
+                {
+                    var shellStream = SshClient.CreateShellStream(string.Empty, 0, 0, 0, 0, 10000);
+                    shellStream.DataReceived += ShellStream_DataReceived;
+                    shellStream.WriteLine(command);
+
+                    string line;
+                    while ((line = shellStream.ReadLine(TimeSpan.FromSeconds(2))) != null)
+                    {
+                        Debug.WriteLine(line);
+                    }
+
+                });
+                return;
+            }
+        }
+
         public static async Task<string> ExecuteCommandAsync(string command)
         {
             if (await ConnectSshAsync())
@@ -69,6 +92,11 @@ namespace Archon.Services
                 return output;
             }
             return "Failed to connect";
+        }
+
+        private static void ShellStream_DataReceived(object sender, ShellDataEventArgs e)
+        {
+            DataReceived.Invoke(sender, e);
         }
 
         public static async Task<bool> UploadFileAsync(StorageFile localFile, string remotePath)
@@ -140,7 +168,7 @@ namespace Archon.Services
                 }
             }
         }
-        
+
         private static async Task<bool> ConnectSftpAsync()
         {
             if (SftpClient.IsConnected)
