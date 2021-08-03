@@ -2,22 +2,60 @@
 using Archon.Services;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel;
+using Windows.Storage;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace Archon.ViewModels
 {
     public class SettingsViewModel : ObservableObject
     {
-        private ElementTheme _elementTheme = ThemeSelectorService.Theme;
+        private string _themeName = ThemeSelectorService.Theme.ToString();
+        private string _hostname = (string)ApplicationData.Current.LocalSettings.Values["Hostname"];
+        private string _backupHostname = (string)ApplicationData.Current.LocalSettings.Values["BackupHostname"];
+        private string _username = (string)ApplicationData.Current.LocalSettings.Values["Username"];
+        private string _password = (string)ApplicationData.Current.LocalSettings.Values["Password"];
+        private string _directory = (string)ApplicationData.Current.LocalSettings.Values["Directory"];
+        private string _scriptName = (string)ApplicationData.Current.LocalSettings.Values["ScriptName"];
 
-        public ElementTheme ElementTheme
+        public string ThemeName
         {
-            get => _elementTheme;
-
-            set => SetProperty(ref _elementTheme, value);
+            get => _themeName;
+            set => SetProperty(ref _themeName, value);
+        }
+        public string Hostname
+        {
+            get => _hostname;
+            set => SetProperty(ref _hostname, value);
+        }
+        public string BackupHostname
+        {
+            get => _backupHostname;
+            set => SetProperty(ref _backupHostname, value);
+        }
+        public string Username
+        {
+            get => _username;
+            set => SetProperty(ref _username, value);
+        }
+        public string Password
+        {
+            get => _password;
+            set => SetProperty(ref _password, value);
+        }
+        public string Directory
+        {
+            get => _directory;
+            set => SetProperty(ref _directory, value);
+        }
+        public string ScriptName
+        {
+            get => _scriptName;
+            set => SetProperty(ref _scriptName, value);
         }
 
         private string _versionDescription;
@@ -25,28 +63,7 @@ namespace Archon.ViewModels
         public string VersionDescription
         {
             get => _versionDescription;
-
             set => SetProperty(ref _versionDescription, value);
-        }
-
-        private ICommand _switchThemeCommand;
-
-        public ICommand SwitchThemeCommand
-        {
-            get
-            {
-                if (_switchThemeCommand == null)
-                {
-                    _switchThemeCommand = new RelayCommand<ElementTheme>(
-                        async (param) =>
-                        {
-                            ElementTheme = param;
-                            await ThemeSelectorService.SetThemeAsync(param);
-                        });
-                }
-
-                return _switchThemeCommand;
-            }
         }
 
         public SettingsViewModel()
@@ -57,6 +74,30 @@ namespace Archon.ViewModels
         {
             VersionDescription = GetVersionDescription();
             await Task.CompletedTask;
+        }
+
+        public async void UpdateThemeAsync()
+        {
+            if (Enum.TryParse(typeof(ElementTheme), ThemeName, out var parsedTheme))
+            {
+                await ThemeSelectorService.SetThemeAsync((ElementTheme)parsedTheme);
+            }
+            else
+            {
+                ErrorReporterService.ReportError("Error parsing theme", "There was an issue applying the selected theme. Please file feedback if this error continues.", "Error");
+            }
+        }
+
+        public void UpdateAppSettings(object sender, RoutedEventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                ApplicationData.Current.LocalSettings.SaveString((string)textBox.Tag, textBox.Text);
+            }
+            else if (sender is PasswordBox passwordBox)
+            {
+                ApplicationData.Current.LocalSettings.SaveString((string)passwordBox.Tag, passwordBox.Password);
+            }
         }
 
         private string GetVersionDescription()
