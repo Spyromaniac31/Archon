@@ -1,15 +1,19 @@
-﻿using Archon.Models;
+﻿using Archon.Helpers;
+using Archon.Models;
 using Archon.Services;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+//using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Shapes;
 using WinUI = Microsoft.UI.Xaml.Controls;
 
 namespace Archon.ViewModels
@@ -123,6 +127,19 @@ namespace Archon.ViewModels
             ApplicationDataContainer appSettings = ApplicationData.Current.LocalSettings;
             StorageFolder localCache = ApplicationData.Current.LocalCacheFolder;
 
+            StorageFile scriptFile = await localCache.CreateFileAsync((string)appSettings.Values["ScriptName"], CreationCollisionOption.OpenIfExists);
+            StorageFile gameFile = await localCache.CreateFileAsync("Game.ini", CreationCollisionOption.OpenIfExists);
+            StorageFile gameUserFile = await localCache.CreateFileAsync("GameUserSettings.ini", CreationCollisionOption.OpenIfExists);
+
+            //We create the backup first before we overwrite the local files with the new saves
+            string backupName = $"{(string)appSettings.Values["Directory"]}/ArchonBackup".AddTimeStamp();
+            if (await SshService.CreateDirectoryAsync(backupName))
+            {
+                _ = await SshService.UploadFileAsync(scriptFile, backupName + "/" + (string)appSettings.Values["ScriptName"]);
+                _ = await SshService.UploadFileAsync(gameFile, backupName + "/Game.ini");
+                _ = await SshService.UploadFileAsync(gameUserFile, backupName + "/GameUserSettings.ini");
+            }
+
             List<string> gameLines = new List<string>() { "[/script/shootergame.shootergamemode]" };
 
             Dictionary<string, List<string>> gameUserLinesSections = new Dictionary<string, List<string>>();
@@ -169,11 +186,6 @@ namespace Archon.ViewModels
                     }
                 }
             }
-            
-
-            StorageFile scriptFile = await localCache.CreateFileAsync((string)appSettings.Values["ScriptName"], CreationCollisionOption.OpenIfExists);
-            StorageFile gameFile = await localCache.CreateFileAsync("Game.ini", CreationCollisionOption.OpenIfExists);
-            StorageFile gameUserFile = await localCache.CreateFileAsync("GameUserSettings.ini", CreationCollisionOption.OpenIfExists);
 
             string startLine = "./ShooterGameServer " + (string)((ApplicationDataCompositeValue)appSettings.Values["GameSettings"])["Map"] + "?listen";
             foreach (string setting in scriptSettings)
@@ -185,7 +197,7 @@ namespace Archon.ViewModels
                 startLine += arg;
             }
             await FileIO.WriteLinesAsync(scriptFile, new List<string>() { "#! /bin/bash", startLine });
-
+            
             await FileIO.WriteLinesAsync(gameFile, gameLines);
 
             await FileIO.WriteTextAsync(gameUserFile, "");
@@ -197,7 +209,20 @@ namespace Archon.ViewModels
                 groupedSection.Add("");
                 await FileIO.AppendLinesAsync(gameUserFile, groupedSection);
             }
-            
+
+            var graphicsFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Data/graphics.txt"));
+            await FileIO.AppendLinesAsync(gameUserFile, await FileIO.ReadLinesAsync(graphicsFile));
+
+            //Changes files from CRLF to LF
+            foreach (var file in new List<StorageFile>(){ scriptFile, gameFile, gameUserFile})
+            {
+                await FileIO.WriteTextAsync(file, (await FileIO.ReadTextAsync(file, UnicodeEncoding.Utf8)).Replace("\r\n", "\n"));
+            }
+
+            _ = await SshService.UploadFileAsync(scriptFile, $"{(string)appSettings.Values["Directory"]}/ShooterGame/Binaries/Linux/{(string)appSettings.Values["ScriptName"]}");
+            //_ = await SshService.ExecuteCommandAsync($"chmod +x {(string)appSettings.Values["Directory"]}/ShooterGame/Binaries/Linux/{(string)appSettings.Values["ScriptName"]}");
+            _ = await SshService.UploadFileAsync(gameFile, (string)appSettings.Values["Directory"] + "/ShooterGame/Saved/Config/LinuxServer/Game.ini");
+            _ = await SshService.UploadFileAsync(gameUserFile, (string)appSettings.Values["Directory"] + "/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini");
         }
     }
 

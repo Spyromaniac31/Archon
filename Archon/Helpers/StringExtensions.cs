@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Archon.Helpers
 {
@@ -48,6 +49,11 @@ namespace Archon.Helpers
         public static string Capitalize(this string str)
         {
             return str.Substring(0, 1).ToUpper() + str.Substring(1);
+        }
+
+        public static string AddTimeStamp(this string str)
+        {
+            return $"{str}_{DateTime.Now.Month}.{DateTime.Now.Day}.{DateTime.Now.Year}_{DateTime.Now.Hour}.{DateTime.Now.Minute}.{DateTime.Now.Second}";
         }
     }
 }

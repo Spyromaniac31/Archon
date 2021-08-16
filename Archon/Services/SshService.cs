@@ -141,6 +141,23 @@ namespace Archon.Services
             return false;
         }
 
+        public static async Task<bool> CreateDirectoryAsync(string directoryName)
+        {
+            if (await ConnectSftpAsync())
+            {
+                try
+                {
+                    SftpClient.CreateDirectory(directoryName);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    ErrorReporterService.ReportError("Directory creation failed", "Archon ran into an issue creating a directory. Error: " + ex.Message, "Error");
+                }
+            }
+            return false;
+        }
+
         private static async Task<bool> ConnectSshAsync()
         {
             if (SshClient.IsConnected)
