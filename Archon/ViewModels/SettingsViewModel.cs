@@ -3,9 +3,11 @@ using Archon.Services;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel;
+using Windows.Security.Credentials;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -17,8 +19,8 @@ namespace Archon.ViewModels
         private string _themeName = ThemeSelectorService.Theme.ToString();
         private string _hostname = (string)ApplicationData.Current.LocalSettings.Values["Hostname"];
         private string _backupHostname = (string)ApplicationData.Current.LocalSettings.Values["BackupHostname"];
-        private string _username = (string)ApplicationData.Current.LocalSettings.Values["Username"];
-        private string _password = (string)ApplicationData.Current.LocalSettings.Values["Password"];
+        private string _username;
+        private string _password;
         private string _directory = (string)ApplicationData.Current.LocalSettings.Values["Directory"];
         private string _scriptName = (string)ApplicationData.Current.LocalSettings.Values["ScriptName"];
 
@@ -72,6 +74,9 @@ namespace Archon.ViewModels
 
         public async Task InitializeAsync()
         {
+            var credentials = CredentialHelper.RetrieveServerCredentials();
+            Username = credentials.UserName;
+            Password = credentials.Password;
             VersionDescription = GetVersionDescription();
             await Task.CompletedTask;
         }
@@ -92,11 +97,20 @@ namespace Archon.ViewModels
         {
             if (sender is TextBox textBox)
             {
+                if ((string)textBox.Header == "Username")
+                {
+                    CredentialHelper.UpdateServerCredentials(textBox.Text, Password);
+                    return;
+                }
                 ApplicationData.Current.LocalSettings.SaveString((string)textBox.Tag, textBox.Text);
             }
             else if (sender is PasswordBox passwordBox)
             {
-                ApplicationData.Current.LocalSettings.SaveString((string)passwordBox.Tag, passwordBox.Password);
+                if (string.IsNullOrEmpty(passwordBox.Password))
+                {
+                    return;
+                }
+                CredentialHelper.UpdateServerCredentials(Username, passwordBox.Password);
             }
         }
 

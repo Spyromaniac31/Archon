@@ -146,6 +146,7 @@
       <DependentUpon>UpdateGameButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Helpers\CredentialHelper.cs" />
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
     <Compile Include="Helpers\FileParsers.cs" />
     <Compile Include="Helpers\Json.cs" />

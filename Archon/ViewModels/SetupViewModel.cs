@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.Security.Credentials;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -159,11 +160,11 @@ namespace Archon.ViewModels
             if (!ErrorOpen)
             {
                 appSettings.SaveString("Hostname", Hostname);
-                appSettings.SaveString("Username", Username);
-                appSettings.SaveString("Password", Password);
                 appSettings.SaveString("Directory", Directory);
                 appSettings.SaveString("ScriptName", ScriptName);
                 appSettings.SaveString("BackupHostname", string.IsNullOrEmpty(BackupHostname) ? Hostname : BackupHostname);
+
+                CredentialHelper.UpdateServerCredentials(Username, Password);
 
                 Window.Current.Content = new Frame();
                 NavigationService.Frame = Window.Current.Content as Frame;

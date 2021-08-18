@@ -1,10 +1,12 @@
-﻿using Renci.SshNet;
+﻿using Archon.Helpers;
+using Renci.SshNet;
 using Renci.SshNet.Async;
 using Renci.SshNet.Common;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using Windows.Security.Credentials;
 using Windows.Storage;
 
 namespace Archon.Services
@@ -44,8 +46,9 @@ namespace Archon.Services
         {
             ApplicationDataContainer appSettings = ApplicationData.Current.LocalSettings;
             string hostname = (string)appSettings.Values["Hostname"];
-            string username = (string)appSettings.Values["Username"];
-            string password = (string)appSettings.Values["Password"];
+            var credentials = CredentialHelper.RetrieveServerCredentials();
+            string username = credentials.UserName;
+            string password = credentials.Password;
 
             return new PasswordConnectionInfo(hostname, username, password);
         }
@@ -54,8 +57,9 @@ namespace Archon.Services
         {
             ApplicationDataContainer appSettings = ApplicationData.Current.LocalSettings;
             string hostname = (string)appSettings.Values["BackupHostname"];
-            string username = (string)appSettings.Values["Username"];
-            string password = (string)appSettings.Values["Password"];
+            var credentials = CredentialHelper.RetrieveServerCredentials();
+            string username = credentials.UserName;
+            string password = credentials.Password;
 
             return new PasswordConnectionInfo(hostname, username, password);
         }
