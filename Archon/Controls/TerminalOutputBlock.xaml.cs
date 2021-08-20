@@ -38,7 +38,7 @@ namespace Archon.Controls
             }
             catch (Exception ex)
             {
-                //TODO: Implement terminal error messages
+                ErrorReporterService.ReportError("Terminal Error", ex.ToString(), "Warning");
             }
         }
     }
