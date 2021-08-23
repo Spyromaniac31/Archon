@@ -28,6 +28,7 @@
         IsBackButtonVisible="Collapsed"
         IsPaneToggleButtonVisible="False"
         IsSettingsVisible="False"
+        ItemInvoked="SourceNavView_ItemInvoked"
         MenuItemsSource="{x:Bind ViewModel.NavItems}"
         OpenPaneLength="220"
         PaneDisplayMode="Left">
@@ -95,11 +96,6 @@
                 </i:Interaction.Behaviors>
             </Button>
         </winui:NavigationView.PaneFooter>
-        <i:Interaction.Behaviors>
-            <ic:EventTriggerBehavior EventName="ItemInvoked">
-                <ic:InvokeCommandAction Command="{x:Bind ViewModel.ItemInvokedCommand}" />
-            </ic:EventTriggerBehavior>
-        </i:Interaction.Behaviors>
         <GridView ItemsSource="{x:Bind SettingsCVS.View, Mode=OneWay}" SelectionMode="None">
             <GridView.Resources>
                 <CollectionViewSource

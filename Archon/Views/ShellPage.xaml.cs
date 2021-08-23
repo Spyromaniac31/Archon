@@ -64,5 +64,10 @@ namespace Archon.Views
         {
             AppTitleBar.Visibility = sender.IsVisible ? Visibility.Visible : Visibility.Collapsed;
         }
+
+        private void navigationView_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
+        {
+            ViewModel.ItemInvokedCommand.Execute(args);
+        }
     }
 }

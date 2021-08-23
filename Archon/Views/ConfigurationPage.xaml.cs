@@ -20,5 +20,10 @@ namespace Archon.Views
             //I want to put this in an async method but I don't know one that won't be called multiple times in the page's lifespan
             ViewModel.InitializeAsync(SourceNavView, SettingSearchBox);
         }
+
+        private void SourceNavView_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
+        {
+            ViewModel.ItemInvokedCommand.Execute(args);
+        }
     }
 }

@@ -55,6 +55,7 @@
             Canvas.ZIndex="0"
             IsBackButtonVisible="Collapsed"
             IsSettingsVisible="True"
+            ItemInvoked="navigationView_ItemInvoked"
             PaneDisplayMode="Top"
             SelectedItem="{x:Bind ViewModel.Selected, Mode=TwoWay}"
             Visibility="Visible">
@@ -70,11 +71,6 @@
                     </winui:NavigationViewItem.Icon>
                 </winui:NavigationViewItem>
             </winui:NavigationView.MenuItems>
-            <i:Interaction.Behaviors>
-                <ic:EventTriggerBehavior EventName="ItemInvoked">
-                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.ItemInvokedCommand}" />
-                </ic:EventTriggerBehavior>
-            </i:Interaction.Behaviors>
             <Grid>
                 <Frame x:Name="shellFrame" />
                 <ListView
