@@ -40,20 +40,20 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" MinHeight="80"/>
-                <RowDefinition Height="*" MinHeight="80"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*" MinHeight="80"/>
-                <RowDefinition Height="*" MinHeight="80"/>
+                <RowDefinition Height="*" MinHeight="80" />
+                <RowDefinition Height="*" MinHeight="80" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" MinHeight="80" />
+                <RowDefinition Height="*" MinHeight="80" />
                 <RowDefinition Height="6*" />
             </Grid.RowDefinitions>
             <Grid
                 x:Name="ServerControlBlock"
-                Grid.Column="1"
                 Grid.RowSpan="3"
+                Grid.Column="1"
                 Margin="8"
-                x:Load="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
                 Background="{ThemeResource LayerFillColorDefaultBrush}"
                 CornerRadius="8">
                 <StackPanel
@@ -102,22 +102,22 @@
             </Grid>
             <controls:ArkInstallationBlock
                 x:Name="ArkInstallationBlock"
-                Grid.Column="1"
                 Grid.Row="3"
                 Grid.RowSpan="3"
-                x:Load="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay}"
+                Grid.Column="1"
+                Visibility="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
                 DataContext="{x:Bind ViewModel}" />
             <controls:ServerInfoBlock
                 x:Name="ServerInfoBlock"
                 Grid.RowSpan="6"
-                x:Load="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
                 DataContext="{x:Bind ViewModel}" />
             <controls:TerminalOutputBlock
                 x:Name="TerminalOutputBlock"
                 Grid.Row="6"
                 Grid.ColumnSpan="2"
                 HorizontalAlignment="Stretch"
-                x:Load="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay}" />
+                Visibility="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Rectangle
                 x:Name="CoverPane"
                 Grid.RowSpan="6"
@@ -155,14 +155,10 @@
                         HorizontalAlignment="Stretch"
                         Orientation="Horizontal"
                         Spacing="8">
-                        <Button x:Name="FeedbackButton">
-                            <Button.Content>
-                                <StackPanel Orientation="Horizontal" Spacing="6">
-                                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEAE8;" />
-                                    <TextBlock Text="Report issue" />
-                                </StackPanel>
-                            </Button.Content>
-                        </Button>
+                        <HyperlinkButton
+                            x:Name="FeedbackButton"
+                            Content="Report issue"
+                            NavigateUri="https://github.com/Spyromaniac31/Archon/issues" />
                         <Button
                             x:Name="ReloadButton"
                             Click="{x:Bind ViewModel.InitializeAsync}"
@@ -189,20 +185,26 @@
                         <Setter Target="ServerControlBlock.(Grid.Column)" Value="1" />
                         <Setter Target="ServerControlBlock.(Grid.ColumnSpan)" Value="1" />
                         <Setter Target="ServerControlBlock.(Grid.Row)" Value="0" />
-                        <Setter Target="ServerControlBlock.(Grid.RowSpan)" Value="3"/>
+                        <Setter Target="ServerControlBlock.(Grid.RowSpan)" Value="3" />
+                        <Setter Target="ServerControlBlock.Visibility" Value="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                         <Setter Target="ArkInstallationBlock.(Grid.Row)" Value="3" />
-                        <Setter Target="ArkInstallationBlock.(Grid.RowSpan)" Value="3"/>
+                        <Setter Target="ArkInstallationBlock.(Grid.RowSpan)" Value="3" />
                         <Setter Target="ArkInstallationBlock.(Grid.Column)" Value="1" />
                         <Setter Target="ArkInstallationBlock.(Grid.ColumnSpan)" Value="1" />
+                        <Setter Target="ArkInstallationBlock.Visibility" Value="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                         <!--<Setter Target="TerminalOutputBlock.(Grid.Row)" Value="2" />
                         <Setter Target="TerminalOutputBlock.(Grid.RowSpan)" Value="2" />-->
+                        <Setter Target="TerminalOutputBlcok.Visibility" Value="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
 
                         <Setter Target="ServerInfoBlock.(Grid.Row)" Value="0" />
                         <Setter Target="ServerInfoBlock.(Grid.Column)" Value="0" />
                         <Setter Target="ServerInfoBlock.(Grid.RowSpan)" Value="6" />
                         <Setter Target="ServerInfoBlock.(Grid.ColumnSpan)" Value="1" />
+                        <Setter Target="ServerInfoBlock.Visibility" Value="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
                     </VisualState.Setters>
                 </VisualState>
 
@@ -211,24 +213,30 @@
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-
+                        <Setter Target="ServerControlBlock.Visibility" Value="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
                         <Setter Target="ServerControlBlock.(Grid.Column)" Value="0" />
                         <Setter Target="ServerControlBlock.(Grid.ColumnSpan)" Value="2" />
                         <Setter Target="ServerControlBlock.(Grid.Row)" Value="2" />
-                        <Setter Target="ServerControlBlock.(Grid.RowSpan)" Value="2"/>
+                        <Setter Target="ServerControlBlock.(Grid.RowSpan)" Value="2" />
 
                         <Setter Target="ArkInstallationBlock.(Grid.Row)" Value="4" />
-                        <Setter Target="ArkInstallationBlock.(Grid.RowSpan)" Value="2"/>
+                        <Setter Target="ArkInstallationBlock.(Grid.RowSpan)" Value="2" />
                         <Setter Target="ArkInstallationBlock.(Grid.Column)" Value="0" />
                         <Setter Target="ArkInstallationBlock.(Grid.ColumnSpan)" Value="2" />
+                        <Setter Target="ArkInstallationBlock.Visibility" Value="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
 
                         <!--<Setter Target="TerminalOutputBlock.(Grid.Row)" Value="3" />
                         <Setter Target="TerminalOutputBlock.(Grid.RowSpan)" Value="1" />-->
+                        <Setter Target="TerminalOutputBlcok.Visibility" Value="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
 
                         <Setter Target="ServerInfoBlock.(Grid.Row)" Value="0" />
                         <Setter Target="ServerInfoBlock.(Grid.Column)" Value="0" />
                         <Setter Target="ServerInfoBlock.(Grid.RowSpan)" Value="2" />
                         <Setter Target="ServerInfoBlock.(Grid.ColumnSpan)" Value="2" />
+                        <Setter Target="ServerInfoBlock.Visibility" Value="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
