@@ -7,15 +7,15 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="926a7d18-5c21-4dc6-ab30-e0910a4d0354"
-    Publisher="CN=henry"
-    Version="1.0.0.0" />
+    Name="61144HenryPontzer.ArchonforARKPreview"
+    Publisher="CN=41B545D2-4D91-4AD5-8A39-F0303D7D2518"
+    Version="0.1.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="926a7d18-5c21-4dc6-ab30-e0910a4d0354" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="0380d34d-9111-4cfa-83b3-cb77e4c96ebc" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>Archon</DisplayName>
-    <PublisherDisplayName>henry</PublisherDisplayName>
+    <DisplayName>Archon for ARK (Preview)</DisplayName>
+    <PublisherDisplayName>Henry Pontzer</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -32,7 +32,7 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="Archon.App">
       <uap:VisualElements
-        DisplayName="Archon"
+        DisplayName="Archon for ARK (Preview)"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
         Description="Archon"
