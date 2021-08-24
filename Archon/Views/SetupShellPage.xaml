@@ -52,6 +52,7 @@
             IsBackButtonVisible="Visible"
             IsBackEnabled="{x:Bind ViewModel.IsBackEnabled, Mode=OneWay}"
             IsSettingsVisible="False"
+            ItemInvoked="navigationView_ItemInvoked"
             PaneDisplayMode="Top"
             SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}">
             <winui:NavigationView.MenuItems>
@@ -71,15 +72,8 @@
                     </winui:NavigationViewItem.Icon>
                 </winui:NavigationViewItem>
             </winui:NavigationView.MenuItems>
-            <i:Interaction.Behaviors>
-                <ic:EventTriggerBehavior EventName="ItemInvoked">
-                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.ItemInvokedCommand}" />
-                </ic:EventTriggerBehavior>
-            </i:Interaction.Behaviors>
             <Grid>
-                <Frame
-                    x:Name="shellFrame"
-                    DataContext="{x:Bind ViewModel}"/>
+                <Frame x:Name="shellFrame" DataContext="{x:Bind ViewModel}" />
                 <winui:InfoBar
                     x:Name="ErrorBar"
                     Title="Empty fields"
