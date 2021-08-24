@@ -53,9 +53,9 @@
                 Grid.RowSpan="3"
                 Grid.Column="1"
                 Margin="8"
-                Visibility="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
                 Background="{ThemeResource LayerFillColorDefaultBrush}"
-                CornerRadius="8">
+                CornerRadius="8"
+                Visibility="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <StackPanel
                     HorizontalAlignment="Center"
                     Orientation="Horizontal"
@@ -105,13 +105,13 @@
                 Grid.Row="3"
                 Grid.RowSpan="3"
                 Grid.Column="1"
-                Visibility="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
-                DataContext="{x:Bind ViewModel}" />
+                DataContext="{x:Bind ViewModel}"
+                Visibility="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <controls:ServerInfoBlock
                 x:Name="ServerInfoBlock"
                 Grid.RowSpan="6"
-                Visibility="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
-                DataContext="{x:Bind ViewModel}" />
+                DataContext="{x:Bind ViewModel}"
+                Visibility="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <controls:TerminalOutputBlock
                 x:Name="TerminalOutputBlock"
                 Grid.Row="6"
@@ -196,7 +196,7 @@
 
                         <!--<Setter Target="TerminalOutputBlock.(Grid.Row)" Value="2" />
                         <Setter Target="TerminalOutputBlock.(Grid.RowSpan)" Value="2" />-->
-                        <Setter Target="TerminalOutputBlcok.Visibility" Value="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <Setter Target="TerminalOutputBlock.Visibility" Value="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
 
                         <Setter Target="ServerInfoBlock.(Grid.Row)" Value="0" />
@@ -228,7 +228,7 @@
 
                         <!--<Setter Target="TerminalOutputBlock.(Grid.Row)" Value="3" />
                         <Setter Target="TerminalOutputBlock.(Grid.RowSpan)" Value="1" />-->
-                        <Setter Target="TerminalOutputBlcok.Visibility" Value="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <Setter Target="TerminalOutputBlock.Visibility" Value="{x:Bind ViewModel.ConnectionSuccess, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
 
                         <Setter Target="ServerInfoBlock.(Grid.Row)" Value="0" />
