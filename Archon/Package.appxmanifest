@@ -8,8 +8,8 @@
 
   <Identity
     Name="61144HenryPontzer.ArchonforARKPreview"
-    Publisher="CN=41B545D2-4D91-4AD5-8A39-F0303D7D2518"
-    Version="0.1.0.0" />
+    Publisher="CN=henry"
+    Version="0.1.1.0" />
 
   <mp:PhoneIdentity PhoneProductId="0380d34d-9111-4cfa-83b3-cb77e4c96ebc" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
