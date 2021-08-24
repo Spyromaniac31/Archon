@@ -5,8 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helper="using:Archon.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:xaml="using:Windows.UI.Xaml"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    xmlns:xaml="using:Windows.UI.Xaml"
     winui:BackdropMaterial.ApplyToRootOrPageBackground="True"
     Style="{StaticResource ContentPage}"
     mc:Ignorable="d">
@@ -15,45 +15,45 @@
     </Page.Resources>
 
     <Grid>
-        <StackPanel 
-            x:Name="ContentArea" 
-            Padding="24"
-            Spacing="8"
+        <StackPanel
+            x:Name="ContentArea"
             MaxWidth="880"
-            HorizontalAlignment="Stretch">
-            <TextBlock 
-                Style="{StaticResource CardPrimaryText}" 
-                Text="Personalization"
-                FontSize="20"/>
-            <RelativePanel 
-                x:Name="AppThemePanel" 
+            Padding="24"
+            HorizontalAlignment="Stretch"
+            Spacing="8">
+            <TextBlock
+                FontSize="20"
+                Style="{StaticResource CardPrimaryText}"
+                Text="Personalization" />
+            <RelativePanel
+                x:Name="AppThemePanel"
                 MaxWidth="880"
-                CornerRadius="4"
+                Padding="16"
                 Background="{ThemeResource LayerFillColorDefaultBrush}"
-                Padding="16">
-                <FontIcon 
+                CornerRadius="4">
+                <FontIcon
                     x:Name="ThemeIcon"
                     FontFamily="{StaticResource FluentUIGlyphs}"
                     FontSize="24"
-                    RelativePanel.AlignVerticalCenterWithPanel="True"
-                    Glyph="&#xEAEE;"/>
+                    Glyph="&#xEAEE;"
+                    RelativePanel.AlignVerticalCenterWithPanel="True" />
                 <TextBlock
                     x:Name="ThemeTitle"
-                    Text="App theme"
                     Margin="16,0"
-                    RelativePanel.RightOf="ThemeIcon"/>
+                    RelativePanel.RightOf="ThemeIcon"
+                    Text="App theme" />
                 <TextBlock
                     x:Name="ThemeDescription"
                     Margin="16,0"
                     FontSize="12"
                     Foreground="{ThemeResource SystemBaseMediumColor}"
-                    Text="Choose whether to use Archon in light or dark mode"
                     RelativePanel.Below="ThemeTitle"
-                    RelativePanel.RightOf="ThemeIcon"/>
+                    RelativePanel.RightOf="ThemeIcon"
+                    Text="Choose whether to use Archon in light or dark mode" />
                 <ComboBox
+                    Width="120"
                     RelativePanel.AlignRightWithPanel="True"
                     RelativePanel.AlignVerticalCenterWithPanel="True"
-                    Width="120"
                     SelectedItem="{x:Bind ViewModel.ThemeName, Mode=TwoWay}"
                     SelectionChanged="{x:Bind ViewModel.UpdateThemeAsync}">
                     <x:String>Light</x:String>
@@ -61,149 +61,188 @@
                     <x:String>Default</x:String>
                 </ComboBox>
             </RelativePanel>
-            <TextBlock 
-                Style="{StaticResource CardPrimaryText}" 
-                Text="Server connection"
-                FontSize="20"/>
-            <winui:Expander 
-                Background="{ThemeResource LayerFillColorDefaultBrush}" 
-                HorizontalAlignment="Stretch"
+            <TextBlock
+                FontSize="20"
+                Style="{StaticResource CardPrimaryText}"
+                Text="Server connection" />
+            <winui:Expander
                 MaxWidth="880"
-                HorizontalContentAlignment="Left">
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Left"
+                Background="{ThemeResource LayerFillColorDefaultBrush}">
                 <winui:Expander.Header>
                     <RelativePanel Padding="0,16">
-                        <FontIcon 
+                        <FontIcon
                             x:Name="HostnameIcon"
                             FontFamily="{StaticResource FluentUIGlyphs}"
                             FontSize="24"
-                            RelativePanel.AlignVerticalCenterWithPanel="True"
-                            Glyph="&#xEAEB;"/>
+                            Glyph="&#xEAEB;"
+                            RelativePanel.AlignVerticalCenterWithPanel="True" />
                         <TextBlock
                             x:Name="HostnameTitle"
-                            Text="Hostnames"
                             Margin="16,0"
-                            RelativePanel.RightOf="HostnameIcon"/>
+                            RelativePanel.RightOf="HostnameIcon"
+                            Text="Hostnames" />
                         <TextBlock
                             x:Name="HostnameDescription"
                             Margin="16,0"
                             FontSize="12"
                             Foreground="{ThemeResource SystemBaseMediumColor}"
-                            Text="Configure the primary and backup hostnames used by Archon"
                             RelativePanel.Below="HostnameTitle"
-                            RelativePanel.RightOf="HostnameIcon"/>
+                            RelativePanel.RightOf="HostnameIcon"
+                            Text="Configure the primary and backup hostnames used by Archon" />
                     </RelativePanel>
                 </winui:Expander.Header>
                 <winui:Expander.Content>
                     <StackPanel Orientation="Horizontal" Spacing="16">
-                        <TextBox 
+                        <TextBox
                             x:Name="PrimaryIPTextBox"
+                            Width="200"
                             Header="Primary hostname"
                             Tag="Hostname"
                             Text="{x:Bind ViewModel.Hostname, Mode=TwoWay}"
-                            TextChanged="{x:Bind ViewModel.UpdateAppSettings}"
-                            Width="200"/>
+                            TextChanged="{x:Bind ViewModel.UpdateAppSettings}" />
                         <TextBox
                             x:Name="BackupIPTextBox"
+                            Width="200"
                             Header="Backup hostname"
                             Tag="BackupHostname"
                             Text="{x:Bind ViewModel.BackupHostname, Mode=TwoWay}"
-                            TextChanged="{x:Bind ViewModel.UpdateAppSettings}"
-                            Width="200"/>
+                            TextChanged="{x:Bind ViewModel.UpdateAppSettings}" />
                     </StackPanel>
                 </winui:Expander.Content>
             </winui:Expander>
-            <winui:Expander 
-                Background="{ThemeResource LayerFillColorDefaultBrush}" 
-                HorizontalAlignment="Stretch"
+            <winui:Expander
                 MaxWidth="880"
-                HorizontalContentAlignment="Left">
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Left"
+                Background="{ThemeResource LayerFillColorDefaultBrush}">
                 <winui:Expander.Header>
                     <RelativePanel Padding="0,16">
-                        <FontIcon 
+                        <FontIcon
                             x:Name="CredentialsIcon"
                             FontFamily="{StaticResource FluentUIGlyphs}"
                             FontSize="24"
-                            RelativePanel.AlignVerticalCenterWithPanel="True"
-                            Glyph="&#xEAB1;"/>
+                            Glyph="&#xEAB1;"
+                            RelativePanel.AlignVerticalCenterWithPanel="True" />
                         <TextBlock
                             x:Name="CredentialsTitle"
-                            Text="Credentials"
                             Margin="16,0"
-                            RelativePanel.RightOf="CredentialsIcon"/>
+                            RelativePanel.RightOf="CredentialsIcon"
+                            Text="Credentials" />
                         <TextBlock
                             x:Name="CredentialsDescription"
                             Margin="16,0"
                             FontSize="12"
                             Foreground="{ThemeResource SystemBaseMediumColor}"
-                            Text="Configure the server username and password used by Archon"
                             RelativePanel.Below="CredentialsTitle"
-                            RelativePanel.RightOf="CredentialsIcon"/>
+                            RelativePanel.RightOf="CredentialsIcon"
+                            Text="Configure the server username and password used by Archon" />
                     </RelativePanel>
                 </winui:Expander.Header>
                 <winui:Expander.Content>
                     <StackPanel Orientation="Horizontal" Spacing="16">
-                        <TextBox 
+                        <TextBox
                             x:Name="UsernameTextBox"
+                            Width="200"
                             Header="Username"
                             Tag="Username"
                             Text="{x:Bind ViewModel.Username, Mode=TwoWay}"
-                            TextChanged="{x:Bind ViewModel.UpdateAppSettings}"
-                            Width="200"/>
+                            TextChanged="{x:Bind ViewModel.UpdateAppSettings}" />
                         <PasswordBox
                             x:Name="PasswordTextBox"
+                            Width="200"
                             Header="Password"
-                            Tag="Password"
                             Password="{x:Bind ViewModel.Password, Mode=TwoWay}"
                             PasswordChanged="{x:Bind ViewModel.UpdateAppSettings}"
-                            Width="200"/>
+                            Tag="Password" />
                     </StackPanel>
                 </winui:Expander.Content>
             </winui:Expander>
-            <winui:Expander 
-                Background="{ThemeResource LayerFillColorDefaultBrush}" 
-                HorizontalAlignment="Stretch"
+            <winui:Expander
                 MaxWidth="880"
-                HorizontalContentAlignment="Left">
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Left"
+                Background="{ThemeResource LayerFillColorDefaultBrush}">
                 <winui:Expander.Header>
                     <RelativePanel Padding="0,16">
-                        <FontIcon 
+                        <FontIcon
                             x:Name="FileIcon"
                             FontFamily="{StaticResource FluentUIGlyphs}"
                             FontSize="24"
-                            RelativePanel.AlignVerticalCenterWithPanel="True"
-                            Glyph="&#xEA5A;"/>
+                            Glyph="&#xEA5A;"
+                            RelativePanel.AlignVerticalCenterWithPanel="True" />
                         <TextBlock
                             x:Name="FileTitle"
-                            Text="File information"
                             Margin="16,0"
-                            RelativePanel.RightOf="FileIcon"/>
+                            RelativePanel.RightOf="FileIcon"
+                            Text="File information" />
                         <TextBlock
                             x:Name="FileDescription"
                             Margin="16,0"
                             FontSize="12"
                             Foreground="{ThemeResource SystemBaseMediumColor}"
-                            Text="Configure the server directory and start script name"
                             RelativePanel.Below="FileTitle"
-                            RelativePanel.RightOf="FileIcon"/>
+                            RelativePanel.RightOf="FileIcon"
+                            Text="Configure the server directory and start script name" />
                     </RelativePanel>
                 </winui:Expander.Header>
                 <winui:Expander.Content>
                     <StackPanel Orientation="Horizontal" Spacing="16">
-                        <TextBox 
+                        <TextBox
                             x:Name="DirectoryTextBox"
+                            Width="200"
                             Header="ARK install directory"
                             Tag="Directory"
                             Text="{x:Bind ViewModel.Directory, Mode=TwoWay}"
-                            TextChanged="{x:Bind ViewModel.UpdateAppSettings}"
-                            Width="200"/>
+                            TextChanged="{x:Bind ViewModel.UpdateAppSettings}" />
                         <TextBox
                             x:Name="ScriptTextBox"
+                            Width="200"
                             Header="Start script name"
+                            PlaceholderText="start.sh"
                             Tag="ScriptName"
                             Text="{x:Bind ViewModel.ScriptName, Mode=TwoWay}"
-                            TextChanged="{x:Bind ViewModel.UpdateAppSettings}"
-                            PlaceholderText="start.sh"
-                            Width="200"/>
+                            TextChanged="{x:Bind ViewModel.UpdateAppSettings}" />
+                    </StackPanel>
+                </winui:Expander.Content>
+            </winui:Expander>
+            <TextBlock
+                FontSize="20"
+                Style="{StaticResource CardPrimaryText}"
+                Text="Archon" />
+            <winui:Expander
+                MaxWidth="880"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Left"
+                Background="{ThemeResource LayerFillColorDefaultBrush}">
+                <winui:Expander.Header>
+                    <RelativePanel Padding="0,16">
+                        <FontIcon
+                            x:Name="AboutIcon"
+                            FontFamily="{StaticResource FluentUIGlyphs}"
+                            FontSize="24"
+                            Glyph="&#xEA8D;"
+                            RelativePanel.AlignVerticalCenterWithPanel="True" />
+                        <TextBlock
+                            x:Name="AboutTitle"
+                            Margin="16,0"
+                            RelativePanel.RightOf="AboutIcon"
+                            Text="About" />
+                        <TextBlock
+                            x:Name="AboutDescription"
+                            Margin="16,0"
+                            FontSize="12"
+                            Foreground="{ThemeResource SystemBaseMediumColor}"
+                            RelativePanel.Below="AboutTitle"
+                            RelativePanel.RightOf="AboutIcon"
+                            Text="App information and useful links" />
+                    </RelativePanel>
+                </winui:Expander.Header>
+                <winui:Expander.Content>
+                    <StackPanel>
+                        <TextBlock Text="{x:Bind ViewModel.VersionDescription, Mode=OneWay}" />
+                        <HyperlinkButton Content="GitHub" NavigateUri="https://github.com/Spyromaniac31/Archon" />
                     </StackPanel>
                 </winui:Expander.Content>
             </winui:Expander>
