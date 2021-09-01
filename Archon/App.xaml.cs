@@ -1,4 +1,6 @@
-﻿using Archon.Services;
+﻿//#define SETUP
+
+using Archon.Services;
 using Archon.Views;
 using System;
 using Windows.ApplicationModel.Activation;
@@ -59,6 +61,9 @@ namespace Archon
             ApplicationDataContainer appSettings = ApplicationData.Current.LocalSettings;
             //make the last one loading page when done
             Type startPageType = string.IsNullOrWhiteSpace(appSettings.Values["Hostname"] as string) ? typeof(HostnamePage) : typeof(LoadingPage);
+#if SETUP && DEBUG
+            startPageType = typeof(HostnamePage);
+#endif
             return new ActivationService(this, startPageType, new Lazy<UIElement>(CreateShell));
         }
 
@@ -69,7 +74,11 @@ namespace Archon
             {
                 return new SetupShellPage();
             }
+#if SETUP && DEBUG
+                return new SetupShellPage();
+#else
             return new Frame();
+#endif
         }
     }
 }
