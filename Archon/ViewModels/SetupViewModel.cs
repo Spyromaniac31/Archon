@@ -150,14 +150,18 @@ namespace Archon.ViewModels
         public void FinishSetup()
         {
             ApplicationDataContainer appSettings = ApplicationData.Current.LocalSettings;
+            bool continueSetup = true;
             foreach (string value in new List<string>() { Hostname, Username, Password, Directory })
             {
                 if (string.IsNullOrEmpty(value))
                 {
+                    //This causes the popup
                     ErrorOpen = true;
+
+                    continueSetup = false;
                 }
             }
-            if (!ErrorOpen)
+            if (continueSetup)
             {
                 appSettings.SaveString("Hostname", Hostname);
                 appSettings.SaveString("Directory", Directory);
