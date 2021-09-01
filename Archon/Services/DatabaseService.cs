@@ -12,32 +12,6 @@ namespace Archon.Services
 {
     public static class DatabaseService
     {
-        private static Dictionary<string, string> Categories { get; } = new Dictionary<string, string>()
-        {
-            ["player"] = "🧔🏽 Player",
-            ["dino"] = "🦎 Dino",
-            ["time"] = "🌦 Time and Weather",
-            ["breeding"] = "🥚 Breeding",
-            ["gameplay"] = "🎮 Gameplay",
-            ["xp"] = "📈 XP and Engrams",
-            ["tribe"] = "🤝🏽 Tribe",
-            ["resources"] = "🪨 Resources",
-            ["server"] = "🖥 Server",
-            ["structure"] = "🛖 Structures",
-            ["platform"] = "🛖 Structures",
-            ["cryo"] = "❄️ Cryopods",
-            ["pve"] = "🧑🏽‍🤝‍🧑🏾 PVE",
-            ["tribute"] = "🌐 Tribute",
-            ["slot"] = "🎒 Slot Counts",
-            ["speed"] = "💨 Crafting Speeds",
-            ["range"] = "🎯 Structure Ranges",
-            ["general"] = "🌐 General Settings",
-            ["functionality"] = "⚙ Structure Functionality",
-            ["building"] = "🏗 Building and Placement",
-            ["list"] = "📃 Item lists",
-            ["unicorn"] = "🦄 Unicorn",
-            ["volcano"] = "🌋 Volcano"
-        };
         public static SqliteConnection SqliteConnection { get; private set; }
 
         private static async Task InitializeConnection(string database)
@@ -87,10 +61,7 @@ namespace Archon.Services
 
         public static async Task<ObservableCollection<GroupInfoList>> GetGroupedSettingsAsync(string table)
         {
-            IEnumerable<GroupInfoList> query = from setting in await GetSettingsAsync(table)
-                                               group setting by Categories[setting.Category] into g
-                                               select new GroupInfoList(g) { Key = g.Key };
-            return new ObservableCollection<GroupInfoList>(query);
+            return SettingGrouper.GroupSettingList(await GetSettingsAsync(table));
         }
     }
 }

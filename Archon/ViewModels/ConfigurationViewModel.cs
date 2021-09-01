@@ -6,14 +6,12 @@ using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-//using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Shapes;
 using WinUI = Microsoft.UI.Xaml.Controls;
 
 namespace Archon.ViewModels
@@ -79,8 +77,9 @@ namespace Archon.ViewModels
             {
                 return;
             }
+
             var settingResults = AllSettings.Where(s => s.Name.ToLower().Contains(text) || s.Description.ToLower().Contains(text)).ToList();
-            SelectedSettingGroup = new ObservableCollection<GroupInfoList>() { new GroupInfoList(settingResults) { Key = "🔎 Results for \'" + text + "\'" } };
+            SelectedSettingGroup = SettingGrouper.GroupSettingList(settingResults);
             _navigationView.SelectedItem = null;
         }
 
