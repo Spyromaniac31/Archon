@@ -9,7 +9,7 @@
   <Identity
     Name="61144HenryPontzer.ArchonforARKPreview"
     Publisher="CN=henry"
-    Version="0.1.2.0" />
+    Version="0.1.3.0" />
 
   <mp:PhoneIdentity PhoneProductId="0380d34d-9111-4cfa-83b3-cb77e4c96ebc" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
