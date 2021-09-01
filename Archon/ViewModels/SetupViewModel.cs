@@ -150,7 +150,7 @@ namespace Archon.ViewModels
         public void FinishSetup()
         {
             ApplicationDataContainer appSettings = ApplicationData.Current.LocalSettings;
-            foreach (string value in new List<string>() { Hostname, Username, Password, Directory, ScriptName })
+            foreach (string value in new List<string>() { Hostname, Username, Password, Directory })
             {
                 if (string.IsNullOrEmpty(value))
                 {
@@ -161,7 +161,7 @@ namespace Archon.ViewModels
             {
                 appSettings.SaveString("Hostname", Hostname);
                 appSettings.SaveString("Directory", Directory);
-                appSettings.SaveString("ScriptName", ScriptName);
+                appSettings.SaveString("ScriptName", string.IsNullOrEmpty(ScriptName) ? "server_start.sh" : ScriptName);
                 appSettings.SaveString("BackupHostname", string.IsNullOrEmpty(BackupHostname) ? Hostname : BackupHostname);
 
                 CredentialHelper.UpdateServerCredentials(Username, Password);

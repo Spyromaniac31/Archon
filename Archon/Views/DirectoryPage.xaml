@@ -25,7 +25,7 @@
                 PlaceholderText="/servers/ark"
                 Text="{Binding Directory, Mode=TwoWay}" />
             <TextBox
-                Header="Script name"
+                Header="Script name (will use placeholder if empty)"
                 IsSpellCheckEnabled="False"
                 PlaceholderText="server_start.sh"
                 Text="{Binding ScriptName, Mode=TwoWay}" />
