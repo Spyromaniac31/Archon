@@ -64,6 +64,11 @@ namespace Archon.ViewModels
             string text = sender.Text.ToLower();
             if (text == "")
             {
+                if (_navigationView.SelectedItem == null)
+                {
+                    _navigationView.SelectedItem = NavItems[0];
+                    SelectedSettingGroup = SettingGroups[(string)((SourceNavItem)_navigationView.SelectedItem).Tag];
+                }
                 return;
             }
             SearchSuggestions = AllSettings.Where(s => s.Name.ToLower().Contains(text) || s.Description.ToLower().Contains(text)).Select(s => s.Name).ToList();
@@ -75,6 +80,11 @@ namespace Archon.ViewModels
             string text = sender.Text.ToLower();
             if (text == "")
             {
+                if (_navigationView.SelectedItem == null)
+                {
+                    _navigationView.SelectedItem = NavItems[0];
+                    SelectedSettingGroup = SettingGroups[(string)((SourceNavItem)_navigationView.SelectedItem).Tag];
+                }
                 return;
             }
 
