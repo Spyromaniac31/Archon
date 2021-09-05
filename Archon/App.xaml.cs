@@ -60,25 +60,16 @@ namespace Archon
         {
             ApplicationDataContainer appSettings = ApplicationData.Current.LocalSettings;
             //make the last one loading page when done
-            Type startPageType = string.IsNullOrWhiteSpace(appSettings.Values["Hostname"] as string) ? typeof(HostnamePage) : typeof(LoadingPage);
+            Type startPageType = string.IsNullOrWhiteSpace(appSettings.Values["Hostname"] as string) ? typeof(WelcomePage) : typeof(LoadingPage);
 #if SETUP && DEBUG
-            startPageType = typeof(HostnamePage);
+            startPageType = typeof(WelcomePage);
 #endif
             return new ActivationService(this, startPageType, new Lazy<UIElement>(CreateShell));
         }
 
         private UIElement CreateShell()
         {
-            var appSettings = ApplicationData.Current.LocalSettings;
-            if (string.IsNullOrWhiteSpace(appSettings.Values["Hostname"] as string))
-            {
-                return new SetupShellPage();
-            }
-#if SETUP && DEBUG
-                return new SetupShellPage();
-#else
             return new Frame();
-#endif
         }
     }
 }
