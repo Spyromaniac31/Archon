@@ -18,6 +18,30 @@
     </i:Interaction.Behaviors>
 
     <Grid>
+        <Border
+            x:Name="AppTitleBar"
+            Height="32"
+            Margin="16,0,0,0"
+            VerticalAlignment="Top"
+            Background="Transparent"
+            Canvas.ZIndex="1"
+            IsHitTestVisible="True">
+            <StackPanel Orientation="Horizontal">
+                <Image
+                    x:Name="AppFontIcon"
+                    Width="16"
+                    Height="16"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Source="ms-appx:///Assets/StoreLogo.png" />
+                <TextBlock
+                    x:Name="AppTitle"
+                    Margin="12,0,0,0"
+                    VerticalAlignment="Center"
+                    FontSize="12"
+                    Text="Archon" />
+            </StackPanel>
+        </Border>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <winui:ProgressRing
                 Width="100"
