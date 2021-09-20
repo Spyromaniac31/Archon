@@ -17,8 +17,6 @@ namespace Archon.ViewModels
 
     public class LoadingViewModel : ObservableObject
     {
-        public static event EventHandler<LoadedEventArgs> RaiseLoadedEvent;
-
         private string _status;
         public string Status
         {

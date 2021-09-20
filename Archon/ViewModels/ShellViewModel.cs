@@ -49,12 +49,6 @@ namespace Archon.ViewModels
 
         public ShellViewModel()
         {
-            LoadingViewModel.RaiseLoadedEvent += AppLoaded;
-        }
-
-        private void AppLoaded(object sender, LoadedEventArgs e)
-        {
-            //TODO: Add info bars to display any errors that occurred.
         }
 
         public void Initialize(Frame frame, WinUI.NavigationView navigationView)
