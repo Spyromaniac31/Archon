@@ -107,7 +107,7 @@ namespace Archon.ViewModels
         public ICommand RetrieveVersionsCommand => _retrieveVersionsCommmand ?? (_retrieveVersionsCommmand = new RelayCommand(async () => await RetrieveVersionsAsync()));
         public ICommand VerifyInstallCommand => _verifyInstallCommand ?? (_verifyInstallCommand = new RelayCommand(async () => await VerifyInstallAsync()));
 
-        public async Task InitializeAsync()
+        public async void InitializeAsync()
         {
             IsWaiting = false;
             var appSettings = ApplicationData.Current.LocalSettings.Values;

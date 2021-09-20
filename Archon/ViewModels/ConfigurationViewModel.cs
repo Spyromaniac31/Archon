@@ -47,7 +47,7 @@ namespace Archon.ViewModels
 
         }
 
-        public async Task InitializeAsync(WinUI.NavigationView navigationView, AutoSuggestBox autoSuggestBox)
+        public async void InitializeAsync(WinUI.NavigationView navigationView, AutoSuggestBox autoSuggestBox)
         {
             _navigationView = navigationView;
             await RetrieveSettingsAsync();
