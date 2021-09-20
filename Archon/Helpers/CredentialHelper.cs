@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Archon.Services;
+using System;
 using Windows.Security.Credentials;
 
 namespace Archon.Helpers
@@ -16,7 +17,10 @@ namespace Archon.Helpers
                     vault.Remove(credentials);
                 }
             }
-            catch (Exception ex) { }
+            catch (Exception ex) 
+            {
+                ErrorReporterService.ReportError("Error removing old credentials", ex.ToString(), "Warning");
+            }
             vault.Add(new PasswordCredential("Archon", username, password));
         }
 
