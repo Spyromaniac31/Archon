@@ -54,36 +54,6 @@
             ToolTipService.ToolTip="Refresh">
             <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE932;" />
         </Button>
-        <!--<Button
-            x:Name="UpdateButton"
-            Margin="4"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Bottom"
-            Command="{Binding UpdateGameCommand}"
-            Style="{ThemeResource AccentButtonStyle}">
-            <StackPanel Orientation="Horizontal" Spacing="8">
-                <FontIcon
-                    FontFamily="{StaticResource FluentUIGlyphs}"
-                    FontSize="16"
-                    Glyph="&#xE91C;" />
-                <TextBlock Text="Update ARK" />
-            </StackPanel>
-        </Button>
-        <Button
-            x:Name="VerifyButton"
-            Grid.Column="1"
-            Margin="4"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Bottom"
-            Command="{Binding VerifyInstallCommand}">
-            <StackPanel Orientation="Horizontal" Spacing="8">
-                <FontIcon
-                    FontFamily="{StaticResource FluentUIGlyphs}"
-                    FontSize="16"
-                    Glyph="&#xE9A2;" />
-                <TextBlock Text="Verify game files" />
-            </StackPanel>
-        </Button>-->
         <Rectangle
             x:Name="StatusBackground"
             Grid.Row="1"

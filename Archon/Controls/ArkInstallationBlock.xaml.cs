@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -26,13 +27,24 @@ namespace Archon.Controls
             {
                 await Task.Delay(500);
             }
-            if (LatestVersionText.Text == InstalledVersionText.Text)
+
+            double latestVersion = Convert.ToDouble(LatestVersionText.Text);
+            double installedVersion = Convert.ToDouble(InstalledVersionText.Text);
+
+            if (latestVersion == installedVersion)
             {
                 StatusIcon.Glyph = "\uE9A1";
                 StatusBackground.Fill = new SolidColorBrush(Colors.Green);
                 StatusText.Text = "ARK is up to date";
             }
-            else
+
+            else if (latestVersion < installedVersion)
+            {
+                StatusIcon.Glyph = "\uE9A1";
+                StatusBackground.Fill = new SolidColorBrush(Colors.Green);
+                StatusText.Text = "ARK is up to date (version file not updated)";
+            }
+            else if (latestVersion > installedVersion)
             {
                 StatusIcon.Glyph = "\uE91C";
                 StatusBackground.Fill = new SolidColorBrush(Colors.DarkGoldenrod);
