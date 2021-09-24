@@ -38,13 +38,7 @@ namespace Archon.Controls
                 StatusText.Text = "ARK is up to date";
             }
 
-            else if (latestVersion < installedVersion)
-            {
-                StatusIcon.Glyph = "\uE9A1";
-                StatusBackground.Fill = new SolidColorBrush(Colors.Green);
-                StatusText.Text = "ARK is up to date (version file not updated)";
-            }
-            else if (latestVersion > installedVersion)
+            else
             {
                 StatusIcon.Glyph = "\uE91C";
                 StatusBackground.Fill = new SolidColorBrush(Colors.DarkGoldenrod);

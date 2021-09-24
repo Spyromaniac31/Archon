@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     d:DesignHeight="300"
     d:DesignWidth="400"
     Loaded="UserControl_Loaded"
@@ -82,26 +83,5 @@
                 Foreground="White"
                 Text="ARK is up to date" />
         </StackPanel>
-
-        <!--<winui:TeachingTip
-            x:Name="UpdateErrorTip"
-            Title="Server running"
-            IsOpen="{Binding UpdateErrorOpen, Mode=TwoWay}"
-            Subtitle="ARK cannot be updated while the server is running"
-            Target="{x:Bind UpdateButton}">
-            <winui:TeachingTip.IconSource>
-                <winui:FontIconSource FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA41;" />
-            </winui:TeachingTip.IconSource>
-        </winui:TeachingTip>
-        <winui:TeachingTip
-            x:Name="VerifyErrorTip"
-            Title="Server running"
-            IsOpen="{Binding VerifyErrorOpen, Mode=TwoWay}"
-            Subtitle="ARK cannot be verified while the server is running"
-            Target="{x:Bind VerifyButton}">
-            <winui:TeachingTip.IconSource>
-                <winui:FontIconSource FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA41;" />
-            </winui:TeachingTip.IconSource>
-        </winui:TeachingTip>-->
     </Grid>
 </UserControl>
