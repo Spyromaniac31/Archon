@@ -428,9 +428,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <PRIResource Include="Strings\en-US\Resources.resw" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Assets\fluentui.ttf" />
   </ItemGroup>
   <ItemGroup>
