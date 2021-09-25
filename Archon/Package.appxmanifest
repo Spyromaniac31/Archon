@@ -35,7 +35,7 @@
         DisplayName="Archon for ARK (Preview)"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="Archon"
+        Description="Archon allows you to remotely manage and control your dedicated Linux ARK server. Simply enter your server&apos;s information to get started with no need to install anything on it. By using Archon, you avoid the hassle and overcomplication of using remote desktop or SSH and searching the web to figure out how to configure ARK. Archon provides a dashboard that lets you view and control the game&apos;s status, as well as a configuration section that provides a straightforward user interface for configuring aspects of ARK."
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
