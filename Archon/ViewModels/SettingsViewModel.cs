@@ -116,12 +116,11 @@ namespace Archon.ViewModels
 
         private string GetVersionDescription()
         {
-            var appName = "AppDisplayName".GetLocalized();
             var package = Package.Current;
             var packageId = package.Id;
             var version = packageId.Version;
 
-            return $"{appName} - {version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
+            return $"Archon - {version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
         }
     }
 }
