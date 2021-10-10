@@ -66,6 +66,11 @@
                         <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEAB1;" />
                     </winui:NavigationViewItem.Icon>
                 </winui:NavigationViewItem>
+                <winui:NavigationViewItem helpers:NavHelper.NavigateTo="views:OsPage" Content="Operating System">
+                    <winui:NavigationViewItem.Icon>
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9F1;" />
+                    </winui:NavigationViewItem.Icon>
+                </winui:NavigationViewItem>
                 <winui:NavigationViewItem helpers:NavHelper.NavigateTo="views:DirectoryPage" Content="Directory">
                     <winui:NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA5A;" />

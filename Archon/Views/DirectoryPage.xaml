@@ -22,12 +22,12 @@
             <TextBox
                 Header="Directory"
                 IsSpellCheckEnabled="False"
-                PlaceholderText="/servers/ark"
+                PlaceholderText="{Binding DirectoryPlaceholder, Mode=OneWay}"
                 Text="{Binding Directory, Mode=TwoWay}" />
             <TextBox
                 Header="Script name (will use placeholder if empty)"
                 IsSpellCheckEnabled="False"
-                PlaceholderText="server_start.sh"
+                PlaceholderText="{Binding ScriptPlaceholder, Mode=OneWay}"
                 Text="{Binding ScriptName, Mode=TwoWay}" />
             <Button
                 HorizontalAlignment="Stretch"

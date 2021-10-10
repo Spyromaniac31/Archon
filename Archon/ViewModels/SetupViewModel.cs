@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.Security.Credentials;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -27,6 +26,10 @@ namespace Archon.ViewModels
         private ICommand _finishSetupCommand;
         private ICommand _nextPageCommand;
         private bool _errorOpen = false;
+        private bool _windows = false;
+        private bool _linux = false;
+        private string _scriptPlaceholder = "";
+        private string _directoryPlaceholder = "";
 
         public string Hostname { get; set; }
         public string Username { get; set; }
@@ -34,6 +37,45 @@ namespace Archon.ViewModels
         public string Directory { get; set; }
         public string ScriptName { get; set; }
         public string BackupHostname { get; set; }
+
+        public bool Windows
+        {
+            get => _windows;
+            set
+            {
+                _ = SetProperty(ref _windows, value);
+                if (value)
+                {
+                    Linux = false;
+                    ScriptPlaceholder = "server_start.bat";
+                    DirectoryPlaceholder = "C:\\servers\\ark";
+                }
+            }
+        }
+        public bool Linux
+        {
+            get => _linux;
+            set
+            {
+                _ = SetProperty(ref _linux, value);
+                if (value)
+                {
+                    Windows = false;
+                    ScriptPlaceholder = "server_start.sh";
+                    DirectoryPlaceholder = "/servers/ark";
+                }
+            }
+        }
+        public string ScriptPlaceholder
+        {
+            get => _scriptPlaceholder;
+            set => SetProperty(ref _scriptPlaceholder, value);
+        }
+        public string DirectoryPlaceholder
+        {
+            get => _directoryPlaceholder;
+            set => SetProperty(ref _directoryPlaceholder, value);
+        }
 
         public bool ErrorOpen
         {
@@ -142,9 +184,9 @@ namespace Archon.ViewModels
 
         public void NextPage()
         {
-            _ = (Selected.Content as string) == "Hostname"
-                ? NavigationService.Navigate(typeof(CredentialsPage))
-                : NavigationService.Navigate(typeof(DirectoryPage));
+            var nextMenuItem = (WinUI.NavigationViewItem)_navigationView.MenuItems[_navigationView.MenuItems.IndexOf(_navigationView.SelectedItem) + 1];
+            _ = NavigationService.Navigate(nextMenuItem.GetValue(NavHelper.NavigateToProperty) as Type);
+
         }
 
         public void FinishSetup()
@@ -161,12 +203,18 @@ namespace Archon.ViewModels
                     continueSetup = false;
                 }
             }
+            if (!Linux && !Windows)
+            {
+                ErrorOpen = true;
+                continueSetup = false;
+            }
             if (continueSetup)
             {
                 appSettings.SaveString("Hostname", Hostname);
                 appSettings.SaveString("Directory", Directory);
-                appSettings.SaveString("ScriptName", string.IsNullOrEmpty(ScriptName) ? "server_start.sh" : ScriptName);
+                appSettings.SaveString("ScriptName", string.IsNullOrEmpty(ScriptName) ? ScriptPlaceholder : ScriptName);
                 appSettings.SaveString("BackupHostname", string.IsNullOrEmpty(BackupHostname) ? Hostname : BackupHostname);
+                appSettings.SaveString("OS", Windows ? "Windows" : "Linux");
 
                 CredentialHelper.UpdateServerCredentials(Username, Password);
 
@@ -174,7 +222,6 @@ namespace Archon.ViewModels
                 NavigationService.Frame = Window.Current.Content as Frame;
                 _ = NavigationService.Navigate(typeof(LoadingPage));
             }
-            
         }
     }
 }
