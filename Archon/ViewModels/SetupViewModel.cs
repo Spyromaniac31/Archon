@@ -48,7 +48,7 @@ namespace Archon.ViewModels
                 {
                     Linux = false;
                     ScriptPlaceholder = "server_start.bat";
-                    DirectoryPlaceholder = "C:\\servers\\ark";
+                    DirectoryPlaceholder = "C:\\servers\\ark\\";
                 }
             }
         }
@@ -62,7 +62,7 @@ namespace Archon.ViewModels
                 {
                     Windows = false;
                     ScriptPlaceholder = "server_start.sh";
-                    DirectoryPlaceholder = "/servers/ark";
+                    DirectoryPlaceholder = "/servers/ark/";
                 }
             }
         }
