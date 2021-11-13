@@ -1,5 +1,5 @@
 ﻿using Archon.ViewModels;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using Windows.Storage;
 using Windows.UI.Xaml;
